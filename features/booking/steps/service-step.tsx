@@ -1,51 +1,83 @@
-// components/booking/ServiceStep.tsx
 'use client';
 
 import React from 'react';
 import { useBookingStore } from '@/store/booking-store';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 
 const services = [
   {
-    id: 'orthodontics-dental',
-    title: 'Orthodontics & Dental',
-    icon: '🦷',
-    description: 'Jaw development & dental alignment',
-  },
-  {
     id: 'surgery',
     title: 'Surgery',
-    icon: '🔬',
     description: 'Cleft lip & palate surgical repair',
+  },
+  {
+    id: 'ent-care',
+    title: 'ENT Care',
+    description: 'Ear, nose & throat health',
+  },
+  {
+    id: 'orthodontics-dental',
+    title: 'Orthodontics & Dental',
+    description: 'Jaw development & dental alignment',
   },
   {
     id: 'speech-therapy',
     title: 'Speech Therapy',
-    icon: '🗣️',
     description: 'Communication & speech development',
   },
   {
     id: 'nutritional-support',
     title: 'Nutritional Support',
-    icon: '🌿',
     description: 'Feeding guidance & growth monitoring',
   },
   {
     id: 'psychosocial-care',
     title: 'Psychosocial Care',
-    icon: '🧠',
     description: 'Counseling for patients & families',
   },
-  {
-    id: 'ent-care',
-    title: 'ENT Care',
-    icon: '👂',
-    description: 'Ear, nose & throat health',
-  },
 ];
+
+// Service icons as SVG
+const SVC_ICON: Record<string, React.ReactNode> = {
+  surgery: (
+    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
+    </svg>
+  ),
+  'ent-care': (
+    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M12 4C8.5 4 5 7 5 11c0 2 .8 3.5 2 4.5L7 20h2.5l.5-2.5c.3.1.7.1 1 .1a5 5 0 005-5V8c0-2-1.5-4-4-4z"/>
+    </svg>
+  ),
+  'orthodontics-dental': (
+    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M3 9c0-2 1.5-4 4-4 1.5 0 2.5.8 3 2 .5-1.2 1.5-2 3-2 2.5 0 4 2 4 4 0 2-.5 4-1.5 6-.5 1-1 2-1.5 2s-1-.5-1.5-2L12 12l-1.5 3c-.5 1.5-1 2-1.5 2s-1-1-1.5-2C4.5 13 3 11 3 9z"/>
+      <path d="M9 9h6"/>
+    </svg>
+  ),
+  'speech-therapy': (
+    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+    </svg>
+  ),
+  'nutritional-support': (
+    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10"/>
+      <path d="M12 2c2 4 2 8 0 12M12 2C8 6 8 10 12 14"/>
+      <path d="M22 2l-5 5"/>
+    </svg>
+  ),
+  'psychosocial-care': (
+    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <circle cx="12" cy="7" r="4"/>
+      <path d="M3 21v-1a9 9 0 0118 0v1"/>
+      <path d="M9.5 7c0-.8.7-1.5 1.5-1.5"/>
+    </svg>
+  ),
+};
 
 interface ServiceStepProps {
   onNext: () => void;
@@ -54,70 +86,108 @@ interface ServiceStepProps {
 export function ServiceStep({ onNext }: ServiceStepProps) {
   const { data, updateService } = useBookingStore();
   const [selectedService, setSelectedService] = React.useState(data.service);
+  const [error, setError] = React.useState<string>('');
 
   const handleServiceSelect = (serviceId: string) => {
     setSelectedService(serviceId as any);
+    setError('');
   };
 
   const handleContinue = () => {
-    if (selectedService) {
-      updateService(selectedService);
-      onNext();
+    if (!selectedService) {
+      setError('Please select a service to continue');
+      return;
     }
+    updateService(selectedService);
+    onNext();
   };
 
   return (
-    <div className="space-y-6">
-      <div className="text-left mb-8">
-        <h2 className="text-sm font-bold mb-2 text-primary-orange relative pl-6 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-[20px] before:h-[2px] before:bg-primary-orange">
-          STEP 1 OF 4
+    <div className="flex flex-col gap-6">
+      <div>
+        <p className="text-[12px] font-bold tracking-[1.5px] uppercase mb-2" style={{ color: '#ff7518' }}>
+          Step 1 of 4
+        </p>
+        <h2 className="font-black text-[#071e36] tracking-[-0.02em] mb-2" style={{ fontSize: 'clamp(1.4rem, 2vw, 1.75rem)' }}>
+          Which <span style={{ color: '#ff7518' }}>service</span> do you need?
         </h2>
-        <h3 className="text-3xl font-bold mb-2 text-primary-dark ">Which <span className="text-primary-orange font-normal">service</span> do you need?</h3>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-[14px] leading-[1.7]" style={{ color: '#62748e' }}>
           Select the service that best describes why you're visiting. Not sure? That's fine — just
-          pick the closest one or choose below.
+          pick the closest one.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        {services.map((service) => (
-          <Card
-            key={service.id}
-            className={`p-4 cursor-pointer transition-all hover:shadow-md ${selectedService === service.id ? 'border-primary ring-2 ring-primary/20' : ''
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {services.map((service, index) => {
+          const selected = selectedService === service.id;
+          return (
+            <motion.button
+              key={service.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+              onClick={() => handleServiceSelect(service.id)}
+              className={`text-left p-4 rounded-[14px] border-2 transition-all duration-200 relative cursor-pointer ${
+                selected ? 'ring-2 ring-[#ff7518]/20' : ''
               }`}
-            onClick={() => handleServiceSelect(service.id)}
-          >
-            <div className="flex items-start gap-3">
-              <div className="text-3xl">{service.icon}</div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between">
-                  <h4 className="font-semibold">{service.title}</h4>
-                  {selectedService === service.id && (
-                    <CheckCircle2 className="h-5 w-5 text-primary" />
-                  )}
+              style={{
+                borderColor: selected ? '#071e36' : '#e0e0e0',
+                background: selected ? 'rgba(7,30,54,0.04)' : '#fff',
+              }}
+            >
+              {selected && (
+                <div className="absolute top-3 right-3 w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#071e36' }}>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-white" />
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {service.description}
-                </p>
+              )}
+              <div
+                className="w-11 h-11 rounded-[12px] flex items-center justify-center mb-3"
+                style={{
+                  background: selected ? 'rgba(7,30,54,0.08)' : '#f1f5f9',
+                  color: selected ? '#071e36' : '#62748e',
+                }}
+              >
+                {SVC_ICON[service.id]}
               </div>
-            </div>
-          </Card>
-        ))}
+              <p className="font-bold text-[14px] mb-0.5" style={{ color: selected ? '#071e36' : '#171717' }}>
+                {service.title}
+              </p>
+              <p className="text-[12px]" style={{ color: '#62748e' }}>
+                {service.description}
+              </p>
+            </motion.button>
+          );
+        })}
       </div>
 
-      <Button
-        variant="outline"
-        className="w-full mb-4"
-        onClick={() => handleServiceSelect('general-assessment')}
-      >
-        Not sure — I need a general assessment
-      </Button>
+      {error && (
+        <p className="text-[12px] mt-2" style={{ color: '#ef4444' }}>
+          {error}
+        </p>
+      )}
 
-      <div className="flex justify-between items-center pt-4">
-        <Link href="/" className="text-sm text-muted-foreground hover:text-primary">
-          ← Back to site
+      {/* Footer with Back button and Continue button */}
+      <div className="flex justify-between items-center pt-4 mt-2" style={{ borderTop: '1px solid #f1f5f9' }}>
+        <Link
+          href="/"
+          className="flex items-center gap-2 font-semibold text-[13px] transition-colors hover:text-[#071e36] px-4 py-2 rounded-full"
+          style={{ color: '#62748e' }}
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          Back to site
         </Link>
-        <Button onClick={handleContinue} disabled={!selectedService}>
+        <Button
+          onClick={handleContinue}
+          disabled={!selectedService}
+          className="rounded-full text-[13px] font-black px-7 py-2.5 transition-all hover:-translate-y-px disabled:opacity-40 disabled:cursor-not-allowed"
+          style={{
+            background: selectedService ? '#ff7518' : '#e0e0e0',
+            color: selectedService ? '#fff' : '#62748e',
+            boxShadow: selectedService ? '0 4px 18px rgba(255,117,24,0.30)' : 'none',
+          }}
+        >
           Continue →
         </Button>
       </div>

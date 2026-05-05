@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { CheckCircle, Calendar, Clock, User, Stethoscope, DollarSign, Phone, Mail, MessageCircle, UserIcon } from 'lucide-react';
 import { format } from 'date-fns';
-import { createBooking } from '@/app/(public)/actions/booking';
+import { createBooking } from '@/app/actions/booking';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';

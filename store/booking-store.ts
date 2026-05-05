@@ -29,6 +29,7 @@ export interface Doctor {
 }
 
 export interface SelectedSlot {
+  day: string;
   date: Date;
   time: string;
   doctorId: string;

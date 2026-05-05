@@ -1,4 +1,3 @@
-// components/booking/PatientDetailsStep.tsx
 'use client';
 
 import React from 'react';
@@ -10,26 +9,20 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { motion } from 'framer-motion';
+
+const ageGroups = [
+  { value: '0-12-months', label: '0–12', sub: 'months' },
+  { value: '1-3-years', label: '1–3', sub: 'years' },
+  { value: '4-12-years', label: '4–12', sub: 'years' },
+  { value: '13-17-years', label: '13–17', sub: 'years' },
+  { value: '18-plus', label: '18+', sub: 'adult' },
+];
 
 interface PatientDetailsStepProps {
   onNext: () => void;
   onBack: () => void;
 }
-
-const ageGroups: { value: AgeGroup; label: string }[] = [
-  { value: '0-12-months', label: '0–12 months' },
-  { value: '1-3-years', label: '1–3 years' },
-  { value: '4-12-years', label: '4–12 years' },
-  { value: '13-17-years', label: '13–17 years' },
-  { value: '18-plus', label: '18+ adult' },
-];
 
 export function PatientDetailsStep({ onNext, onBack }: PatientDetailsStepProps) {
   const { data, updatePatientDetails } = useBookingStore();
@@ -50,11 +43,18 @@ export function PatientDetailsStep({ onNext, onBack }: PatientDetailsStepProps) 
       email: data.patientDetails.email,
       briefDescription: data.patientDetails.briefDescription,
     },
+    mode: 'onChange',
   });
 
   const ageGroup = watch('ageGroup');
+  const firstName = watch('firstName');
+  const lastName = watch('lastName');
+  const phoneNumber = watch('phoneNumber');
+
+  const isFormValid = !!firstName && !!lastName && !!ageGroup && !!phoneNumber;
 
   const onSubmit = (formData: PatientDetailsFormData) => {
+    if (!isFormValid) return;
     updatePatientDetails({
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -67,120 +67,162 @@ export function PatientDetailsStep({ onNext, onBack }: PatientDetailsStepProps) 
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="text-left mb-8">
-        <h2 className="text-sm font-bold mb-2 text-primary-orange relative pl-6 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-[20px] before:h-[2px] before:bg-primary-orange">
-          STEP 2 OF 4
-        </h2>        
-        <h3 className="text-4xl font-bold mb-2">Patient <span className='font-extralight text-primary-orange'>details</span></h3>
-        <p className="text-muted-foreground">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+      <div>
+        <p className="text-[12px] font-bold tracking-[1.5px] uppercase mb-2" style={{ color: '#ff7518' }}>
+          Step 2 of 4
+        </p>
+        <h2 className="font-black text-[#071e36] tracking-[-0.02em] mb-2" style={{ fontSize: 'clamp(1.4rem, 2vw, 1.75rem)' }}>
+          Patient <span style={{ color: '#ff7518' }}>details</span>
+        </h2>
+        <p className="text-[14px] leading-[1.7]" style={{ color: '#62748e' }}>
           Tell us about the person who needs care. All fields marked * are required.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="firstName">
-            First Name <span className="text-red-500">*</span>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex flex-col gap-1.5">
+          <Label className="font-semibold text-[13px]" style={{ color: '#26364c' }}>
+            First Name <span style={{ color: '#ff7518' }}>*</span>
           </Label>
           <Input
-            id="firstName"
             {...register('firstName')}
-            placeholder="Amara"
+            placeholder="e.g. Amara"
+            className={`rounded-[8px] text-[14px] border ${
+              errors.firstName ? 'border-red-500' : 'border-[#e0e0e0]'
+            } focus:border-[#ff7518] focus:ring-2 focus:ring-orange-100`}
           />
           {errors.firstName && (
-            <p className="text-sm text-red-500">{errors.firstName.message}</p>
+            <p className="text-[11px]" style={{ color: '#ef4444' }}>{errors.firstName.message}</p>
           )}
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="lastName">
-            Last Name <span className="text-red-500">*</span>
+        <div className="flex flex-col gap-1.5">
+          <Label className="font-semibold text-[13px]" style={{ color: '#26364c' }}>
+            Last Name <span style={{ color: '#ff7518' }}>*</span>
           </Label>
           <Input
-            id="lastName"
             {...register('lastName')}
-            placeholder="Wanjiku"
+            placeholder="e.g. Wanjiku"
+            className={`rounded-[8px] text-[14px] border ${
+              errors.lastName ? 'border-red-500' : 'border-[#e0e0e0]'
+            } focus:border-[#ff7518] focus:ring-2 focus:ring-orange-100`}
           />
           {errors.lastName && (
-            <p className="text-sm text-red-500">{errors.lastName.message}</p>
+            <p className="text-[11px]" style={{ color: '#ef4444' }}>{errors.lastName.message}</p>
           )}
         </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="ageGroup">
-          Patient Age Group <span className="text-red-500">*</span>
+      <div className="flex flex-col gap-1.5">
+        <Label className="font-semibold text-[13px]" style={{ color: '#26364c' }}>
+          Patient Age Group <span style={{ color: '#ff7518' }}>*</span>
         </Label>
-        <Select
-          value={ageGroup}
-          onValueChange={(value) =>
-            setValue('ageGroup', (value ?? '0-12-months') as AgeGroup)
-          }
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select age group" />
-          </SelectTrigger>
-          <SelectContent>
-            {ageGroups.map((group) => (
-              <SelectItem key={group.value} value={group.value}>
-                {group.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="flex gap-2">
+          {ageGroups.map(({ value, label, sub }) => {
+            const selected = ageGroup === value;
+            return (
+              <motion.button
+                key={value}
+                type="button"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setValue('ageGroup', value as AgeGroup, { shouldValidate: true })}
+                className={`flex-1 flex flex-col items-center justify-center py-3 rounded-[10px] border-2 transition-all duration-200 ${
+                  selected ? 'ring-2 ring-[#ff7518]/20' : ''
+                }`}
+                style={{
+                  borderColor: selected ? '#071e36' : '#e0e0e0',
+                  background: selected ? '#071e36' : '#fff',
+                }}
+              >
+                <span className="font-bold text-[14px]" style={{ color: selected ? '#fff' : '#171717' }}>
+                  {label}
+                </span>
+                <span className="text-[11px]" style={{ color: selected ? 'rgba(255,255,255,0.65)' : '#62748e' }}>
+                  {sub}
+                </span>
+              </motion.button>
+            );
+          })}
+        </div>
         {errors.ageGroup && (
-          <p className="text-sm text-red-500">{errors.ageGroup.message}</p>
+          <p className="text-[11px]" style={{ color: '#ef4444' }}>{errors.ageGroup.message}</p>
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="phoneNumber">
-            Phone Number <span className="text-red-500">*</span>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex flex-col gap-1.5">
+          <Label className="font-semibold text-[13px]" style={{ color: '#26364c' }}>
+            Phone Number <span style={{ color: '#ff7518' }}>*</span>
           </Label>
           <Input
-            id="phoneNumber"
             {...register('phoneNumber')}
+            type="tel"
             placeholder="+254 700 000 000"
+            className={`rounded-[8px] text-[14px] border ${
+              errors.phoneNumber ? 'border-red-500' : 'border-[#e0e0e0]'
+            } focus:border-[#ff7518] focus:ring-2 focus:ring-orange-100`}
           />
           {errors.phoneNumber && (
-            <p className="text-sm text-red-500">{errors.phoneNumber.message}</p>
+            <p className="text-[11px]" style={{ color: '#ef4444' }}>{errors.phoneNumber.message}</p>
           )}
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="email">Email Address</Label>
+        <div className="flex flex-col gap-1.5">
+          <Label className="font-semibold text-[13px]" style={{ color: '#26364c' }}>
+            Email Address
+          </Label>
           <Input
-            id="email"
             {...register('email')}
             type="email"
             placeholder="you@example.com"
+            className={`rounded-[8px] text-[14px] border ${
+              errors.email ? 'border-red-500' : 'border-[#e0e0e0]'
+            } focus:border-[#ff7518] focus:ring-2 focus:ring-orange-100`}
           />
           {errors.email && (
-            <p className="text-sm text-red-500">{errors.email.message}</p>
+            <p className="text-[11px]" style={{ color: '#ef4444' }}>{errors.email.message}</p>
           )}
         </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="briefDescription">Brief Description</Label>
+      <div className="flex flex-col gap-1.5">
+        <Label className="font-semibold text-[13px]" style={{ color: '#26364c' }}>
+          Brief Description
+        </Label>
         <Textarea
-          id="briefDescription"
           {...register('briefDescription')}
           placeholder="Anything helpful about the patient's condition or history (optional)…"
-          rows={4}
+          rows={3}
+          className="rounded-[8px] text-[14px] border border-[#e0e0e0] focus:border-[#ff7518] focus:ring-2 focus:ring-orange-100 resize-none"
         />
         {errors.briefDescription && (
-          <p className="text-sm text-red-500">{errors.briefDescription.message}</p>
+          <p className="text-[11px]" style={{ color: '#ef4444' }}>{errors.briefDescription.message}</p>
         )}
       </div>
 
-      <div className="flex justify-between pt-4">
-        <Button type="button" variant="outline" onClick={onBack}>
+      {/* Footer with Back and Continue buttons */}
+      <div className="flex justify-between items-center pt-4 mt-2" style={{ borderTop: '1px solid #f1f5f9' }}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onBack}
+          className="rounded-full text-[13px] font-semibold px-6 py-2.5"
+          style={{ borderColor: '#e0e0e0', color: '#62748e' }}
+        >
           ← Back
         </Button>
-        <Button type="submit">
+        <Button
+          type="submit"
+          disabled={!isFormValid}
+          className="rounded-full text-[13px] font-black px-7 py-2.5 transition-all hover:-translate-y-px disabled:opacity-40 disabled:cursor-not-allowed"
+          style={{
+            background: isFormValid ? '#ff7518' : '#e0e0e0',
+            color: isFormValid ? '#fff' : '#62748e',
+            boxShadow: isFormValid ? '0 4px 18px rgba(255,117,24,0.30)' : 'none',
+          }}
+        >
           Continue →
         </Button>
       </div>

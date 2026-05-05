@@ -1,24 +1,20 @@
-// app/booking/doctor-selection-step.tsx
+// components/booking/DoctorSelectionStep.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useBookingStore } from '@/store/booking-store';
-import { getDoctors, getAvailableSlots } from '@/app/(public)/actions/booking';
+import { getDoctors, getAvailableSlots } from '@/app/actions/booking';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
-import { Calendar } from '@/components/ui/calendar';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Clock, DollarSign, Briefcase, CalendarIcon, User, Stethoscope, Phone, CheckCircle2 } from 'lucide-react';
+import { Clock, Stethoscope, Briefcase, Phone, CheckCircle2, ChevronDown } from 'lucide-react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
+import { motion } from 'framer-motion';
 
 interface DoctorSelectionStepProps {
   onNext: () => void;
   onBack: () => void;
 }
-
 
 const contactMethods = [
   { id: 'phone', title: 'Phone Call', icon: '📞', description: 'We will call you to confirm' },
@@ -27,40 +23,35 @@ const contactMethods = [
   { id: 'walk-in', title: 'Walk-in', icon: '🚶', description: 'Just come to the clinic' },
 ];
 
-const days = [
-  'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
-];
+const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-const timeSlots = [
+const TIME_SLOTS = [
   '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM',
   '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'
 ];
 
 export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps) {
-  const { data, updateDoctorSelection, updatePatientDetails, updateContactPreferences } = useBookingStore();
+  const { data, updateDoctorSelection, updateContactPreferences } = useBookingStore();
   const [doctors, setDoctors] = useState<any[]>([]);
   const [availableSlots, setAvailableSlots] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(
-    data.doctorSelection.doctorId || null
+  const [selectedDay, setSelectedDay] = useState<string>(
+    data.doctorSelection.selectedSlot?.day || ''
   );
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    data.doctorSelection.selectedSlot?.date || undefined
-  );
-  const [selectedSlot, setSelectedSlot] = useState<string>(
+  const [selectedTime, setSelectedTime] = useState<string>(
     data.doctorSelection.selectedSlot?.time || ''
   );
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     loadDoctors();
   }, []);
 
   useEffect(() => {
-    if (selectedDoctorId && selectedDate) {
+    if (data.doctorSelection.doctorId && selectedDay) {
       loadAvailableSlots();
     }
-  }, [selectedDoctorId, selectedDate]);
+  }, [data.doctorSelection.doctorId, selectedDay]);
 
   const loadDoctors = async () => {
     setIsLoading(true);
@@ -76,12 +67,22 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
   };
 
   const loadAvailableSlots = async () => {
-    if (!selectedDoctorId || !selectedDate) return;
-
+    if (!data.doctorSelection.doctorId || !selectedDay) return;
     setIsLoading(true);
     try {
-      const slots = await getAvailableSlots(selectedDoctorId, selectedDate);
+      // Create a date object from the selected day (using next occurrence of that day)
+      const today = new Date();
+      const dayIndex = DAYS.indexOf(selectedDay);
+      const currentDayIndex = today.getDay();
+      let daysToAdd = dayIndex - (currentDayIndex === 0 ? 7 : currentDayIndex);
+      if (daysToAdd <= 0) daysToAdd += 7;
+      const selectedDate = new Date(today);
+      selectedDate.setDate(today.getDate() + daysToAdd);
+      
+      const slots = await getAvailableSlots(data.doctorSelection.doctorId, selectedDate);
       setAvailableSlots(slots);
+      // Reset selected time when new slots load
+      setSelectedTime('');
     } catch (error) {
       console.error('Error loading slots:', error);
       toast.error('Failed to load available slots');
@@ -90,212 +91,189 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
     }
   };
 
-  const handleDoctorSelect = (doctorId: string) => {
-    const doctor = doctors.find(d => d.id === doctorId);
-    setSelectedDoctorId(doctorId);
-    updateDoctorSelection({ doctorId, doctor: doctor || null });
-    setSelectedSlot('');
-    setSelectedDate(undefined);
-    updateDoctorSelection({ selectedSlot: null });
-  };
-
-  const handleDateSelect = (date: Date | undefined) => {
-    setSelectedDate(date);
-    setSelectedSlot('');
-    if (date) {
-      updateDoctorSelection({ selectedSlot: null });
-    }
-  };
-
-  const handleSlotSelect = (slot: any) => {
-    setSelectedSlot(slot.time);
-    updateDoctorSelection({
-      selectedSlot: {
-        date: selectedDate!,
-        time: slot.time,
-        doctorId: selectedDoctorId!
-      }
-    });
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    if (!data.doctorSelection.doctorId) newErrors.doctor = 'Please select a doctor';
+    if (!selectedDay) newErrors.day = 'Please select a day';
+    if (!selectedTime) newErrors.time = 'Please select a time slot';
+    if (!data.contactPreferences.contactMethod) newErrors.contact = 'Please select a contact method';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleNext = () => {
-    // Validate all fields
-    if (!selectedDoctorId) {
-      toast.error('Please select a doctor');
-      return;
+    if (validate()) {
+      // Create a date object from the selected day
+      const today = new Date();
+      const dayIndex = DAYS.indexOf(selectedDay);
+      const currentDayIndex = today.getDay();
+      let daysToAdd = dayIndex - (currentDayIndex === 0 ? 7 : currentDayIndex);
+      if (daysToAdd <= 0) daysToAdd += 7;
+      const selectedDate = new Date(today);
+      selectedDate.setDate(today.getDate() + daysToAdd);
+      
+      updateDoctorSelection({
+        selectedSlot: {
+          day: selectedDay,
+          time: selectedTime,
+          date: selectedDate,
+          doctorId: data.doctorSelection.doctorId!
+        }
+      });
+      onNext();
     }
-
-    if (!selectedDate) {
-      toast.error('Please select a date');
-      return;
-    }
-
-    if (!selectedSlot) {
-      toast.error('Please select a time slot');
-      return;
-    }
-
-    if (!data.patientDetails.firstName) {
-      toast.error('Please enter first name');
-      return;
-    }
-
-    if (!data.patientDetails.lastName) {
-      toast.error('Please enter last name');
-      return;
-    }
-
-    if (!data.patientDetails.ageGroup) {
-      toast.error('Please select age group');
-      return;
-    }
-
-    if (!data.patientDetails.phoneNumber) {
-      toast.error('Please enter phone number');
-      return;
-    }
-
-    if (!data.patientDetails.email) {
-      toast.error('Please enter email');
-      return;
-    }
-
-    if (!data.contactPreferences.contactMethod) {
-      toast.error('Please select a contact method');
-      return;
-    }
-
-    onNext();
   };
 
-  const getDayName = (date: Date) => {
-    return format(date, 'EEEE');
+  const handleDoctorSelect = (doctorId: string) => {
+    const doctor = doctors.find(d => d.id === doctorId);
+    updateDoctorSelection({ doctorId, doctor: doctor || null });
+    setSelectedDay('');
+    setSelectedTime('');
+    setAvailableSlots([]);
+    updateDoctorSelection({ selectedSlot: null });
+    setErrors(prev => ({ ...prev, doctor: '' }));
   };
-  console.log(availableSlots);
 
+  const handleSlotSelect = (slotTime: string) => {
+    setSelectedTime(slotTime);
+    setErrors(prev => ({ ...prev, time: '' }));
+  };
 
-  const selectedDoctor = doctors.find(d => d.id === selectedDoctorId);
+  const selectedDoctor = doctors.find(d => d.id === data.doctorSelection.doctorId);
+  
+  // Check if all required fields are filled
+  const isFormValid = !!data.doctorSelection.doctorId && !!selectedDay && 
+                      !!selectedTime && !!data.contactPreferences.contactMethod;
 
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col gap-5">
+      <div>
+        <p className="text-[12px] font-bold tracking-[1.5px] uppercase mb-2" style={{ color: '#ff7518' }}>
+          Step 3 of 4
+        </p>
+        <h2 className="font-black text-[#071e36] tracking-[-0.02em] mb-2" style={{ fontSize: 'clamp(1.4rem, 2vw, 1.75rem)' }}>
+          Choose Your <span style={{ color: '#ff7518' }}>Doctor</span> & Time
+        </h2>
+        <p className="text-[14px] leading-[1.7]" style={{ color: '#62748e' }}>
+          Select your preferred doctor from our team of specialists
+        </p>
+        {errors.doctor && <p className="text-[12px] mt-2" style={{ color: '#ef4444' }}>{errors.doctor}</p>}
+      </div>
+
       {/* Doctor Selection */}
       <div>
-        <div className="text-left mb-8">
-          <h2 className="text-sm font-bold mb-2 text-primary-orange relative pl-6 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-[20px] before:h-[2px] before:bg-primary-orange">
-            STEP 3 OF 4
-          </h2>
-          <h3 className="text-4xl font-bold mb-2">Select <span className='font-extralight text-primary-orange'>Doctor</span></h3>
-          <p className="text-muted-foreground">
-            Choose your preferred doctor from our team of specialists        </p>
-        </div>
-
         {isLoading && doctors.length === 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {[...Array(4)].map((_, i) => (
-              <Skeleton key={i} className="h-32 w-full" />
+              <Skeleton key={i} className="h-28 w-full rounded-[14px]" />
             ))}
           </div>
         ) : (
-          <RadioGroup value={selectedDoctorId || ''} onValueChange={handleDoctorSelect}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {doctors.map((doctor) => (
-                <Card
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {doctors.map((doctor, index) => {
+              const selected = data.doctorSelection.doctorId === doctor.id;
+              return (
+                <motion.button
                   key={doctor.id}
-                  className={`cursor-pointer transition-all hover:shadow-md ${selectedDoctorId === doctor.id ? 'ring-2 ring-primary' : ''
-                    }`}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
                   onClick={() => handleDoctorSelect(doctor.id)}
+                  className={`text-left p-3 rounded-[14px] border-2 transition-all duration-200 relative cursor-pointer ${
+                    selected ? 'ring-2 ring-[#ff7518]/20' : ''
+                  }`}
+                  style={{
+                    borderColor: selected ? '#071e36' : '#e0e0e0',
+                    background: selected ? 'rgba(7,30,54,0.04)' : '#fff',
+                  }}
                 >
-                  <div className="p-4">
-                    <div className="flex items-start gap-3">
-                      <RadioGroupItem value={doctor.id} id={doctor.id} className="mt-1" />
-                      <div className="flex-1">
-                        <Label htmlFor={doctor.id} className="font-semibold text-base cursor-pointer">
-                          Dr. {doctor.name}
-                        </Label>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Stethoscope className="h-3 w-3 text-muted-foreground" />
-                          <p className="text-sm text-muted-foreground">{doctor.specialty}</p>
-                        </div>
-
-                        <div className="flex flex-wrap gap-3 mt-3 text-sm">
-                          {doctor.years_of_experience > 0 && (
-                            <div className="flex items-center gap-1">
-                              <Briefcase className="h-3 w-3" />
-                              <span>{doctor.years_of_experience}+ years</span>
-                            </div>
-                          )}
-                          {doctor.consultation_fee > 0 && (
-                            <div className="flex items-center gap-1">
-                              <DollarSign className="h-3 w-3" />
-                              <span>${doctor.consultation_fee}</span>
-                            </div>
-                          )}
-                          <div className="flex items-center gap-1">
-                            <Clock className="h-3 w-3" />
-                            <span>
-                              {format(new Date(`2000-01-01 ${doctor.work_start_time}`), 'h:mm a')} -
-                              {format(new Date(`2000-01-01 ${doctor.work_end_time}`), 'h:mm a')}
-                            </span>
+                  {selected && (
+                    <div className="absolute top-2 right-2 w-4 h-4 rounded-full flex items-center justify-center" style={{ background: '#071e36' }}>
+                      <CheckCircle2 className="w-3 h-3 text-white" />
+                    </div>
+                  )}
+                  <div className="flex items-start gap-2">
+                    <div
+                      className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0"
+                      style={{
+                        background: selected ? 'rgba(7,30,54,0.08)' : '#f1f5f9',
+                        color: selected ? '#071e36' : '#62748e',
+                      }}
+                    >
+                      <Stethoscope className="w-4 h-4" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-bold text-[13px] mb-0.5" style={{ color: selected ? '#071e36' : '#171717' }}>
+                        Dr. {doctor.name}
+                      </p>
+                      <p className="text-[11px] mb-1.5 truncate" style={{ color: '#62748e' }}>{doctor.specialty}</p>
+                      <div className="flex flex-wrap gap-2 text-[10px]" style={{ color: '#62748e' }}>
+                        {doctor.years_of_experience > 0 && (
+                          <div className="flex items-center gap-0.5">
+                            <Briefcase className="h-2.5 w-2.5" />
+                            <span>{doctor.years_of_experience}+ yrs</span>
                           </div>
-                        </div>
-
-                        {doctor.bio && (
-                          <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
-                            {doctor.bio}
-                          </p>
                         )}
+                        <div className="flex items-center gap-0.5">
+                          <Clock className="h-2.5 w-2.5" />
+                          <span>
+                            {format(new Date(`2000-01-01 ${doctor.work_start_time}`), 'h:mm a')}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </Card>
-              ))}
-            </div>
-          </RadioGroup>
+                </motion.button>
+              );
+            })}
+          </div>
         )}
       </div>
 
-      {/* Date Selection */}
-      {selectedDoctorId && (
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <CalendarIcon className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-semibold">Select Date</h2>
+      {/* Day Selection - Dropdown */}
+      {data.doctorSelection.doctorId && (
+        <div className="flex flex-col gap-1.5">
+          <label className="font-semibold text-[13px]" style={{ color: '#26364c' }}>
+            Preferred Day <span style={{ color: '#ff7518' }}>*</span>
+          </label>
+          <div className="relative">
+            <select
+              value={selectedDay}
+              onChange={(e) => {
+                setSelectedDay(e.target.value);
+                setSelectedTime('');
+                setErrors(prev => ({ ...prev, day: '', time: '' }));
+              }}
+              className="w-full rounded-[8px] border px-3 py-2.5 text-[13px] appearance-none bg-white"
+              style={{ borderColor: errors.day ? '#ef4444' : '#e0e0e0' }}
+            >
+              <option value="">Select a day</option>
+              {DAYS.map((day) => (
+                <option key={day} value={day}>{day}</option>
+              ))}
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none" style={{ color: '#62748e' }} />
           </div>
-          <p className="text-muted-foreground mb-4">
-            Choose a date for your appointment
-          </p>
-
-          <Calendar
-            mode="single"
-            selected={selectedDate}
-            onSelect={handleDateSelect}
-            disabled={(date) => {
-              return date < new Date()
-            }}
-            className="rounded-md border w-full"
-            modifiersClassNames={{
-              selected: "bg-primary text-primary-foreground"
-            }}
-          />
+          {errors.day && <p className="text-[11px]" style={{ color: '#ef4444' }}>{errors.day}</p>}
         </div>
       )}
 
-      {/* Time Slots */}
-      {/* Time Slots */}
-      {selectedDoctorId && selectedDate && (
+      {/* Time Slots - Buttons (like original) */}
+      {data.doctorSelection.doctorId && selectedDay && (
         <div>
-          <div className="flex items-center gap-2 mb-4">
-            <Clock className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-semibold">Select Time</h2>
+          <div className="flex items-center gap-2 mb-3">
+            <Clock className="h-4 w-4" style={{ color: '#ff7518' }} />
+            <h3 className="font-bold text-[13px]" style={{ color: '#071e36' }}>Select Time</h3>
           </div>
-          <p className="text-muted-foreground mb-4">
-            {getDayName(selectedDate)}, {format(selectedDate, 'MMMM d, yyyy')}
+          <p className="text-[12px] mb-3" style={{ color: '#62748e' }}>
+            Available time slots for {selectedDay}
           </p>
+          {errors.time && <p className="text-[12px] mb-2" style={{ color: '#ef4444' }}>{errors.time}</p>}
 
           {isLoading ? (
             <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
               {[...Array(8)].map((_, i) => (
-                <Skeleton key={i} className="h-10 w-full" />
+                <Skeleton key={i} className="h-9 w-full rounded-[8px]" />
               ))}
             </div>
           ) : availableSlots.length > 0 ? (
@@ -304,91 +282,104 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
                 <Button
                   key={slot.time}
                   type="button"
-                  variant={selectedSlot === slot.time ? "default" : "outline"}
-                  className="w-full"
-                  onClick={() => handleSlotSelect(slot)}
+                  variant={selectedTime === slot.time ? "default" : "outline"}
+                  className="w-full rounded-[8px] text-[12px] font-semibold transition-all duration-200 h-9"
+                  style={{
+                    background: selectedTime === slot.time ? '#071e36' : '#fff',
+                    borderColor: selectedTime === slot.time ? '#071e36' : '#e0e0e0',
+                    color: selectedTime === slot.time ? '#fff' : '#62748e',
+                  }}
+                  onClick={() => handleSlotSelect(slot.time)}
                 >
                   {slot.time}
                 </Button>
               ))}
             </div>
           ) : (
-            <div className="text-center py-8 border rounded-lg bg-muted/20">
-              <Clock className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-              <p className="text-muted-foreground">
-                No available slots for this date
-              </p>
-              <p className="text-sm text-muted-foreground mt-1">
-                All slots are booked. Please select another date.
-              </p>
+            <div className="text-center py-6 border rounded-lg" style={{ borderColor: '#e0e0e0', background: '#f8fafc' }}>
+              <Clock className="h-6 w-6 mx-auto mb-2" style={{ color: '#62748e' }} />
+              <p className="text-[12px]" style={{ color: '#62748e' }}>No available slots for this day</p>
+              <p className="text-[11px] mt-1" style={{ color: '#62748e' }}>Please select another day.</p>
             </div>
           )}
         </div>
       )}
 
-
-
       {/* Contact Methods */}
       <div>
-        <div className="flex items-center gap-2 mb-4">
-          <Phone className="h-5 w-5 text-primary" />
-          <h2 className="text-xl font-semibold">Contact Method</h2>
+        <div className="flex items-center gap-2 mb-3">
+          <Phone className="h-4 w-4" style={{ color: '#ff7518' }} />
+          <h3 className="font-bold text-[13px]" style={{ color: '#071e36' }}>Contact Method</h3>
         </div>
-        <p className="text-muted-foreground mb-4">
+        <p className="text-[12px] mb-3" style={{ color: '#62748e' }}>
           How would you like us to contact you?
         </p>
+        {errors.contact && <p className="text-[12px] mb-2" style={{ color: '#ef4444' }}>{errors.contact}</p>}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {contactMethods.map((method) => (
-            <Card
-              key={method.id}
-              className={`p-4 cursor-pointer transition-all hover:shadow-md ${data.contactPreferences.contactMethod === method.id ? 'border-primary ring-2 ring-primary/20' : ''
+        <div className="grid grid-cols-2 gap-2">
+          {contactMethods.map((method) => {
+            const selected = data.contactPreferences.contactMethod === method.id;
+            return (
+              <motion.button
+                key={method.id}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                onClick={() => {
+                  updateContactPreferences({ contactMethod: method.id as any });
+                  setErrors(prev => ({ ...prev, contact: '' }));
+                }}
+                className={`text-left p-3 rounded-[12px] border-2 transition-all duration-200 relative cursor-pointer ${
+                  selected ? 'ring-2 ring-[#ff7518]/20' : ''
                 }`}
-              onClick={() => updateContactPreferences({ contactMethod: method.id as any })}
-            >
-              <div className="flex items-start gap-3">
-                <div className="text-3xl">{method.icon}</div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-semibold">{method.title}</h4>
-                    {data.contactPreferences.contactMethod === method.id && (
-                      <CheckCircle2 className="h-5 w-5 text-primary" />
-                    )}
+                style={{
+                  borderColor: selected ? '#071e36' : '#e0e0e0',
+                  background: selected ? 'rgba(7,30,54,0.04)' : '#fff',
+                }}
+              >
+                {selected && (
+                  <div className="absolute top-2 right-2 w-4 h-4 rounded-full flex items-center justify-center" style={{ background: '#071e36' }}>
+                    <CheckCircle2 className="w-3 h-3 text-white" />
                   </div>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {method.description}
-                  </p>
+                )}
+                <div className="flex items-start gap-2">
+                  <span className="text-xl">{method.icon}</span>
+                  <div className="flex-1">
+                    <p className="font-bold text-[12px] mb-0.5" style={{ color: selected ? '#071e36' : '#171717' }}>
+                      {method.title}
+                    </p>
+                    <p className="text-[10px]" style={{ color: '#62748e' }}>
+                      {method.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </Card>
-          ))}
+              </motion.button>
+            );
+          })}
         </div>
       </div>
 
-
-
-      {/* Selected Appointment Summary */}
-      {selectedDoctor && selectedSlot && selectedDate && (
-        <div className="bg-muted/20 rounded-lg p-4 border">
-          <h3 className="font-semibold mb-2">Selected Appointment Summary</h3>
-          <div className="space-y-1 text-sm">
-            <p>👨‍⚕️ Dr. {selectedDoctor.name} - {selectedDoctor.specialty}</p>
-            <p>📅 {format(selectedDate, 'EEEE, MMMM d, yyyy')}</p>
-            <p>⏰ {selectedSlot}</p>
-            <p>👤 {data.patientDetails.firstName} {data.patientDetails.lastName}</p>
-            <p>📞 {data.contactPreferences.contactMethod === 'phone' ? 'Phone call' :
-              data.contactPreferences.contactMethod === 'email' ? 'Email' :
-                data.contactPreferences.contactMethod === 'whatsapp' ? 'WhatsApp' : 'Walk-in'}</p>
-          </div>
-        </div>
-      )}
-
-      <div className="flex justify-between pt-4">
-        <Button type="button" variant="outline" onClick={onBack}>
-          Back
+      {/* Footer with Back and Continue buttons */}
+      <div className="flex justify-between items-center pt-3 mt-1" style={{ borderTop: '1px solid #f1f5f9' }}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onBack}
+          className="rounded-full text-[12px] font-semibold px-5 py-2"
+          style={{ borderColor: '#e0e0e0', color: '#62748e' }}
+        >
+          ← Back
         </Button>
-        <Button onClick={handleNext}>
-          Continue to Confirmation
+        <Button
+          onClick={handleNext}
+          disabled={!isFormValid}
+          className="rounded-full text-[12px] font-black px-6 py-2 transition-all hover:-translate-y-px disabled:opacity-40 disabled:cursor-not-allowed"
+          style={{
+            background: isFormValid ? '#ff7518' : '#e0e0e0',
+            color: isFormValid ? '#fff' : '#62748e',
+            boxShadow: isFormValid ? '0 4px 18px rgba(255,117,24,0.30)' : 'none',
+          }}
+        >
+          Continue →
         </Button>
       </div>
     </div>
