@@ -26,7 +26,7 @@ interface ReviewCardProps {
 
 
 function ReviewCard({ title, onEdit, children }: ReviewCardProps) {
-  
+
   return (
     <div className="rounded-[14px] overflow-hidden" style={{ border: '1px solid #e0e0e0' }}>
       <div
@@ -99,7 +99,7 @@ export function ConfirmationStep({ onBack }: ConfirmationStepProps) {
 
       if (result.success) {
         setDone(true);
-        resetBooking();
+        // resetBooking();
         // router.push('/booking/success');
         toast.success('Booking confirmed! Check your email for details');
       } else {
@@ -154,46 +154,51 @@ export function ConfirmationStep({ onBack }: ConfirmationStepProps) {
   if (done) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-      <motion.div
-        className="text-center max-w-md px-8 py-12"
-        initial={{ opacity: 0, y: 24, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-      >
         <motion.div
-          className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-7"
-          style={{ background: 'rgba(255,117,24,0.10)' }}
-          initial={{ scale: 0.5, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.1, type: 'spring', stiffness: 260, damping: 18 }}
+          className="text-center max-w-md px-8 py-12"
+          initial={{ opacity: 0, y: 24, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <svg className="w-10 h-10" style={{ color: '#ff7518' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
+          <motion.div
+            className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-7"
+            style={{ background: 'rgba(255,117,24,0.10)' }}
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.1, type: 'spring', stiffness: 260, damping: 18 }}
+          >
+            <svg className="w-10 h-10" style={{ color: '#ff7518' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </motion.div>
+
+          <h2 className="font-black text-[#071e36] tracking-[-0.03em] mb-3" style={{ fontSize: 'clamp(1.8rem, 3vw, 2.4rem)' }}>
+            Booking{' '}
+            <p className="not-italic" style={{ color: '#ff7518', fontFamily: 'Georgia, serif', fontStyle: 'italic' }}>Requested!</p>
+          </h2>
+
+          <p className="text-[14px] leading-[1.85] mb-8" style={{ color: '#62748e' }}>
+            Thank you, <strong className="text-[#071e36]">{data.patientDetails.firstName}</strong>. Our team will confirm your{' '}
+            <strong className="text-[#071e36]">{getServiceName(data.service!)}</strong> appointment within 24 hours. All care at BMC is completely free.
+          </p>
+          <button
+            onClick={() => { setDone(false); resetBooking() }}
+            className="mt-2 px-6 py-2.5 rounded-full text-[13px] font-bold border border-[#e2e8f0] hover:border-[#ff7518] text-[#62748e] hover:text-[#ff7518] transition-all duration-200"
+          >
+            Send another Booking
+          </button>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-white font-black text-[13px] px-8 py-3.5 rounded-full transition-all hover:-translate-y-px"
+            style={{ background: '#ff7518', boxShadow: '0 4px 18px rgba(255,117,24,0.30)' }}
+          >
+            Back to Home
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
         </motion.div>
-        
-        <h2 className="font-black text-[#071e36] tracking-[-0.03em] mb-3" style={{ fontSize: 'clamp(1.8rem, 3vw, 2.4rem)' }}>
-          Booking{' '}
-          <p className="not-italic" style={{ color: '#ff7518', fontFamily: 'Georgia, serif', fontStyle: 'italic' }}>Requested!</p>
-        </h2>
-        
-        <p className="text-[14px] leading-[1.85] mb-8" style={{ color: '#62748e' }}>
-          Thank you, <strong className="text-[#071e36]">{data.patientDetails.firstName}</strong>. Our team will confirm your{' '}
-          <strong className="text-[#071e36]">{getServiceName(data.service!)}</strong> appointment within 24 hours. All care at BMC is completely free.
-        </p>
-        
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-white font-black text-[13px] px-8 py-3.5 rounded-full transition-all hover:-translate-y-px"
-          style={{ background: '#ff7518', boxShadow: '0 4px 18px rgba(255,117,24,0.30)' }}
-        >
-          Back to Home
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </Link>
-      </motion.div>
-    </div>
+      </div>
     )
   }
 
