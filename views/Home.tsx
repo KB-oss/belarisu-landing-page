@@ -296,7 +296,7 @@ export default function Home() {
                 <motion.div variants={heroItem} className="flex items-center gap-5 flex-wrap">
                   <motion.div whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 400, damping: 18 }}>
                     <Link
-                      href="/book-appointment"
+                      href="/booking"
                       className="inline-flex items-center gap-2 bg-accent text-white font-bold text-sm px-7 py-3.5 rounded-full hover:bg-accent-dark transition-colors duration-200"
                       style={{ boxShadow: '0 4px 20px rgba(255,117,24,0.40)' }}
                     >
@@ -724,7 +724,7 @@ export default function Home() {
                     </div>
                     {/* Book now button */}
                     <Link
-                      href="/book-appointment"
+                      href="/booking"
                       className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-full font-bold text-[12px] pointer-events-auto transition-all duration-200 hover:scale-[1.03] active:scale-[0.98]"
                       style={{ background: '#ff7518', color: '#fff' }}
                     >

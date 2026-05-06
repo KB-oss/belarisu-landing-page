@@ -67,58 +67,58 @@ export function PatientDetailsStep({ onNext, onBack }: PatientDetailsStepProps) 
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 sm:gap-6  sm:px-0">
       <div>
-        <p className="text-[12px] font-bold tracking-[1.5px] uppercase mb-2" style={{ color: '#ff7518' }}>
+        <p className="text-[10px] sm:text-[12px] font-bold tracking-[1.5px] uppercase mb-2" style={{ color: '#ff7518' }}>
           Step 2 of 4
         </p>
-        <h2 className="font-black text-[#071e36] tracking-[-0.02em] mb-2" style={{ fontSize: 'clamp(1.4rem, 2vw, 1.75rem)' }}>
+        <h2 className="font-black text-[#071e36] tracking-[-0.02em] mb-2 leading-tight" style={{ fontSize: 'clamp(1.2rem, 5vw, 1.75rem)' }}>
           Patient <span style={{ color: '#ff7518' }}>details</span>
         </h2>
-        <p className="text-[14px] leading-[1.7]" style={{ color: '#62748e' }}>
+        <p className="text-[12px] sm:text-[14px] leading-[1.6] sm:leading-[1.7]" style={{ color: '#62748e' }}>
           Tell us about the person who needs care. All fields marked * are required.
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         <div className="flex flex-col gap-1.5">
-          <Label className="font-semibold text-[13px]" style={{ color: '#26364c' }}>
+          <Label className="font-semibold text-[12px] sm:text-[13px]" style={{ color: '#26364c' }}>
             First Name <span style={{ color: '#ff7518' }}>*</span>
           </Label>
           <Input
             {...register('firstName')}
             placeholder="e.g. Amara"
-            className={`rounded-[8px] text-[14px] border ${
+            className={`rounded-[8px] text-[13px] sm:text-[14px] border ${
               errors.firstName ? 'border-red-500' : 'border-[#e0e0e0]'
             } focus:border-[#ff7518] focus:ring-2 focus:ring-orange-100`}
           />
           {errors.firstName && (
-            <p className="text-[11px]" style={{ color: '#ef4444' }}>{errors.firstName.message}</p>
+            <p className="text-[10px] sm:text-[11px]" style={{ color: '#ef4444' }}>{errors.firstName.message}</p>
           )}
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label className="font-semibold text-[13px]" style={{ color: '#26364c' }}>
+          <Label className="font-semibold text-[12px] sm:text-[13px]" style={{ color: '#26364c' }}>
             Last Name <span style={{ color: '#ff7518' }}>*</span>
           </Label>
           <Input
             {...register('lastName')}
             placeholder="e.g. Wanjiku"
-            className={`rounded-[8px] text-[14px] border ${
+            className={`rounded-[8px] text-[13px] sm:text-[14px] border ${
               errors.lastName ? 'border-red-500' : 'border-[#e0e0e0]'
             } focus:border-[#ff7518] focus:ring-2 focus:ring-orange-100`}
           />
           {errors.lastName && (
-            <p className="text-[11px]" style={{ color: '#ef4444' }}>{errors.lastName.message}</p>
+            <p className="text-[10px] sm:text-[11px]" style={{ color: '#ef4444' }}>{errors.lastName.message}</p>
           )}
         </div>
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <Label className="font-semibold text-[13px]" style={{ color: '#26364c' }}>
+        <Label className="font-semibold text-[12px] sm:text-[13px]" style={{ color: '#26364c' }}>
           Patient Age Group <span style={{ color: '#ff7518' }}>*</span>
         </Label>
-        <div className="flex gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
           {ageGroups.map(({ value, label, sub }) => {
             const selected = ageGroup === value;
             return (
@@ -128,7 +128,7 @@ export function PatientDetailsStep({ onNext, onBack }: PatientDetailsStepProps) 
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setValue('ageGroup', value as AgeGroup, { shouldValidate: true })}
-                className={`flex-1 flex flex-col items-center justify-center py-3 rounded-[10px] border-2 transition-all duration-200 ${
+                className={`flex-1 flex flex-col items-center justify-center py-2 sm:py-3 rounded-[8px] sm:rounded-[10px] border-2 transition-all duration-200 ${
                   selected ? 'ring-2 ring-[#ff7518]/20' : ''
                 }`}
                 style={{
@@ -136,10 +136,10 @@ export function PatientDetailsStep({ onNext, onBack }: PatientDetailsStepProps) 
                   background: selected ? '#071e36' : '#fff',
                 }}
               >
-                <span className="font-bold text-[14px]" style={{ color: selected ? '#fff' : '#171717' }}>
+                <span className="font-bold text-[12px] sm:text-[14px]" style={{ color: selected ? '#fff' : '#171717' }}>
                   {label}
                 </span>
-                <span className="text-[11px]" style={{ color: selected ? 'rgba(255,255,255,0.65)' : '#62748e' }}>
+                <span className="text-[9px] sm:text-[11px]" style={{ color: selected ? 'rgba(255,255,255,0.65)' : '#62748e' }}>
                   {sub}
                 </span>
               </motion.button>
@@ -147,68 +147,68 @@ export function PatientDetailsStep({ onNext, onBack }: PatientDetailsStepProps) 
           })}
         </div>
         {errors.ageGroup && (
-          <p className="text-[11px]" style={{ color: '#ef4444' }}>{errors.ageGroup.message}</p>
+          <p className="text-[10px] sm:text-[11px]" style={{ color: '#ef4444' }}>{errors.ageGroup.message}</p>
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         <div className="flex flex-col gap-1.5">
-          <Label className="font-semibold text-[13px]" style={{ color: '#26364c' }}>
+          <Label className="font-semibold text-[12px] sm:text-[13px]" style={{ color: '#26364c' }}>
             Phone Number <span style={{ color: '#ff7518' }}>*</span>
           </Label>
           <Input
             {...register('phoneNumber')}
             type="tel"
             placeholder="+254 700 000 000"
-            className={`rounded-[8px] text-[14px] border ${
+            className={`rounded-[8px] text-[13px] sm:text-[14px] border ${
               errors.phoneNumber ? 'border-red-500' : 'border-[#e0e0e0]'
             } focus:border-[#ff7518] focus:ring-2 focus:ring-orange-100`}
           />
           {errors.phoneNumber && (
-            <p className="text-[11px]" style={{ color: '#ef4444' }}>{errors.phoneNumber.message}</p>
+            <p className="text-[10px] sm:text-[11px]" style={{ color: '#ef4444' }}>{errors.phoneNumber.message}</p>
           )}
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label className="font-semibold text-[13px]" style={{ color: '#26364c' }}>
+          <Label className="font-semibold text-[12px] sm:text-[13px]" style={{ color: '#26364c' }}>
             Email Address
           </Label>
           <Input
             {...register('email')}
             type="email"
             placeholder="you@example.com"
-            className={`rounded-[8px] text-[14px] border ${
+            className={`rounded-[8px] text-[13px] sm:text-[14px] border ${
               errors.email ? 'border-red-500' : 'border-[#e0e0e0]'
             } focus:border-[#ff7518] focus:ring-2 focus:ring-orange-100`}
           />
           {errors.email && (
-            <p className="text-[11px]" style={{ color: '#ef4444' }}>{errors.email.message}</p>
+            <p className="text-[10px] sm:text-[11px]" style={{ color: '#ef4444' }}>{errors.email.message}</p>
           )}
         </div>
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <Label className="font-semibold text-[13px]" style={{ color: '#26364c' }}>
+        <Label className="font-semibold text-[12px] sm:text-[13px]" style={{ color: '#26364c' }}>
           Brief Description
         </Label>
         <Textarea
           {...register('briefDescription')}
           placeholder="Anything helpful about the patient's condition or history (optional)…"
           rows={3}
-          className="rounded-[8px] text-[14px] border border-[#e0e0e0] focus:border-[#ff7518] focus:ring-2 focus:ring-orange-100 resize-none"
+          className="rounded-[8px] text-[13px] sm:text-[14px] border border-[#e0e0e0] focus:border-[#ff7518] focus:ring-2 focus:ring-orange-100 resize-none"
         />
         {errors.briefDescription && (
-          <p className="text-[11px]" style={{ color: '#ef4444' }}>{errors.briefDescription.message}</p>
+          <p className="text-[10px] sm:text-[11px]" style={{ color: '#ef4444' }}>{errors.briefDescription.message}</p>
         )}
       </div>
 
       {/* Footer with Back and Continue buttons */}
-      <div className="flex justify-between items-center pt-4 mt-2" style={{ borderTop: '1px solid #f1f5f9' }}>
+      <div className="flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center gap-3 pt-4 mt-2 border-t border-[#f1f5f9]">
         <Button
           type="button"
           variant="outline"
           onClick={onBack}
-          className="rounded-full text-[13px] font-semibold px-6 py-2.5"
+          className="rounded-full text-[12px] sm:text-[13px] font-semibold px-4 sm:px-6 py-2 sm:py-2.5 w-full sm:w-auto"
           style={{ borderColor: '#e0e0e0', color: '#62748e' }}
         >
           ← Back
@@ -216,7 +216,7 @@ export function PatientDetailsStep({ onNext, onBack }: PatientDetailsStepProps) 
         <Button
           type="submit"
           disabled={!isFormValid}
-          className="rounded-full text-[13px] font-black px-7 py-2.5 transition-all hover:-translate-y-px disabled:opacity-40 disabled:cursor-not-allowed"
+          className="rounded-full text-[12px] sm:text-[13px] font-black px-5 sm:px-7 py-2 sm:py-2.5 transition-all hover:-translate-y-px disabled:opacity-40 disabled:cursor-not-allowed w-full sm:w-auto"
           style={{
             background: isFormValid ? '#ff7518' : '#e0e0e0',
             color: isFormValid ? '#fff' : '#62748e',

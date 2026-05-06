@@ -282,7 +282,7 @@ export default function Nav() {
               {/* CTA buttons */}
               <div className="flex flex-col gap-3 mb-8">
                 <Link
-                  href="/book-appointment"
+                  href="/booking"
                   className="w-full text-center bg-accent text-white text-[15px] font-black py-4 rounded-[16px] transition-all hover:bg-accent-dark active:scale-[0.98]"
                   style={{ boxShadow: '0 6px 24px rgba(255,117,24,0.35)' }}
                 >

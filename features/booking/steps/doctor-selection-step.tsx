@@ -146,30 +146,30 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
                       !!selectedTime && !!data.contactPreferences.contactMethod;
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-4 sm:gap-5 sm:px-0">
       <div>
-        <p className="text-[12px] font-bold tracking-[1.5px] uppercase mb-2" style={{ color: '#ff7518' }}>
+        <p className="text-[10px] sm:text-[12px] font-bold tracking-[1.5px] uppercase mb-2" style={{ color: '#ff7518' }}>
           Step 3 of 4
         </p>
-        <h2 className="font-black text-[#071e36] tracking-[-0.02em] mb-2" style={{ fontSize: 'clamp(1.4rem, 2vw, 1.75rem)' }}>
+        <h2 className="font-black text-[#071e36] tracking-[-0.02em] mb-2 leading-tight" style={{ fontSize: 'clamp(1.2rem, 5vw, 1.75rem)' }}>
           Choose Your <span style={{ color: '#ff7518' }}>Doctor</span> & Time
         </h2>
-        <p className="text-[14px] leading-[1.7]" style={{ color: '#62748e' }}>
+        <p className="text-[12px] sm:text-[14px] leading-[1.6] sm:leading-[1.7]" style={{ color: '#62748e' }}>
           Select your preferred doctor from our team of specialists
         </p>
-        {errors.doctor && <p className="text-[12px] mt-2" style={{ color: '#ef4444' }}>{errors.doctor}</p>}
+        {errors.doctor && <p className="text-[11px] sm:text-[12px] mt-2" style={{ color: '#ef4444' }}>{errors.doctor}</p>}
       </div>
 
       {/* Doctor Selection */}
       <div>
         {isLoading && doctors.length === 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
             {[...Array(4)].map((_, i) => (
-              <Skeleton key={i} className="h-28 w-full rounded-[14px]" />
+              <Skeleton key={i} className="h-24 sm:h-28 w-full rounded-[12px] sm:rounded-[14px]" />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
             {doctors.map((doctor, index) => {
               const selected = data.doctorSelection.doctorId === doctor.id;
               return (
@@ -179,7 +179,7 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
                   onClick={() => handleDoctorSelect(doctor.id)}
-                  className={`text-left p-3 rounded-[14px] border-2 transition-all duration-200 relative cursor-pointer ${
+                  className={`text-left p-2.5 sm:p-3 rounded-[12px] sm:rounded-[14px] border-2 transition-all duration-200 relative cursor-pointer ${
                     selected ? 'ring-2 ring-[#ff7518]/20' : ''
                   }`}
                   style={{
@@ -188,34 +188,34 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
                   }}
                 >
                   {selected && (
-                    <div className="absolute top-2 right-2 w-4 h-4 rounded-full flex items-center justify-center" style={{ background: '#071e36' }}>
-                      <CheckCircle2 className="w-3 h-3 text-white" />
+                    <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center" style={{ background: '#071e36' }}>
+                      <CheckCircle2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                     </div>
                   )}
                   <div className="flex items-start gap-2">
                     <div
-                      className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-[8px] sm:rounded-[10px] flex items-center justify-center shrink-0"
                       style={{
                         background: selected ? 'rgba(7,30,54,0.08)' : '#f1f5f9',
                         color: selected ? '#071e36' : '#62748e',
                       }}
                     >
-                      <Stethoscope className="w-4 h-4" />
+                      <Stethoscope className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-bold text-[13px] mb-0.5" style={{ color: selected ? '#071e36' : '#171717' }}>
+                      <p className="font-bold text-[12px] sm:text-[13px] mb-0.5" style={{ color: selected ? '#071e36' : '#171717' }}>
                         Dr. {doctor.name}
                       </p>
-                      <p className="text-[11px] mb-1.5 truncate" style={{ color: '#62748e' }}>{doctor.specialty}</p>
-                      <div className="flex flex-wrap gap-2 text-[10px]" style={{ color: '#62748e' }}>
+                      <p className="text-[10px] sm:text-[11px] mb-1 sm:mb-1.5 truncate" style={{ color: '#62748e' }}>{doctor.specialty}</p>
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2 text-[9px] sm:text-[10px]" style={{ color: '#62748e' }}>
                         {doctor.years_of_experience > 0 && (
                           <div className="flex items-center gap-0.5">
-                            <Briefcase className="h-2.5 w-2.5" />
+                            <Briefcase className="h-2 w-2 sm:h-2.5 sm:w-2.5" />
                             <span>{doctor.years_of_experience}+ yrs</span>
                           </div>
                         )}
                         <div className="flex items-center gap-0.5">
-                          <Clock className="h-2.5 w-2.5" />
+                          <Clock className="h-2 w-2 sm:h-2.5 sm:w-2.5" />
                           <span>
                             {format(new Date(`2000-01-01 ${doctor.work_start_time}`), 'h:mm a')}
                           </span>
@@ -233,7 +233,7 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
       {/* Day Selection - Dropdown */}
       {data.doctorSelection.doctorId && (
         <div className="flex flex-col gap-1.5">
-          <label className="font-semibold text-[13px]" style={{ color: '#26364c' }}>
+          <label className="font-semibold text-[12px] sm:text-[13px]" style={{ color: '#26364c' }}>
             Preferred Day <span style={{ color: '#ff7518' }}>*</span>
           </label>
           <div className="relative">
@@ -244,7 +244,7 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
                 setSelectedTime('');
                 setErrors(prev => ({ ...prev, day: '', time: '' }));
               }}
-              className="w-full rounded-[8px] border px-3 py-2.5 text-[13px] appearance-none bg-white"
+              className="w-full rounded-[8px] border px-3 py-2 text-[12px] sm:text-[13px] appearance-none bg-white"
               style={{ borderColor: errors.day ? '#ef4444' : '#e0e0e0' }}
             >
               <option value="">Select a day</option>
@@ -252,38 +252,38 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
                 <option key={day} value={day}>{day}</option>
               ))}
             </select>
-            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none" style={{ color: '#62748e' }} />
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-3.5 sm:h-3.5 pointer-events-none" style={{ color: '#62748e' }} />
           </div>
-          {errors.day && <p className="text-[11px]" style={{ color: '#ef4444' }}>{errors.day}</p>}
+          {errors.day && <p className="text-[10px] sm:text-[11px]" style={{ color: '#ef4444' }}>{errors.day}</p>}
         </div>
       )}
 
       {/* Time Slots - Buttons (like original) */}
       {data.doctorSelection.doctorId && selectedDay && (
         <div>
-          <div className="flex items-center gap-2 mb-3">
-            <Clock className="h-4 w-4" style={{ color: '#ff7518' }} />
-            <h3 className="font-bold text-[13px]" style={{ color: '#071e36' }}>Select Time</h3>
+          <div className="flex items-center gap-2 mb-2 sm:mb-3">
+            <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4" style={{ color: '#ff7518' }} />
+            <h3 className="font-bold text-[12px] sm:text-[13px]" style={{ color: '#071e36' }}>Select Time</h3>
           </div>
-          <p className="text-[12px] mb-3" style={{ color: '#62748e' }}>
+          <p className="text-[11px] sm:text-[12px] mb-2 sm:mb-3" style={{ color: '#62748e' }}>
             Available time slots for {selectedDay}
           </p>
-          {errors.time && <p className="text-[12px] mb-2" style={{ color: '#ef4444' }}>{errors.time}</p>}
+          {errors.time && <p className="text-[11px] sm:text-[12px] mb-2" style={{ color: '#ef4444' }}>{errors.time}</p>}
 
           {isLoading ? (
-            <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5 sm:gap-2">
               {[...Array(8)].map((_, i) => (
-                <Skeleton key={i} className="h-9 w-full rounded-[8px]" />
+                <Skeleton key={i} className="h-8 sm:h-9 w-full rounded-[8px]" />
               ))}
             </div>
           ) : availableSlots.length > 0 ? (
-            <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5 sm:gap-2">
               {availableSlots.map((slot) => (
                 <Button
                   key={slot.time}
                   type="button"
                   variant={selectedTime === slot.time ? "default" : "outline"}
-                  className="w-full rounded-[8px] text-[12px] font-semibold transition-all duration-200 h-9"
+                  className="w-full rounded-[8px] text-[11px] sm:text-[12px] font-semibold transition-all duration-200 h-8 sm:h-9"
                   style={{
                     background: selectedTime === slot.time ? '#071e36' : '#fff',
                     borderColor: selectedTime === slot.time ? '#071e36' : '#e0e0e0',
@@ -296,10 +296,10 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
               ))}
             </div>
           ) : (
-            <div className="text-center py-6 border rounded-lg" style={{ borderColor: '#e0e0e0', background: '#f8fafc' }}>
-              <Clock className="h-6 w-6 mx-auto mb-2" style={{ color: '#62748e' }} />
-              <p className="text-[12px]" style={{ color: '#62748e' }}>No available slots for this day</p>
-              <p className="text-[11px] mt-1" style={{ color: '#62748e' }}>Please select another day.</p>
+            <div className="text-center py-4 sm:py-6 border rounded-lg" style={{ borderColor: '#e0e0e0', background: '#f8fafc' }}>
+              <Clock className="h-5 w-5 sm:h-6 sm:w-6 mx-auto mb-1.5 sm:mb-2" style={{ color: '#62748e' }} />
+              <p className="text-[11px] sm:text-[12px]" style={{ color: '#62748e' }}>No available slots for this day</p>
+              <p className="text-[10px] sm:text-[11px] mt-1" style={{ color: '#62748e' }}>Please select another day.</p>
             </div>
           )}
         </div>
@@ -307,16 +307,16 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
 
       {/* Contact Methods */}
       <div>
-        <div className="flex items-center gap-2 mb-3">
-          <Phone className="h-4 w-4" style={{ color: '#ff7518' }} />
-          <h3 className="font-bold text-[13px]" style={{ color: '#071e36' }}>Contact Method</h3>
+        <div className="flex items-center gap-2 mb-2 sm:mb-3">
+          <Phone className="h-3.5 w-3.5 sm:h-4 sm:w-4" style={{ color: '#ff7518' }} />
+          <h3 className="font-bold text-[12px] sm:text-[13px]" style={{ color: '#071e36' }}>Contact Method</h3>
         </div>
-        <p className="text-[12px] mb-3" style={{ color: '#62748e' }}>
+        <p className="text-[11px] sm:text-[12px] mb-2 sm:mb-3" style={{ color: '#62748e' }}>
           How would you like us to contact you?
         </p>
-        {errors.contact && <p className="text-[12px] mb-2" style={{ color: '#ef4444' }}>{errors.contact}</p>}
+        {errors.contact && <p className="text-[11px] sm:text-[12px] mb-2" style={{ color: '#ef4444' }}>{errors.contact}</p>}
 
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {contactMethods.map((method) => {
             const selected = data.contactPreferences.contactMethod === method.id;
             return (
@@ -328,7 +328,7 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
                   updateContactPreferences({ contactMethod: method.id as any });
                   setErrors(prev => ({ ...prev, contact: '' }));
                 }}
-                className={`text-left p-3 rounded-[12px] border-2 transition-all duration-200 relative cursor-pointer ${
+                className={`text-left p-2.5 sm:p-3 rounded-[10px] sm:rounded-[12px] border-2 transition-all duration-200 relative cursor-pointer ${
                   selected ? 'ring-2 ring-[#ff7518]/20' : ''
                 }`}
                 style={{
@@ -337,17 +337,17 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
                 }}
               >
                 {selected && (
-                  <div className="absolute top-2 right-2 w-4 h-4 rounded-full flex items-center justify-center" style={{ background: '#071e36' }}>
-                    <CheckCircle2 className="w-3 h-3 text-white" />
+                  <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center" style={{ background: '#071e36' }}>
+                    <CheckCircle2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                   </div>
                 )}
                 <div className="flex items-start gap-2">
-                  <span className="text-xl">{method.icon}</span>
+                  <span className="text-lg sm:text-xl">{method.icon}</span>
                   <div className="flex-1">
-                    <p className="font-bold text-[12px] mb-0.5" style={{ color: selected ? '#071e36' : '#171717' }}>
+                    <p className="font-bold text-[11px] sm:text-[12px] mb-0.5" style={{ color: selected ? '#071e36' : '#171717' }}>
                       {method.title}
                     </p>
-                    <p className="text-[10px]" style={{ color: '#62748e' }}>
+                    <p className="text-[9px] sm:text-[10px]" style={{ color: '#62748e' }}>
                       {method.description}
                     </p>
                   </div>
@@ -359,12 +359,12 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
       </div>
 
       {/* Footer with Back and Continue buttons */}
-      <div className="flex justify-between items-center pt-3 mt-1" style={{ borderTop: '1px solid #f1f5f9' }}>
+      <div className="flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center gap-3 pt-3 mt-1 border-t border-[#f1f5f9]">
         <Button
           type="button"
           variant="outline"
           onClick={onBack}
-          className="rounded-full text-[12px] font-semibold px-5 py-2"
+          className="rounded-full text-[11px] sm:text-[12px] font-semibold px-4 sm:px-5 py-1.5 sm:py-2 w-full sm:w-auto"
           style={{ borderColor: '#e0e0e0', color: '#62748e' }}
         >
           ← Back
@@ -372,7 +372,7 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
         <Button
           onClick={handleNext}
           disabled={!isFormValid}
-          className="rounded-full text-[12px] font-black px-6 py-2 transition-all hover:-translate-y-px disabled:opacity-40 disabled:cursor-not-allowed"
+          className="rounded-full text-[11px] sm:text-[12px] font-black px-5 sm:px-6 py-1.5 sm:py-2 transition-all hover:-translate-y-px disabled:opacity-40 disabled:cursor-not-allowed w-full sm:w-auto"
           style={{
             background: isFormValid ? '#ff7518' : '#e0e0e0',
             color: isFormValid ? '#fff' : '#62748e',
