@@ -15,7 +15,7 @@ const HERO_IMGS = [
   'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995798/YY4_2_of9xhh.webp',
 ]
 const BEFORE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180685/david_before_zwo4zp.jpg'
-const AFTER_IMG  = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180681/david_after_dgjqtz.jpg'
+const AFTER_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180681/david_after_dgjqtz.jpg'
 const DONATE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778184935/donate_image_1_baccc2.png'
 
 interface ServiceItem {
@@ -32,7 +32,7 @@ const SERVICES: ServiceItem[] = [
     img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000764/Surgery_-_Home_cxgpe5.jpg',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
       </svg>
     ),
   },
@@ -42,7 +42,7 @@ const SERVICES: ServiceItem[] = [
     img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778179995/nutrition-home_1_vpsqeq.jpg',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-        <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/>
+        <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3" />
       </svg>
     ),
   },
@@ -52,7 +52,7 @@ const SERVICES: ServiceItem[] = [
     img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778179639/orthodontics-home_zzxjvc.jpg',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-        <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/>
+        <circle cx="12" cy="12" r="10" /><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" />
       </svg>
     ),
   },
@@ -62,7 +62,7 @@ const SERVICES: ServiceItem[] = [
     img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000862/Speech_Therapy_aksuao.jpg',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
       </svg>
     ),
   },
@@ -72,7 +72,7 @@ const SERVICES: ServiceItem[] = [
     img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000766/ENT_zwe3nh.png',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-        <path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+        <path d="M3 18v-6a9 9 0 0 1 18 0v6" /><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
       </svg>
     ),
   },
@@ -82,7 +82,7 @@ const SERVICES: ServiceItem[] = [
     img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000764/pshyocology_gsvwmr.png',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
       </svg>
     ),
   },
@@ -174,6 +174,8 @@ export default function Home() {
   const { openModal } = useDonation()
   const [activeService, setActiveService] = useState<number>(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const [isHovered, setIsHovered] = useState(false);
+
 
   function selectService(i: number) {
     setActiveService(i)
@@ -231,9 +233,8 @@ export default function Home() {
               <button
                 key={i}
                 onClick={() => setHeroIdx(i)}
-                className={`h-1.5 rounded-full transition-all duration-500 ${
-                  i === heroIdx ? 'w-8 bg-accent' : 'w-2 bg-white/30 hover:bg-white/50'
-                }`}
+                className={`h-1.5 rounded-full transition-all duration-500 ${i === heroIdx ? 'w-8 bg-accent' : 'w-2 bg-white/30 hover:bg-white/50'
+                  }`}
               />
             ))}
           </div>
@@ -369,17 +370,17 @@ export default function Home() {
             variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.13, delayChildren: 0.1 } } }}
           >
             {[
-              { num: '700', suffix: '+', label: 'Lives Transformed', sub: 'Since 2022',   desc: 'Patients who received comprehensive cleft care at no cost' },
-              { num: '6',   suffix: '+', label: 'Specialties',       sub: 'Under one roof', desc: 'Surgery, orthodontics, speech, ENT, nutrition & psychosocial care' },
-              { num: '100', suffix: '%', label: 'Free Care',         sub: 'Always',       desc: 'No fees, no waiting lists — every patient is treated' },
+              { num: '700', suffix: '+', label: 'Lives Transformed', sub: 'Since 2022', desc: 'Patients who received comprehensive cleft care at no cost' },
+              { num: '6', suffix: '+', label: 'Specialties', sub: 'Under one roof', desc: 'Surgery, orthodontics, speech, ENT, nutrition & psychosocial care' },
+              { num: '100', suffix: '%', label: 'Free Care', sub: 'Always', desc: 'No fees, no waiting lists — every patient is treated' },
             ].map(({ num, suffix, label, sub, desc }) => (
               <motion.div
                 key={label}
                 className="group relative px-8 py-14 md:py-16 border-b md:border-b-0 md:border-r last:border-r-0"
                 style={{ borderColor: 'rgba(255,255,255,0.08)' }}
                 variants={{
-                  hidden:   { opacity: 0, y: 44, filter: 'blur(12px)' },
-                  visible:  { opacity: 1, y: 0,  filter: 'blur(0px)', transition: { duration: 0.72, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
+                  hidden: { opacity: 0, y: 44, filter: 'blur(12px)' },
+                  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.72, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
                 }}
               >
                 <div
@@ -760,33 +761,65 @@ export default function Home() {
       {/* ══════════════════════════════════
           DONATE CTA
       ══════════════════════════════════ */}
+
       <Reveal direction="up">
         <section className="py-8 sm:py-10 lg:py-14">
           <div className={WRAP}>
             <div
               className="relative overflow-hidden rounded-[24px] sm:rounded-[28px]"
               style={{ minHeight: '440px' }}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
             >
-              <img
+              {/* Both images rendered simultaneously for smoother crossfade */}
+              <motion.img
                 src={DONATE_IMG}
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover"
+                animate={{ opacity: isHovered ? 0 : 1 }}
+                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
               />
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    'linear-gradient(to right, rgba(7,30,54,0.05) 0%, rgba(7,30,54,0.65) 45%, rgba(7,30,54,0.93) 100%)',
+
+              <motion.img
+                src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999849/0B2A0279_fzju18.jpg"
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover"
+                animate={{
+                  opacity: isHovered ? 1 : 0,
+                  scale: isHovered ? 1 : 1.02
+                }}
+                transition={{
+                  duration: 0.7,
+                  ease: [0.25, 0.1, 0.25, 1],
+                  opacity: { duration: 0.7 },
+                  scale: { duration: 0.9, ease: [0.32, 0, 0.67, 0] }
                 }}
               />
+
+              {/* Gradient Overlay with subtle hover enhancement */}
+              <motion.div
+                className="absolute inset-0"
+                style={{
+                  background: 'linear-gradient(to right, rgba(7,30,54,0.05) 0%, rgba(7,30,54,0.65) 45%, rgba(7,30,54,0.93) 100%)',
+                }}
+                animate={{
+                  background: isHovered
+                    ? 'linear-gradient(to right, rgba(7,30,54,0.15) 0%, rgba(7,30,54,0.75) 45%, rgba(7,30,54,0.95) 100%)'
+                    : 'linear-gradient(to right, rgba(7,30,54,0.05) 0%, rgba(7,30,54,0.65) 45%, rgba(7,30,54,0.93) 100%)'
+                }}
+                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+              />
+
               <div className="relative z-10 flex items-center justify-end min-h-[440px]">
                 <div className="max-w-[460px] p-10 sm:p-12 lg:p-16">
-                  <p
+                  <motion.p
                     className="font-black uppercase tracking-[3px] mb-5"
                     style={{ fontSize: '9.5px', color: 'rgba(255,255,255,0.32)' }}
+                    animate={{ opacity: isHovered ? 0.7 : 1 }}
+                    transition={{ duration: 0.5 }}
                   >
                     Make a Difference
-                  </p>
+                  </motion.p>
                   <h2
                     className="font-black text-white leading-[1.06] tracking-[-1.5px] mb-5"
                     style={{ fontSize: 'clamp(1.9rem, 3.6vw, 3.2rem)' }}
@@ -796,18 +829,22 @@ export default function Home() {
                       First Smile
                     </em>
                   </h2>
-                  <p
+                  <motion.p
                     className="text-[14px] leading-[1.9] mb-9 font-light"
                     style={{ color: 'rgba(255,255,255,0.50)' }}
+                    animate={{ opacity: isHovered ? 0.85 : 1 }}
+                    transition={{ duration: 0.5 }}
                   >
                     Your generosity brings life-changing cleft care to those who need it most.
-                  </p>
-                  <button
+                  </motion.p>
+                  <motion.button
                     onClick={openModal}
                     className="inline-flex items-center gap-2 bg-white text-accent font-black text-[13px] px-7 py-3.5 rounded-full hover:bg-accent hover:text-white transition-all duration-200 shadow-xl hover:-translate-y-px"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     Donate Now <ArrowRight />
-                  </button>
+                  </motion.button>
                 </div>
               </div>
             </div>

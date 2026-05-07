@@ -6,7 +6,8 @@ import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 
 /* ─── Assets ─── */
-const LOGO_URL = 'https://www.figma.com/api/mcp/asset/6e240b3b-03c9-4c9a-913f-1bff1dfaaa99'
+const LOGO_URL_DARK = './DARK.webp'
+const LOGO_URL_LIGHT = './LIGHT.webp'
 
 /* Pages where the hero is dark (nav starts white when unscrolled) */
 const DARK_HERO_PAGES = new Set(['/'])
@@ -113,20 +114,20 @@ export default function Nav() {
       >
         <div className="max-w-[1366px] mx-auto px-4 sm:px-5">
           <motion.div
-            className="rounded-[28px] transition-all duration-500"
+            className="rounded-[28px] transition-all duration-500 "
             style={scrolled
               ? { background: 'rgba(7,30,54,0.92)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', boxShadow: '0 8px 36px rgba(7,30,54,0.30)' }
               : { background: 'transparent', backdropFilter: 'none', boxShadow: 'none' }
             }
           >
-            <div className="flex items-center justify-between px-4 sm:px-5 py-3">
+            <div className="flex items-center justify-between px-2 sm:px-5 py-3">
 
               {/* Logo */}
               <Link href="/" className="shrink-0 flex items-center">
                 <motion.img
-                  src={LOGO_URL}
+                  src={scrolled ? LOGO_URL_LIGHT : LOGO_URL_DARK}
                   alt="BelaRisu Medical Centre"
-                  style={{ height: 42, width: 'auto' }}
+                  style={{ height: 30, width: 'auto' }}
                   className="object-contain"
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 20 }}
@@ -233,10 +234,10 @@ export default function Nav() {
             />
 
             {/* Top bar with logo + close area */}
-            <div className="relative z-10 flex items-center justify-between px-6 pt-6 pb-4">
-              <img src={LOGO_URL} alt="BMC" style={{ height: 36, width: 'auto' }} className="object-contain opacity-90" />
+            {/* <div className="relative z-10 flex items-center justify-between px-6 pt-6 pb-4">
+              <img src={LOGO_URL_LIGHT} alt="BMC" style={{ height: 26, width: 'auto' }} className="object-contain opacity-90" />
               <span className="text-white/40 text-[11px] font-black tracking-[2px] uppercase">Menu</span>
-            </div>
+            </div> */}
 
             {/* Nav links */}
             <div className="relative z-10 flex-1 flex flex-col justify-center px-6 gap-1">

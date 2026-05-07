@@ -24,7 +24,7 @@ const IMG_SDG_4        = 'https://www.figma.com/api/mcp/asset/74c680f4-450b-45e0
 const IMG_SDG_10       = 'https://www.figma.com/api/mcp/asset/ed06a0d9-118e-4c13-a25d-490bf570ded2'
 const IMG_SDG_17       = 'https://www.figma.com/api/mcp/asset/90f9f1b3-b764-4957-8b59-5b1c00fcad85'
 const IMG_SDG_8        = 'https://www.figma.com/api/mcp/asset/db54ed81-a432-4dac-b789-b1e65b1ea065'
-const IMG_DONATE_BG    = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778184935/donate_image_1_baccc2.png'
+const IMG_DONATE_BG    = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999858/Brighton_Chacha_Marwa_4yrs_z6cg85.jpg'
 const IMG_QUOTE_BG     = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778182124/every_smile_1_p8yhro.jpg'
 
 /* ─── Service icon assets ─── */
@@ -231,6 +231,8 @@ export default function About() {
   const { openModal } = useDonation()
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null)
   const [filterDept, setFilterDept] = useState<TeamDept>('All')
+  const [isHovered, setIsHovered] = useState(false);
+
 
   /* ── Team carousel ── */
   const teamCarouselRef = useRef<HTMLDivElement>(null)
@@ -549,43 +551,92 @@ export default function About() {
       {/* ══════════════════════════════════
           DONATE CTA
       ══════════════════════════════════ */}
-      <div className={`${WRAP} pb-20 xl:pb-[100px]`}>
-        <Reveal direction="up">
-          <div className="relative rounded-[24px] overflow-hidden" style={{ minHeight: '523px' }}>
-            <img src={IMG_DONATE_BG} alt="" className="absolute inset-0 w-full h-full object-cover" />
-            <div
-              className="absolute inset-0"
-              style={{ background: 'linear-gradient(to right, rgba(5,5,5,0.0) 20%, rgba(5,5,5,0.45) 52%, rgba(5,5,5,0.82) 100%)' }}
-            />
-            <div className="relative z-10 flex items-center justify-end min-h-[523px]">
-              <div className="max-w-[580px] p-10 sm:p-12 xl:p-16 flex flex-col gap-5">
-                <h2
-                  className="font-black leading-[1.1] tracking-[-0.04em]"
-                  style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}
-                >
-                  <span style={{ color: '#171717' }}>Give a Child Their </span>
-                  <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>First Smile</em>
-                </h2>
-                <p className="leading-[1.7]" style={{ fontSize: '18px', color: '#071e36', maxWidth: '440px' }}>
-                  Your generosity brings life-changing care to those who need it most. Join us in making a profound difference.
-                </p>
-                <div>
-                  <button
-                    onClick={openModal}
-                    className="inline-flex items-center gap-2 font-black text-[16px] px-8 py-4 rounded-[16px] transition-all duration-200 hover:opacity-90"
-                    style={{ background: '#fff', color: '#ff7518', boxShadow: '0 4px 20px rgba(0,0,0,0.12)' }}
-                  >
-                    Donate Now
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
+     <div className={`${WRAP} pb-20 xl:pb-[100px]`}>
+  <Reveal direction="up">
+    <div 
+      className="relative rounded-[24px] overflow-hidden" 
+      style={{ minHeight: '523px' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Default Image */}
+      <motion.img 
+        src={IMG_DONATE_BG} 
+        alt="" 
+        className="absolute inset-0 w-full h-full object-cover"
+        animate={{ opacity: isHovered ? 0 : 1 }}
+        transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+      />
+      
+      {/* Hover Image */}
+      <motion.img 
+        src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999855/Brighton_Chacha_Marwa_4yrs._ie0vzj.jpg" 
+        alt="" 
+        className="absolute inset-0 w-full h-full object-cover"
+        animate={{ 
+          opacity: isHovered ? 1 : 0,
+          scale: isHovered ? 1 : 1.08
+        }}
+        transition={{ 
+          duration: 0.7, 
+          ease: [0.25, 0.1, 0.25, 1],
+          opacity: { duration: 0.7 },
+          scale: { duration: 0.9, ease: [0.32, 0, 0.67, 0] }
+        }}
+      />
+      
+      {/* Gradient Overlay with hover enhancement */}
+      <motion.div
+        className="absolute inset-0"
+        style={{ 
+          background: 'linear-gradient(to right, rgba(5,5,5,0.0) 20%, rgba(5,5,5,0.45) 52%, rgba(5,5,5,0.82) 100%)' 
+        }}
+        animate={{
+          background: isHovered 
+            ? 'linear-gradient(to right, rgba(5,5,5,0.1) 20%, rgba(5,5,5,0.55) 52%, rgba(5,5,5,0.88) 100%)'
+            : 'linear-gradient(to right, rgba(5,5,5,0.0) 20%, rgba(5,5,5,0.45) 52%, rgba(5,5,5,0.82) 100%)'
+        }}
+        transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+      />
+      
+      <div className="relative z-10 flex items-center justify-end min-h-[523px]">
+        <div className="max-w-[580px] p-10 sm:p-12 xl:p-16 flex flex-col gap-5">
+          <motion.h2
+            className="font-black leading-[1.1] tracking-[-0.04em]"
+            style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}
+            animate={{ opacity: isHovered ? 0.95 : 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <span className='text-white'>Give a Child Their </span>
+            <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>First Smile</em>
+          </motion.h2>
+          <motion.p 
+            className="leading-[1.7]" 
+            style={{ fontSize: '18px', color: '#fff', maxWidth: '440px' }}
+            animate={{ opacity: isHovered ? 0.9 : 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            Your generosity brings life-changing care to those who need it most. Join us in making a profound difference.
+          </motion.p>
+          <div>
+            <motion.button
+              onClick={openModal}
+              className="inline-flex items-center gap-2 font-black text-[16px] px-8 py-4 rounded-[16px] transition-all duration-200 hover:opacity-90"
+              style={{ background: '#fff', color: '#ff7518', boxShadow: '0 4px 20px rgba(0,0,0,0.12)' }}
+              whileHover={{ scale: 1.02, opacity: 0.95 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Donate Now
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </motion.button>
           </div>
-        </Reveal>
+        </div>
       </div>
+    </div>
+  </Reveal>
+</div>
 
       {/* ══════════════════════════════════
           TEAM
