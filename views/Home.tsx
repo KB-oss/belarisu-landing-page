@@ -16,7 +16,7 @@ const HERO_IMGS = [
 ]
 const BEFORE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180685/david_before_zwo4zp.jpg'
 const AFTER_IMG  = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180681/david_after_dgjqtz.jpg'
-const DONATE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999852/0B2A0278_mnqywn.jpg'
+const DONATE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778184935/donate_image_1_baccc2.png'
 
 interface ServiceItem {
   title: string
@@ -287,7 +287,7 @@ export default function Home() {
                 <motion.p
                   variants={heroItem}
                   className="text-[15px] sm:text-[16px] leading-[1.9] mb-10 max-w-[400px] font-light"
-                  style={{ color: 'rgba(255,255,255,0.58)' }}
+                  style={{ color: 'rgba(255,255,255,0.90)' }}
                 >
                   Giving every child the chance to live a healthy, confident life — regardless of where they were born.
                 </motion.p>

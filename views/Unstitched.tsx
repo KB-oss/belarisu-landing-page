@@ -8,7 +8,7 @@ const PLAYFAIR = "'Playfair Display', Georgia, 'Times New Roman', serif"
 const WRAP = 'w-full max-w-[1366px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20'
 
 /* ─── Assets ─── */
-const IMG_HERO = 'https://www.figma.com/api/mcp/asset/9136c3cb-3edf-425f-8d29-31f303654ef9'
+const IMG_HERO = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995839/MM9_ar0km0.webp'
 
 /* ═══════════════════════════════════════ */
 export default function Unstitched() {

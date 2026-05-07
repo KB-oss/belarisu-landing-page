@@ -9,7 +9,7 @@ const PLAYFAIR = "'Playfair Display', Georgia, 'Times New Roman', serif"
 const WRAP = 'w-full max-w-[1366px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20'
 
 /* ─── Assets ─── */
-const IMG_DONATE_BG = 'https://www.figma.com/api/mcp/asset/cb1c0fde-e50f-4de1-bf06-f15f545310bb'
+const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778184935/donate_image_1_baccc2.png'
 
 interface GalleryImage {
   src: string
@@ -17,18 +17,18 @@ interface GalleryImage {
 }
 
 const ALL_IMGS: GalleryImage[] = [
-  { src: 'https://www.figma.com/api/mcp/asset/fe4616c9-b7c1-4c89-923f-ff9ff6553a62', tag: 'Surgery' },
-  { src: 'https://www.figma.com/api/mcp/asset/67319a10-2792-4b77-b3f0-3ee2b7009e59', tag: 'Surgery' },
-  { src: 'https://www.figma.com/api/mcp/asset/ecfed35b-d125-43b9-afbb-1bfd4efedaf9', tag: 'Surgery' },
-  { src: 'https://www.figma.com/api/mcp/asset/99fa4cd2-a58a-4e1c-b727-0e5627ecc415', tag: 'Nutrition' },
-  { src: 'https://www.figma.com/api/mcp/asset/64260d8a-03f7-4a9e-b545-4647556fe538', tag: 'Nutrition' },
-  { src: 'https://www.figma.com/api/mcp/asset/f001bda8-c97f-4c17-9f0a-5fe9c7a167d5', tag: 'Surgery' },
-  { src: 'https://www.figma.com/api/mcp/asset/4f22803b-bccc-41ce-a0b7-f22934465126', tag: 'Surgery' },
-  { src: 'https://www.figma.com/api/mcp/asset/42e0f05d-6463-46d5-a2cd-9ae3ee5f3ecc', tag: 'Nutrition' },
-  { src: 'https://www.figma.com/api/mcp/asset/c029f2e2-63dc-4dc7-a562-fd7e57d473b4', tag: 'Surgery' },
-  { src: 'https://www.figma.com/api/mcp/asset/83ca3b6c-dbda-4577-a838-35e56ef67f0d', tag: 'Nutrition' },
-  { src: 'https://www.figma.com/api/mcp/asset/19b1221b-c97d-4284-834a-94720bd5d901', tag: 'Surgery' },
-  { src: 'https://www.figma.com/api/mcp/asset/4f3f045f-4c51-4c7a-8de1-4506e7794f09', tag: 'Surgery' },
+  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002949/IMG_0336_mh0hqn.jpg', tag: 'Surgery' },
+  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180681/david_after_dgjqtz.jpg', tag: 'Surgery' },
+  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997446/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_1_caajti.webp', tag: 'Surgery' },
+  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778183880/nutrition-gallery_wxzsnf.jpg', tag: 'Nutrition' },
+  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778183880/gallery_image_kf4g65.jpg', tag: 'Nutrition' },
+  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002940/1H4A1037_wldags.jpg', tag: 'Surgery' },
+  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778184193/gallery_surgery_1_uw57yb.jpg', tag: 'Surgery' },
+  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778003058/1H4A2800_kzsqy6.jpg', tag: 'Nutrition' },
+  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778184193/gallery_surgery_qc6kk8.jpg', tag: 'Surgery' },
+  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995798/YY4_2_of9xhh.webp', tag: 'Nutrition' },
+  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002968/1H4A2346_kosbyt.jpg', tag: 'Surgery' },
+  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995839/MM9_ar0km0.webp', tag: 'Surgery' },
 ]
 
 const FILTERS = ['All Stories', 'Surgery', 'Nutrition'] as const

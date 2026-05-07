@@ -10,13 +10,13 @@ const PLAYFAIR = "'Playfair Display', Georgia, 'Times New Roman', serif"
 const WRAP = 'w-full max-w-[1366px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20'
 
 /* ─── Figma assets ─── */
-const IMG_SURGERY   = 'https://www.figma.com/api/mcp/asset/3f173d4d-18f8-4f14-ad99-cf8f8d3b4125'
-const IMG_ORTHO     = 'https://www.figma.com/api/mcp/asset/07955c6c-c054-4ee0-8241-cdc4eef2a349'
-const IMG_SPEECH    = 'https://www.figma.com/api/mcp/asset/80a4e38c-b6e3-4c21-af6e-02acc7b05789'
-const IMG_NUTRITION = 'https://www.figma.com/api/mcp/asset/678162ba-b7f7-4053-ae06-f2d2956c20d8'
-const IMG_PSYCHO    = 'https://www.figma.com/api/mcp/asset/3e29ec2c-0078-41ad-8037-334d195d687f'
-const IMG_ENT       = 'https://www.figma.com/api/mcp/asset/637ea42f-fb96-4545-9652-bddddc04ddfd'
-const IMG_DONATE_BG = 'https://www.figma.com/api/mcp/asset/3a021e1f-db60-44d1-b595-cea02364e295'
+const IMG_SURGERY   = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000763/Cleft_Palate_Repair_qiuaeo.jpg'
+const IMG_ORTHO     = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778182524/orthodontics-service_ctmo2d.png'
+const IMG_SPEECH    = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000862/Speech_Therapy_aksuao.jpg'
+const IMG_NUTRITION = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778179995/nutrition-home_1_vpsqeq.jpg'
+const IMG_PSYCHO    = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000764/pshyocology_gsvwmr.png'
+const IMG_ENT       = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000766/ENT_zwe3nh.png'
+const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778184935/donate_image_1_baccc2.png'
 
 /* ─── Types ─── */
 interface SubItem {
