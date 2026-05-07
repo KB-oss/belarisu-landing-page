@@ -9,14 +9,14 @@ import { useDonation } from '../context/DonationContext'
 
 /* ─── Assets ─── */
 const HERO_IMGS = [
-  'https://www.figma.com/api/mcp/asset/0a2effff-3d08-41b3-acfe-d594c2d3db0d',
-  'https://www.figma.com/api/mcp/asset/5e2dd57e-7e3f-4335-bd01-b40f9a7d795a',
-  'https://www.figma.com/api/mcp/asset/8dad70f4-67a0-4bb5-b4d2-ac7ff9ea75b7',
-  'https://www.figma.com/api/mcp/asset/e124c35d-905b-452c-bea6-b3ae92754dc7',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995830/0B2A4824-2_fta35x.webp',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995839/MM9_ar0km0.webp',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995833/0B2A0490_vvf8yg.webp',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995798/YY4_2_of9xhh.webp',
 ]
-const BEFORE_IMG = 'https://www.figma.com/api/mcp/asset/cf80c6cd-90d9-40b6-92e0-717cc9d71e63'
-const AFTER_IMG  = 'https://www.figma.com/api/mcp/asset/f31f003e-f287-4e47-9a7f-8c12d4401d6d'
-const DONATE_IMG = 'https://www.figma.com/api/mcp/asset/d4e5a932-479d-43c6-a345-30ba9af58bb2'
+const BEFORE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180685/david_before_zwo4zp.jpg'
+const AFTER_IMG  = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180681/david_after_dgjqtz.jpg'
+const DONATE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999852/0B2A0278_mnqywn.jpg'
 
 interface ServiceItem {
   title: string
@@ -29,7 +29,7 @@ const SERVICES: ServiceItem[] = [
   {
     title: 'Surgery',
     desc: 'Highly specialized surgical repair of cleft lip and cleft palate performed by experienced surgeons using modern techniques to restore function and appearance.',
-    img: 'https://www.figma.com/api/mcp/asset/5a01bcf6-88c5-4eec-a262-a117c12ec5b9',
+    img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000764/Surgery_-_Home_cxgpe5.jpg',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -39,7 +39,7 @@ const SERVICES: ServiceItem[] = [
   {
     title: 'Nutrition Support',
     desc: 'Children born with cleft conditions often face feeding challenges. Our nutrition team provides specialised guidance, growth monitoring, and nutritional rehabilitation.',
-    img: 'https://www.figma.com/api/mcp/asset/4b789434-71e0-4b45-a3b3-553939ff9017',
+    img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778179995/nutrition-home_1_vpsqeq.jpg',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
         <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/>
@@ -49,7 +49,7 @@ const SERVICES: ServiceItem[] = [
   {
     title: 'Orthodontics & Dental',
     desc: 'Orthodontic assessment and treatment guide proper jaw development, improve dental alignment, and support patients in long-term oral health as they grow.',
-    img: 'https://www.figma.com/api/mcp/asset/a8e57192-7dd5-4331-abb6-7211359745bd',
+    img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778179639/orthodontics-home_zzxjvc.jpg',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
         <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/>
@@ -59,7 +59,7 @@ const SERVICES: ServiceItem[] = [
   {
     title: 'Speech & Language Therapy',
     desc: 'Speech therapy helps children and adults develop clear, confident communication following cleft palate repair, supporting them in school and social life.',
-    img: 'https://www.figma.com/api/mcp/asset/4da51ed3-c872-4245-ad77-f5becd5d07f0',
+    img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000862/Speech_Therapy_aksuao.jpg',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -69,7 +69,7 @@ const SERVICES: ServiceItem[] = [
   {
     title: 'ENT Care',
     desc: 'Children with cleft conditions are at higher risk of ear infections and hearing loss. Regular ENT care monitors hearing, treats infections, and protects airway health.',
-    img: 'https://www.figma.com/api/mcp/asset/f458fd3d-9bee-48f2-8377-53c4717e725b',
+    img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000766/ENT_zwe3nh.png',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
         <path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
@@ -79,7 +79,7 @@ const SERVICES: ServiceItem[] = [
   {
     title: 'Psychosocial Counseling',
     desc: 'Emotional wellbeing is as important as physical health. Our counselors support patients and families in building confidence, coping with stigma, and thriving socially.',
-    img: 'https://www.figma.com/api/mcp/asset/d290398f-22d6-440a-85f5-e216958bbd91',
+    img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000764/pshyocology_gsvwmr.png',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -369,7 +369,7 @@ export default function Home() {
             variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.13, delayChildren: 0.1 } } }}
           >
             {[
-              { num: '600', suffix: '+', label: 'Lives Transformed', sub: 'Since 2022',   desc: 'Patients who received comprehensive cleft care at no cost' },
+              { num: '700', suffix: '+', label: 'Lives Transformed', sub: 'Since 2022',   desc: 'Patients who received comprehensive cleft care at no cost' },
               { num: '6',   suffix: '+', label: 'Specialties',       sub: 'Under one roof', desc: 'Surgery, orthodontics, speech, ENT, nutrition & psychosocial care' },
               { num: '100', suffix: '%', label: 'Free Care',         sub: 'Always',       desc: 'No fees, no waiting lists — every patient is treated' },
             ].map(({ num, suffix, label, sub, desc }) => (
