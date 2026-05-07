@@ -3,7 +3,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Bella Risu Medical Centre',
+  title: 'Belarisu Medical Centre',
   description: 'Free, multidisciplinary cleft lip and cleft palate care for children and adults.',
 }
 

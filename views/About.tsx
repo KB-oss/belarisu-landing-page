@@ -279,12 +279,12 @@ export default function About() {
   }, [selectedMember])
 
   return (
-    <div style={{ background: '#f4f4f4', overflowX: 'clip' }}>
+    <div className="pt-[88px]" style={{ background: '#f4f4f4', overflowX: 'clip' }}>
 
       {/* ══════════════════════════════════
           HERO
       ══════════════════════════════════ */}
-      <div className={`${WRAP} pt-[108px] pb-0`}>
+      <div className={`${WRAP} pt-16 pb-20`}>
         <motion.div
           className="text-center mb-10"
           variants={heroStagger}

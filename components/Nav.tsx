@@ -168,7 +168,7 @@ export default function Nav() {
                   className="inline-flex items-center gap-1.5 text-[12px] tracking-[0.2px] font-semibold px-4 py-2 rounded-full border transition-all duration-200 hover:border-[#ff7518]"
                   style={{ borderColor: borderClr, color: textMain }}
                 >
-                  Foundation <ExternalIcon />
+                  Belarisu Foundation <ExternalIcon />
                 </a>
                 <Link
                   href="/booking"

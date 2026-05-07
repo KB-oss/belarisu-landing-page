@@ -82,11 +82,11 @@ export default function Gallery() {
       {/* ══════════════════════════════════
           HEADER
       ══════════════════════════════════ */}
-      <div className={`${WRAP} pt-14 pb-8 flex flex-col items-center text-center`}>
-        <Reveal direction="up">
+      <div className={`${WRAP} pt-16 pb-8 flex flex-col items-center justify-center text-center`}>
+        <Reveal direction="up" className='flex flex-col items-center justify-center'>
           <h1
             className="font-black leading-[1.05] tracking-[-0.025em] text-[#071e36] mb-4"
-            style={{ fontSize: 'clamp(2.4rem, 5vw, 4rem)' }}
+            style={{ fontSize: 'clamp(2.4rem, 6.6vw, 6rem)' }}
           >
             Witness the{' '}
             <em className="not-italic text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>

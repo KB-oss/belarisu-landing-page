@@ -32,7 +32,7 @@ export default function PageLoader() {
                 <path d="M12 16c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
               </svg>
             </div>
-            <p className="text-white font-black text-xl tracking-tight">Bella Risu</p>
+            <p className="text-white font-black text-xl tracking-tight">Belarisu</p>
             <p className="text-white/40 text-xs tracking-widest uppercase">Medical Centre</p>
           </motion.div>
 
