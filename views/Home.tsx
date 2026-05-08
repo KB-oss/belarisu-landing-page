@@ -14,6 +14,7 @@ const HERO_IMGS = [
   'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995839/MM9_ar0km0.webp',
   'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995833/0B2A0490_vvf8yg.webp',
   'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995798/YY4_2_of9xhh.webp',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246556/ChatGPT_Image_May_8_2026_04_19_15_PM_bafnwv.webp'
 ]
 const BEFORE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002965/1H4A1675_rngiou.jpg'
 const AFTER_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002968/1H4A2346_kosbyt.jpg'
