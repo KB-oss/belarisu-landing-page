@@ -11,29 +11,29 @@ const PLAYFAIR = "'Playfair Display', Georgia, 'Times New Roman', serif"
 const WRAP = 'w-full max-w-[1366px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20'
 
 /* ─── Figma assets ─── */
-const IMG_HERO         = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999410/1H4A3138_rpk5lr.jpg'
-const IMG_STORY_L      = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999411/1H4A3088_enrccn.jpg'
-const IMG_FULL         = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999413/IMG_0019_id2y16.jpg'
-const IMG_CARE_A       = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997868/Care_That_grows_with_you_1_vugnlh.jpg'
-const IMG_CARE_B       = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997867/Care_That_grows_with_you_2JPG_wmezgb.jpg'
-const IMG_CARE_C       = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997868/Care_That_grows_with_you_3_ufwofk.jpg'
-const IMG_SPLIT_L      = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999411/IMG_0011_raryur.jpg'
-const IMG_SPLIT_R      = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999418/1H4A5074_eymfxz.jpg'
-const IMG_SDG_3        = 'https://www.figma.com/api/mcp/asset/76c226ea-d025-4987-84bf-45383411d9b8'
-const IMG_SDG_4        = 'https://www.figma.com/api/mcp/asset/74c680f4-450b-45e0-81ba-40b546e17a58'
-const IMG_SDG_10       = 'https://www.figma.com/api/mcp/asset/ed06a0d9-118e-4c13-a25d-490bf570ded2'
-const IMG_SDG_17       = 'https://www.figma.com/api/mcp/asset/90f9f1b3-b764-4957-8b59-5b1c00fcad85'
-const IMG_SDG_8        = 'https://www.figma.com/api/mcp/asset/db54ed81-a432-4dac-b789-b1e65b1ea065'
-const IMG_DONATE_BG    = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999858/Brighton_Chacha_Marwa_4yrs_z6cg85.jpg'
-const IMG_QUOTE_BG     = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778182124/every_smile_1_p8yhro.jpg'
+const IMG_HERO = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999410/1H4A3138_rpk5lr.jpg'
+const IMG_STORY_L = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999411/1H4A3088_enrccn.jpg'
+const IMG_FULL = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999413/IMG_0019_id2y16.jpg'
+const IMG_CARE_A = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997868/Care_That_grows_with_you_1_vugnlh.jpg'
+const IMG_CARE_B = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997867/Care_That_grows_with_you_2JPG_wmezgb.jpg'
+const IMG_CARE_C = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997868/Care_That_grows_with_you_3_ufwofk.jpg'
+const IMG_SPLIT_L = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999411/IMG_0011_raryur.jpg'
+const IMG_SPLIT_R = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999418/1H4A5074_eymfxz.jpg'
+const IMG_SDG_3 = 'https://www.figma.com/api/mcp/asset/76c226ea-d025-4987-84bf-45383411d9b8'
+const IMG_SDG_4 = 'https://www.figma.com/api/mcp/asset/74c680f4-450b-45e0-81ba-40b546e17a58'
+const IMG_SDG_10 = 'https://www.figma.com/api/mcp/asset/ed06a0d9-118e-4c13-a25d-490bf570ded2'
+const IMG_SDG_17 = 'https://www.figma.com/api/mcp/asset/90f9f1b3-b764-4957-8b59-5b1c00fcad85'
+const IMG_SDG_8 = 'https://www.figma.com/api/mcp/asset/db54ed81-a432-4dac-b789-b1e65b1ea065'
+const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999858/Brighton_Chacha_Marwa_4yrs_z6cg85.jpg'
+const IMG_QUOTE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778182124/every_smile_1_p8yhro.jpg'
 
 /* ─── Service icon assets ─── */
-const ICON_SURGERY     = 'https://www.figma.com/api/mcp/asset/4c0a466c-7d73-4039-99e5-d00e710513d5'
-const ICON_ORTHO       = 'https://www.figma.com/api/mcp/asset/567dea32-92fa-4c64-89fe-5ac2e0471beb'
-const ICON_SPEECH      = 'https://www.figma.com/api/mcp/asset/efdb2ecc-2b32-483e-8eba-4ae689032709'
-const ICON_NUTRITION   = 'https://www.figma.com/api/mcp/asset/d8712e65-6f42-419b-88a9-8f7dbb981e49'
-const ICON_PSYCHO      = 'https://www.figma.com/api/mcp/asset/59096b5d-0cfc-4d1b-9a2b-216e767dc7fd'
-const ICON_QUOTE       = 'https://www.figma.com/api/mcp/asset/f8d52173-4111-46f8-b04f-1764696393d0'
+const ICON_SURGERY = 'https://www.figma.com/api/mcp/asset/4c0a466c-7d73-4039-99e5-d00e710513d5'
+const ICON_ORTHO = 'https://www.figma.com/api/mcp/asset/567dea32-92fa-4c64-89fe-5ac2e0471beb'
+const ICON_SPEECH = 'https://www.figma.com/api/mcp/asset/efdb2ecc-2b32-483e-8eba-4ae689032709'
+const ICON_NUTRITION = 'https://www.figma.com/api/mcp/asset/d8712e65-6f42-419b-88a9-8f7dbb981e49'
+const ICON_PSYCHO = 'https://www.figma.com/api/mcp/asset/59096b5d-0cfc-4d1b-9a2b-216e767dc7fd'
+const ICON_QUOTE = 'https://www.figma.com/api/mcp/asset/f8d52173-4111-46f8-b04f-1764696393d0'
 
 /* ─── Data ─── */
 const CCC_ITEMS: string[] = [
@@ -99,11 +99,11 @@ interface ServiceCard {
 }
 
 const SERVICES_CARDS: ServiceCard[] = [
-  { icon: ICON_SURGERY,   title: 'Cleft Surgery',   sub: 'Primary and secondary surgical repair.' },
-  { icon: ICON_ORTHO,     title: 'Orthodontics',    sub: 'Long-term dental alignment correction.' },
-  { icon: ICON_SPEECH,    title: 'Speech Therapy',  sub: 'Support for communication development.' },
-  { icon: ICON_NUTRITION, title: 'Nutrition',       sub: 'Pre and post-operative feeding support.' },
-  { icon: ICON_PSYCHO,    title: 'Psychosocial',    sub: 'Emotional and counseling support.' },
+  { icon: ICON_SURGERY, title: 'Cleft Surgery', sub: 'Primary and secondary surgical repair.' },
+  { icon: ICON_ORTHO, title: 'Orthodontics', sub: 'Long-term dental alignment correction.' },
+  { icon: ICON_SPEECH, title: 'Speech Therapy', sub: 'Support for communication development.' },
+  { icon: ICON_NUTRITION, title: 'Nutrition', sub: 'Pre and post-operative feeding support.' },
+  { icon: ICON_PSYCHO, title: 'Psychosocial', sub: 'Emotional and counseling support.' },
 ]
 
 interface SocialLinks {
@@ -551,92 +551,92 @@ export default function About() {
       {/* ══════════════════════════════════
           DONATE CTA
       ══════════════════════════════════ */}
-     <div className={`${WRAP} pb-20 xl:pb-[100px]`}>
-  <Reveal direction="up">
-    <div 
-      className="relative rounded-[24px] overflow-hidden" 
-      style={{ minHeight: '523px' }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Default Image */}
-      <motion.img 
-        src={IMG_DONATE_BG} 
-        alt="" 
-        className="absolute inset-0 w-full h-full object-cover"
-        animate={{ opacity: isHovered ? 0 : 1 }}
-        transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-      />
-      
-      {/* Hover Image */}
-      <motion.img 
-        src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999855/Brighton_Chacha_Marwa_4yrs._ie0vzj.jpg" 
-        alt="" 
-        className="absolute inset-0 w-full h-full object-cover"
-        animate={{ 
-          opacity: isHovered ? 1 : 0,
-          scale: isHovered ? 1 : 1.08
-        }}
-        transition={{ 
-          duration: 0.7, 
-          ease: [0.25, 0.1, 0.25, 1],
-          opacity: { duration: 0.7 },
-          scale: { duration: 0.9, ease: [0.32, 0, 0.67, 0] }
-        }}
-      />
-      
-      {/* Gradient Overlay with hover enhancement */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ 
-          background: 'linear-gradient(to right, rgba(5,5,5,0.0) 20%, rgba(5,5,5,0.45) 52%, rgba(5,5,5,0.82) 100%)' 
-        }}
-        animate={{
-          background: isHovered 
-            ? 'linear-gradient(to right, rgba(5,5,5,0.1) 20%, rgba(5,5,5,0.55) 52%, rgba(5,5,5,0.88) 100%)'
-            : 'linear-gradient(to right, rgba(5,5,5,0.0) 20%, rgba(5,5,5,0.45) 52%, rgba(5,5,5,0.82) 100%)'
-        }}
-        transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-      />
-      
-      <div className="relative z-10 flex items-center justify-end min-h-[523px]">
-        <div className="max-w-[580px] p-10 sm:p-12 xl:p-16 flex flex-col gap-5">
-          <motion.h2
-            className="font-black leading-[1.1] tracking-[-0.04em]"
-            style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}
-            animate={{ opacity: isHovered ? 0.95 : 1 }}
-            transition={{ duration: 0.5 }}
+      <div className={`${WRAP} pb-20 xl:pb-[100px]`}>
+        <Reveal direction="up">
+          <div
+            className="relative rounded-[24px] overflow-hidden"
+            style={{ minHeight: '523px' }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
           >
-            <span className='text-white'>Give a Child Their </span>
-            <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>First Smile</em>
-          </motion.h2>
-          <motion.p 
-            className="leading-[1.7]" 
-            style={{ fontSize: '18px', color: '#fff', maxWidth: '440px' }}
-            animate={{ opacity: isHovered ? 0.9 : 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            Your generosity brings life-changing care to those who need it most. Join us in making a profound difference.
-          </motion.p>
-          <div>
-            <motion.button
-              onClick={openModal}
-              className="inline-flex items-center gap-2 font-black text-[16px] px-8 py-4 rounded-[16px] transition-all duration-200 hover:opacity-90"
-              style={{ background: '#fff', color: '#ff7518', boxShadow: '0 4px 20px rgba(0,0,0,0.12)' }}
-              whileHover={{ scale: 1.02, opacity: 0.95 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Donate Now
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </motion.button>
+            {/* Default Image */}
+            <motion.img
+              src={IMG_DONATE_BG}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover"
+              animate={{ opacity: isHovered ? 0 : 1 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+            />
+
+            {/* Hover Image */}
+            <motion.img
+              src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999855/Brighton_Chacha_Marwa_4yrs._ie0vzj.jpg"
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover"
+              animate={{
+                opacity: isHovered ? 1 : 0,
+                scale: isHovered ? 1 : 1.08
+              }}
+              transition={{
+                duration: 0.7,
+                ease: [0.25, 0.1, 0.25, 1],
+                opacity: { duration: 0.7 },
+                scale: { duration: 0.9, ease: [0.32, 0, 0.67, 0] }
+              }}
+            />
+
+            {/* Gradient Overlay with hover enhancement */}
+            <motion.div
+              className="absolute inset-0"
+              style={{
+                background: 'linear-gradient(to right, rgba(5,5,5,0.0) 20%, rgba(5,5,5,0.45) 52%, rgba(5,5,5,0.82) 100%)'
+              }}
+              animate={{
+                background: isHovered
+                  ? 'linear-gradient(to right, rgba(5,5,5,0.1) 20%, rgba(5,5,5,0.55) 52%, rgba(5,5,5,0.88) 100%)'
+                  : 'linear-gradient(to right, rgba(5,5,5,0.0) 20%, rgba(5,5,5,0.45) 52%, rgba(5,5,5,0.82) 100%)'
+              }}
+              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+            />
+
+            <div className="relative z-10 flex items-center justify-end min-h-[523px]">
+              <div className="max-w-[580px] p-10 sm:p-12 xl:p-16 flex flex-col gap-4">
+                <motion.h2
+                  className="font-black leading-[1.2] tracking-[-0.02em]"
+                  style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.8rem)' }}
+                  animate={{ opacity: isHovered ? 0.95 : 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <span className='text-white'>Give a Child Their </span>
+                  <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>First Smile</em>
+                </motion.h2>
+                <motion.p
+                  className="leading-[1.6]"
+                  style={{ fontSize: '14px', color: '#fff', maxWidth: '440px' }}
+                  animate={{ opacity: isHovered ? 0.9 : 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  Your generosity brings life-changing care to those who need it most. Join us in making a profound difference.
+                </motion.p>
+                <div>
+                  <motion.button
+                    onClick={openModal}
+                    className="inline-flex items-center gap-2 font-black text-[13px] px-6 py-3 rounded-[14px] transition-all duration-200 hover:opacity-90"
+                    style={{ background: '#fff', color: '#ff7518', boxShadow: '0 4px 20px rgba(0,0,0,0.12)' }}
+                    whileHover={{ scale: 1.02, opacity: 0.95 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Donate Now
+                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  </motion.button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </Reveal>
       </div>
-    </div>
-  </Reveal>
-</div>
 
       {/* ══════════════════════════════════
           TEAM
@@ -688,7 +688,7 @@ export default function About() {
                   className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
                   style={{
                     background: canScrollPrev ? '#071e36' : 'rgba(7,30,54,0.08)',
-                    color:      canScrollPrev ? '#ffffff' : 'rgba(7,30,54,0.25)',
+                    color: canScrollPrev ? '#ffffff' : 'rgba(7,30,54,0.25)',
                   }}
                 >
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -701,7 +701,7 @@ export default function About() {
                   className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
                   style={{
                     background: canScrollNext ? '#071e36' : 'rgba(7,30,54,0.08)',
-                    color:      canScrollNext ? '#ffffff' : 'rgba(7,30,54,0.25)',
+                    color: canScrollNext ? '#ffffff' : 'rgba(7,30,54,0.25)',
                   }}
                 >
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -784,8 +784,8 @@ export default function About() {
                           className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
                           style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/>
-                            <circle cx="4" cy="4" r="2"/>
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
+                            <circle cx="4" cy="4" r="2" />
                           </svg>
                         </a>
                       )}
@@ -794,7 +794,7 @@ export default function About() {
                           className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
                           style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                           </svg>
                         </a>
                       )}
@@ -803,9 +803,9 @@ export default function About() {
                           className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
                           style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                           </svg>
                         </a>
                       )}
@@ -980,20 +980,20 @@ export default function About() {
                   <div className="flex items-center gap-2">
                     <SocialLink href={selectedMember.social.linkedin} label="LinkedIn">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/>
-                        <circle cx="4" cy="4" r="2"/>
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
+                        <circle cx="4" cy="4" r="2" />
                       </svg>
                     </SocialLink>
                     <SocialLink href={selectedMember.social.twitter} label="Twitter / X">
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                       </svg>
                     </SocialLink>
                     <SocialLink href={selectedMember.social.instagram} label="Instagram">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                       </svg>
                     </SocialLink>
                   </div>
@@ -1007,7 +1007,7 @@ export default function About() {
                 aria-label="Close"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 6 6 18M6 6l12 12"/>
+                  <path d="M18 6 6 18M6 6l12 12" />
                 </svg>
               </button>
             </motion.div>

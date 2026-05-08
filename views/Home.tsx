@@ -6,6 +6,7 @@ import { motion, AnimatePresence, useInView, type Variants } from 'framer-motion
 import Reveal from '../components/Reveal'
 import ImageComparisonSlider from '../components/ImageComparisonSlider'
 import { useDonation } from '../context/DonationContext'
+import { Heart } from 'lucide-react'
 
 /* ─── Assets ─── */
 const HERO_IMGS = [
@@ -14,8 +15,8 @@ const HERO_IMGS = [
   'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995833/0B2A0490_vvf8yg.webp',
   'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995798/YY4_2_of9xhh.webp',
 ]
-const BEFORE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180685/david_before_zwo4zp.jpg'
-const AFTER_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180681/david_after_dgjqtz.jpg'
+const BEFORE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002965/1H4A1675_rngiou.jpg'
+const AFTER_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002968/1H4A2346_kosbyt.jpg'
 const DONATE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778184935/donate_image_1_baccc2.png'
 
 interface ServiceItem {
@@ -196,7 +197,7 @@ export default function Home() {
       {/* ══════════════════════════════════
           HERO
       ══════════════════════════════════ */}
-      <div className="p-5">
+      <div className="p-2.5">
         <section
           className="relative overflow-hidden rounded-[20px] sm:rounded-[24px]"
           style={{ height: 'calc(100vh - 40px)', minHeight: '600px' }}
@@ -478,15 +479,15 @@ export default function Home() {
                   className="text-white font-black mb-3 leading-none"
                   style={{ fontSize: 'clamp(1.8rem, 3.5vw, 3.2rem)', letterSpacing: '-1.5px' }}
                 >
-                  David
+                  Blessing Wangui
                 </p>
                 <div className="flex items-center gap-2.5 flex-wrap">
-                  <span className="font-black tracking-[2.5px] uppercase text-accent" style={{ fontSize: '10px' }}>
+                  {/* <span className="font-black tracking-[2.5px] uppercase text-accent" style={{ fontSize: '10px' }}>
                     14 months old
-                  </span>
+                  </span> */}
                   <span className="w-1 h-1 rounded-full bg-accent/40" />
                   <span className="font-black tracking-[2.5px] uppercase" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.38)' }}>
-                    Cleft Palate Repair
+                    Cleft Lip
                   </span>
                   <span className="w-1 h-1 rounded-full bg-white/20" />
                   <span className="font-black tracking-[2.5px] uppercase" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.38)' }}>
@@ -813,16 +814,16 @@ export default function Home() {
               <div className="relative z-10 flex items-center justify-end min-h-[440px]">
                 <div className="max-w-[460px] p-10 sm:p-12 lg:p-16">
                   <motion.p
-                    className="font-black uppercase tracking-[3px] mb-5"
-                    style={{ fontSize: '9.5px', color: 'rgba(255,255,255,0.32)' }}
+                    className="font-black uppercase tracking-[3px] mb-4"
+                    style={{ fontSize: '8px', color: 'rgba(255,255,255,0.32)' }}
                     animate={{ opacity: isHovered ? 0.7 : 1 }}
                     transition={{ duration: 0.5 }}
                   >
                     Make a Difference
                   </motion.p>
                   <h2
-                    className="font-black text-white leading-[1.06] tracking-[-1.5px] mb-5"
-                    style={{ fontSize: 'clamp(1.9rem, 3.6vw, 3.2rem)' }}
+                    className="font-black text-white leading-[1.2] tracking-[-1px] mb-4"
+                    style={{ fontSize: 'clamp(0.9rem, 3vw, 2.5rem)' }}
                   >
                     Give a Child Their{' '}
                     <em className="not-italic text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>
@@ -830,7 +831,7 @@ export default function Home() {
                     </em>
                   </h2>
                   <motion.p
-                    className="text-[14px] leading-[1.9] mb-9 font-light"
+                    className="text-[12px] leading-[1.7] mb-7 font-light"
                     style={{ color: 'rgba(255,255,255,0.50)' }}
                     animate={{ opacity: isHovered ? 0.85 : 1 }}
                     transition={{ duration: 0.5 }}
@@ -839,11 +840,11 @@ export default function Home() {
                   </motion.p>
                   <motion.button
                     onClick={openModal}
-                    className="inline-flex items-center gap-2 bg-white text-accent font-black text-[13px] px-7 py-3.5 rounded-full hover:bg-accent hover:text-white transition-all duration-200 shadow-xl hover:-translate-y-px"
+                    className="inline-flex items-center gap-2 bg-white text-accent font-black text-[11px] px-6 py-3 rounded-full hover:bg-accent hover:text-white transition-all duration-200 shadow-xl hover:-translate-y-px"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    Donate Now <ArrowRight />
+                    Donate Now <Heart className='w-4 h-4' />
                   </motion.button>
                 </div>
               </div>

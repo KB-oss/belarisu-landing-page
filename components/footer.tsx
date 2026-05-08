@@ -78,7 +78,7 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="px-4 sm:px-5">
+    <footer className="sm:px-5">
       <div className="container-bmc py-8 sm:py-10">
         <div className="bg-navy rounded-3xl shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] overflow-hidden relative">
 

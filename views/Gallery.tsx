@@ -13,7 +13,7 @@ const WRAP = 'w-full max-w-[1366px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20'
 const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997447/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_t1zysd.webp'
 
 interface GalleryImage {
-  src: string
+  src: string | string[]
   tag: string
   desc?: string
   name?: string
@@ -21,7 +21,7 @@ interface GalleryImage {
 
 const ALL_IMGS: GalleryImage[] = [
   {
-    src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002949/IMG_0336_mh0hqn.jpg', tag: 'Surgery', name: 'Ayman Abdinassir',
+    src: ['https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002949/IMG_0336_mh0hqn.jpg', 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002940/1H4A1037_wldags.jpg'], tag: 'Surgery', name: 'Ayman Abdinassir',
     desc: `When Fatuma welcomed her son into the world, she was met with both joy and uncertainty.
 Born in Mandera, baby Ayman arrived with a bilateral cleft lip, something no one in the family had ever encountered before. The news was unexpected, and for a moment, it felt overwhelming. 
 But that moment didn't last long, because love stepped in quickly. "It's Allah who blesses us with children," Fatuma says. "So I embraced my son with all my heart, despite his condition."
@@ -32,7 +32,7 @@ As the family prepares to return home to Mandera, they carry with them relief, j
 
   },
   {
-    src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002965/1H4A1675_rngiou.jpg', tag: 'Surgery', name: 'Blessing Wangui',
+    src: ['https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002965/1H4A1675_rngiou.jpg', 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002968/1H4A2346_kosbyt.jpg'], tag: 'Surgery', name: 'Blessing Wangui',
     desc: `For Carolyne, every photograph of her daughter tells a story of grace, courage, and transformation. From the moment Blessing was born to the day her cleft lip was repaired, each image has been carefully kept as a visual reminder of a journey that once felt uncertain, but is now filled with gratitude.
 
 "I've kept many photos of Blessing before and after her surgery," Carolyne shares. "One day, I want her to see the incredible journey she's been through. And maybe, if she ever faces something similar in the future, she'll remember where her strength comes from."
@@ -48,7 +48,7 @@ Today, the photos she keeps are no longer just reminders of uncertainty, but mar
 Because some journeys are not just meant to be remembered. They are meant to light the way for others.`
   },
   {
-    src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002977/1H4A6904_fdb1tk.jpg', tag: 'Surgery', name: 'Daniel Musyoki',
+    src: ['https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002977/1H4A6904_fdb1tk.jpg', 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002975/1H4A2998_g5jyhe.jpg'], tag: 'Surgery', name: 'Daniel Musyoki',
     desc: `For Caro, the birth of her son Daniel marked the beginning of a difficult and deeply isolating journey.
 Born with a cleft lip in Mwea, Daniel's arrival was not met with celebration by everyone. Instead, Caro faced immediate rejection from her husband and in-laws, who urged her to abandon her child. "When Daniel was born, they said he was a bad omen," Caro recalls. "When I refused to leave him, they left me."
 
@@ -62,10 +62,10 @@ Daniel was able to access surgery at eight months old, a turning point that chan
 
 Today, Caro is focused on rebuilding, repaying her loans, returning to her farm, and creating a more stable future for her children. Because for her, this journey was never just about surgery. It was about survival, resilience, and the restoration of a family.`
   },
-  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778183880/nutrition-gallery_wxzsnf.jpg', tag: 'Nutrition' },
-  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778183880/gallery_image_kf4g65.jpg', tag: 'Nutrition' },
+  // { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778183880/nutrition-gallery_wxzsnf.jpg', tag: 'Nutrition' },
+  // { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778183880/gallery_image_kf4g65.jpg', tag: 'Nutrition' },
   {
-    src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002985/0B2A4613_tfmie4.jpg', tag: 'Surgery', name: 'Jayden Baraka',
+    src: ['https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002985/0B2A4613_tfmie4.jpg', 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002988/1H4A8489_paadv4.jpg'], tag: 'Surgery', name: 'Jayden Baraka',
     desc: `When Jayden was born, his mother was overwhelmed by fear. She had never seen a child born with a cleft lip before. The shock was immediate and consuming: so much so that, in a moment of panic, she tried to leave the hospital without him. "I wasn't thinking clearly," she recalls. "I was so scared. I just wanted to run away."
 
 Raised in a community where stigma and harmful beliefs surround conditions like Jayden's, she knew what might lie ahead. The weight of that fear made everything feel impossible. A watchman gently stopped her, and she returned to the ward, though the emotional distance remained. For days, she struggled to face her reality. "For a week, I couldn't bring myself to look at him or even feed him," she says quietly.
@@ -83,7 +83,7 @@ Today, Jayden is full of life walking, running, and playing like any other child
 
   },
   {
-    src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778003005/1H4A8469_gedjbq.jpg', tag: 'Surgery', name: "Jayson Takim",
+    src: ['https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778003005/1H4A8469_gedjbq.jpg', 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778003003/1H4A0619_gopvsf.jpg'], tag: 'Surgery', name: "Jayson Takim",
     desc: `For Veronika, life came in waves.
 
 The first was devastating. A diagnosis of stage three cervical cancer that shattered her world and pulled her into the grueling reality of chemotherapy. The treatment was relentless, taking a physical and emotional toll, yet she endured it with quiet strength.
@@ -105,9 +105,9 @@ Jason underwent cleft lip surgery, marking yet another turning point in a journe
 Today, as Veronika prepares to resume her chemotherapy, she does so with a different kind of strength shaped by everything she has chosen, endured, and overcome, and believing that even in the most difficult seasons, hope has a way of finding you.`
 
   },
-  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995833/0B2A0490_vvf8yg.webp', tag: 'Nutrition' },
+  // { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995833/0B2A0490_vvf8yg.webp', tag: 'Nutrition' },
   {
-    src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778003025/0B2A3578-2_a85ify.jpg', tag: 'Surgery', name: "Judy Keisha Wambui",
+    src: ['https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778003025/0B2A3578-2_a85ify.jpg', 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778003027/0B2A9883_sgeche.jpg'], tag: 'Surgery', name: "Judy Keisha Wambui",
     desc: `For years, James had noticed the small scar on his mother's lip. He never asked about it out of care, as he didn't want to risk reopening something painful.
 
 It wasn't until the birth of his daughter that the meaning of that scar came into focus.
@@ -125,9 +125,9 @@ Today, Wambui is full of life. At seven months old, she is playful, joyful, and 
 And somewhere in that journey, a scar that was once unspoken became a quiet legacy of resilience - a reminder that healing carries forward through generations, making the path a little lighter for the next.`
 
   },
-  { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995798/YY4_2_of9xhh.webp', tag: 'Nutrition' },
+  // { src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995798/YY4_2_of9xhh.webp', tag: 'Nutrition' },
   {
-    src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778003058/1H4A2800_kzsqy6.jpg', tag: 'Surgery', name: 'Marium Rana',
+    src: ['https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778003058/1H4A2800_kzsqy6.jpg', 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778003061/1H4A9419_g7dimo.jpg'], tag: 'Surgery', name: 'Marium Rana',
     desc: `When Mercy holds her daughter today, it is with a kind of joy that once felt out of reach. Tears come easily now, but they are no longer from fear. They are from relief, from gratitude, from everything they have overcome.
 
 Her daughter, Mariam, was born with a cleft lip. From the very beginning, what should have been a moment of celebration was overshadowed by stigma and silence. "In the maternity ward, I felt the stares… the whispers," Mercy recalls. "I was ashamed. I found myself making excuses just to protect my baby."
@@ -142,7 +142,7 @@ Mariam underwent a successful cleft lip surgery, and in that moment, a new chapt
 
   },
   {
-    src: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778003072/1H4A2763_j9krcw.jpg', tag: 'Surgery', name: 'Bianca Tyra Adisa',
+    src: ['https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778003072/1H4A2763_j9krcw.jpg', `https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778003069/1H4A1270_xgrbxy.jpg`], tag: 'Surgery', name: 'Bianca Tyra Adisa',
     desc: `As Joyce holds her daughter close, there is a quiet moment she never takes for granted. Bianca is breastfeeding, peacefully and comfortably, with her mouth closed. It is a simple act. But for Joyce, it means everything. “I can’t stop looking at her,” she says softly. “I’m just so grateful.”
 
     Not long ago, this moment felt impossible. When Bianca was born, Joyce, now a mother of three, was told that her baby had a cleft lip. It was something she had never encountered before, and the news left her shaken. “I didn’t know how to handle it,” she recalls. “When I told my husband, he was just as shocked.”
@@ -155,7 +155,9 @@ And soon, Joyce will stand before her church, holding her daughter as a testamen
   },
 ]
 
-const FILTERS = ['All Stories', 'Surgery', 'Nutrition'] as const
+const FILTERS = ['All Stories',
+  // 'Surgery', 'Nutrition'
+] as const
 type FilterType = typeof FILTERS[number]
 
 function CloseIcon() {
@@ -169,10 +171,11 @@ function CloseIcon() {
 /* ═══════════════════════════════════════ */
 export default function Gallery() {
   const [filter, setFilter] = useState<FilterType>('All Stories')
-  const [lightbox, setLightbox] = useState<string | null>(null)
+  const [lightbox, setLightbox] = useState<string | string[] | null>(null)
   const [description, setDesc] = useState<{ title: string, desc: string } | null>(null)
   const { openModal } = useDonation()
   const [isHovered, setIsHovered] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
 
   // Image loading error handling
@@ -186,6 +189,11 @@ export default function Gallery() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
+  useEffect(() => {
+    if (lightbox) {
+      setCurrentImageIndex(0)
+    }
+  }, [lightbox])
   const displayed = filter === 'All Stories'
     ? ALL_IMGS
     : ALL_IMGS.filter((img) => img.tag === filter)
@@ -262,25 +270,28 @@ export default function Gallery() {
           >
             {displayed.map(({ src, tag, desc, name }, i) => (
               <motion.div
-                key={src + i}
+                key={Array.isArray(src) ? src.join(',') + i : src + i}
                 className="break-inside-avoid mb-3 rounded-[16px] overflow-hidden bg-[#f1f5f9] cursor-pointer group shadow-[0px_1px_3px_rgba(0,0,0,0.1),0px_1px_2px_-1px_rgba(0,0,0,0.1)]"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
                 onClick={() => {
+                  // Handle both string and array src
                   setLightbox(src)
                   setDesc({ title: name || "", desc: desc || "" })
                 }}
               >
-                <img
-                  src={getImageSrc(src)}
-                  alt={`${tag} patient story ${i + 1}`}
-                  className="w-full h-auto object-cover group-hover:scale-[1.04] transition-transform duration-500"
-                  loading="lazy"
-                  onError={() => handleImageError(src)}
-                  referrerPolicy="no-referrer"
-                  crossOrigin="anonymous"
-                />
+                <div className="relative w-full aspect-[4/3] overflow-hidden">
+                  <img
+                    src={getImageSrc(Array.isArray(src) ? src[0] : src)}
+                    alt={`${tag} patient story ${i + 1}`}
+                    className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
+                    loading="lazy"
+                    onError={() => handleImageError(Array.isArray(src) ? src[0] : src)}
+                    referrerPolicy="no-referrer"
+                    crossOrigin="anonymous"
+                  />
+                </div>
               </motion.div>
             ))}
           </motion.div>
@@ -290,7 +301,7 @@ export default function Gallery() {
       {/* ══════════════════════════════════
           DONATE CTA — image card
       ══════════════════════════════════ */}
-      <div className={`${WRAP} pb-20`}>
+      <div className={`${WRAP} pb-20 px-0!`}>
         <Reveal direction="up">
           <section className="py-8 sm:py-10 lg:py-14">
             <div className={WRAP}>
@@ -342,16 +353,16 @@ export default function Gallery() {
                 <div className="relative z-10 flex items-center justify-end min-h-[440px]">
                   <div className="max-w-[460px] p-10 sm:p-12 lg:p-16">
                     <motion.p
-                      className="font-black uppercase tracking-[3px] mb-5"
-                      style={{ fontSize: '9.5px', color: 'rgba(255,255,255,0.32)' }}
+                      className="font-black uppercase tracking-[3px] mb-4"
+                      style={{ fontSize: '8px', color: 'rgba(255,255,255,0.32)' }}
                       animate={{ opacity: isHovered ? 0.7 : 1 }}
                       transition={{ duration: 0.5 }}
                     >
                       Make a Difference
                     </motion.p>
                     <h2
-                      className="font-black text-white leading-[1.06] tracking-[-1.5px] mb-5"
-                      style={{ fontSize: 'clamp(1.9rem, 3.6vw, 3.2rem)' }}
+                      className="font-black text-white leading-[1.2] tracking-[-1px] mb-4"
+                      style={{ fontSize: 'clamp(0.9rem, 3vw, 2.5rem)' }}
                     >
                       Give a Child Their{' '}
                       <em className="not-italic text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>
@@ -359,7 +370,7 @@ export default function Gallery() {
                       </em>
                     </h2>
                     <motion.p
-                      className="text-[14px] leading-[1.9] mb-9 font-light"
+                      className="text-[12px] leading-[1.7] mb-7 font-light"
                       style={{ color: 'rgba(255,255,255,0.50)' }}
                       animate={{ opacity: isHovered ? 0.85 : 1 }}
                       transition={{ duration: 0.5 }}
@@ -368,7 +379,7 @@ export default function Gallery() {
                     </motion.p>
                     <motion.button
                       onClick={openModal}
-                      className="inline-flex items-center gap-2 bg-white text-accent font-black text-[13px] px-7 py-3.5 rounded-full hover:bg-accent hover:text-white transition-all duration-200 shadow-xl hover:-translate-y-px"
+                      className="inline-flex items-center gap-2 bg-white text-accent font-black text-[11px] px-6 py-3 rounded-full hover:bg-accent hover:text-white transition-all duration-200 shadow-xl hover:-translate-y-px"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
@@ -402,26 +413,64 @@ export default function Gallery() {
                 }`}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Image side - adjusts based on description */}
+              {/* Image side with carousel - adjusts based on description */}
               <div
-                className={`flex items-center justify-center ${description?.desc ? 'md:w-1/2 w-full' : 'w-full'
+                className={`flex items-center justify-center relative ${description?.desc ? 'md:w-1/2 w-full' : 'w-full'
                   }`}
               >
-                <motion.img
-                  src={getImageSrc(lightbox)}
-                  alt="Enlarged photo"
-                  className={`${description?.desc
-                    ? 'w-full h-full object-cover'
-                    : 'max-h-[85vh] w-auto object-contain'
-                    }`}
-                  initial={{ scale: 0.94, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.94, opacity: 0 }}
-                  transition={{ duration: 0.26, ease: [0.25, 0.46, 0.45, 0.94] }}
-                  referrerPolicy="no-referrer"
-                  crossOrigin="anonymous"
-                  onError={() => handleImageError(lightbox)}
-                />
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <motion.img
+                    key={Array.isArray(lightbox) ? currentImageIndex : 0}
+                    src={Array.isArray(lightbox) ? getImageSrc(lightbox[currentImageIndex]) : getImageSrc(lightbox)}
+                    alt="Enlarged photo"
+                    className={`${description?.desc
+                      ? 'w-full h-full object-cover'
+                      : 'max-h-[85vh] w-auto object-contain'
+                      }`}
+                    initial={{ scale: 0.94, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.94, opacity: 0 }}
+                    transition={{ duration: 0.26, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    referrerPolicy="no-referrer"
+                    crossOrigin="anonymous"
+                    onError={() => handleImageError(Array.isArray(lightbox) ? lightbox[currentImageIndex] : lightbox)}
+                  />
+
+                  {/* Navigation arrows - only show for before/after arrays */}
+                  {Array.isArray(lightbox) && lightbox.length > 1 && (
+                    <>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setCurrentImageIndex((prev) => prev === 0 ? lightbox.length - 1 : prev - 1)
+                        }}
+                        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all z-10"
+                        aria-label="Previous image"
+                      >
+                        <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setCurrentImageIndex((prev) => prev === lightbox.length - 1 ? 0 : prev + 1)
+                        }}
+                        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all z-10"
+                        aria-label="Next image"
+                      >
+                        <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+
+                      {/* Image counter */}
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white text-xs md:text-sm px-3 py-1 rounded-full z-10">
+                        {currentImageIndex + 1} / {lightbox.length}
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
 
               {/* Text side - only show if description exists */}
