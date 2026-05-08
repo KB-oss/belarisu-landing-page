@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
+import { cn } from '@/lib/utils'
 
 /* ─── Assets ─── */
 const LOGO_URL_DARK = './DARK.webp'
@@ -17,46 +18,46 @@ const ORANGE = '#ff7518'
 interface NavLink { label: string; to: string }
 
 const links: NavLink[] = [
-  { label: 'Home',       to: '/' },
-  { label: 'About',      to: '/about' },
-  { label: 'Services',   to: '/services' },
-  { label: 'Gallery',    to: '/gallery' },
+  { label: 'Home', to: '/' },
+  { label: 'About', to: '/about' },
+  { label: 'Services', to: '/services' },
+  { label: 'Gallery', to: '/gallery' },
   { label: 'Unstitched', to: '/unstitched' },
-  { label: 'Contact',    to: '/contact' },
+  { label: 'Contact', to: '/contact' },
 ]
 
 /* Small icons */
 function PhoneIcon() {
   return (
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 5.55 5.55l.95-.95a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 5.55 5.55l.95-.95a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
     </svg>
   )
 }
 function MailIcon() {
   return (
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect width="20" height="16" x="2" y="4" rx="2"/>
-      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+      <rect width="20" height="16" x="2" y="4" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
     </svg>
   )
 }
 function ExternalIcon() {
   return (
     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-      <polyline points="15 3 21 3 21 9"/>
-      <line x1="10" y1="14" x2="21" y2="3"/>
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
     </svg>
   )
 }
 
 export default function Nav() {
-  const [menuOpen,  setMenuOpen]  = useState<boolean>(false)
-  const [scrolled,  setScrolled]  = useState<boolean>(false)
+  const [menuOpen, setMenuOpen] = useState<boolean>(false)
+  const [scrolled, setScrolled] = useState<boolean>(false)
   const [navVisible, setNavVisible] = useState<boolean>(true)
 
-  const pathname   = usePathname()
+  const pathname = usePathname()
   const lastScrollY = useRef<number>(0)
   const menuOpenRef = useRef<boolean>(false)
 
@@ -73,9 +74,9 @@ export default function Nav() {
       const curr = window.scrollY
       const delta = curr - lastScrollY.current
 
-      if (curr > 80 && delta > 10)  setNavVisible(false)  // scrolling down
-      if (delta < -4)               setNavVisible(true)   // scrolling up (even a little)
-      if (curr <= 80)               setNavVisible(true)   // near top — always visible
+      if (curr > 80 && delta > 10) setNavVisible(false)  // scrolling down
+      if (delta < -4) setNavVisible(true)   // scrolling up (even a little)
+      if (curr <= 80) setNavVisible(true)   // near top — always visible
 
       setScrolled(curr > 60)
       lastScrollY.current = curr
@@ -94,11 +95,11 @@ export default function Nav() {
   }, [menuOpen])
 
   /* colour logic */
-  const onDark    = scrolled || DARK_HERO_PAGES.has(pathname)
-  const textMain  = onDark ? '#ffffff'               : '#071e36'
+  const onDark = scrolled || DARK_HERO_PAGES.has(pathname)
+  const textMain = onDark ? '#ffffff' : '#071e36'
   const textMuted = onDark ? 'rgba(255,255,255,0.72)' : 'rgba(7,30,54,0.60)'
   const borderClr = onDark ? 'rgba(255,255,255,0.18)' : 'rgba(7,30,54,0.16)'
-  const hamColor  = menuOpen ? '#ffffff' : (onDark ? '#ffffff' : '#071e36')
+  const hamColor = menuOpen ? '#ffffff' : (onDark ? '#ffffff' : '#071e36')
 
   return (
     <>
@@ -107,7 +108,7 @@ export default function Nav() {
         className="fixed top-5 inset-x-0 z-50"
         initial={{ y: -40, opacity: 0 }}
         animate={{
-          y:       navVisible ? 0 : '-130%',
+          y: navVisible ? 0 : '-130%',
           opacity: navVisible ? 1 : 0,
         }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
@@ -120,15 +121,14 @@ export default function Nav() {
               : { background: 'transparent', backdropFilter: 'none', boxShadow: 'none' }
             }
           >
-            <div className="flex items-center justify-between px-2 sm:px-5 py-3">
+            <div className={cn("flex items-center justify-between px-4 sm:px-5 py-3", menuOpen && 'px-2!')}>
 
               {/* Logo */}
               <Link href="/" className="shrink-0 flex items-center">
                 <motion.img
-                  src={scrolled ? LOGO_URL_LIGHT : LOGO_URL_DARK}
+                  src={scrolled || menuOpen ? LOGO_URL_LIGHT : LOGO_URL_DARK}
                   alt="BelaRisu Medical Centre"
-                  style={{ height: 30, width: 'auto' }}
-                  className="object-contain"
+                  className={cn("object-contain w-auto h-6 sm:h-7 md:h-8 max-h-[30px]", menuOpen && 'h-8')}
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                 />
@@ -235,12 +235,12 @@ export default function Nav() {
 
             {/* Top bar with logo + close area */}
             {/* <div className="relative z-10 flex items-center justify-between px-6 pt-6 pb-4">
-              <img src={LOGO_URL_LIGHT} alt="BMC" style={{ height: 26, width: 'auto' }} className="object-contain opacity-90" />
+              <img src={scrolled ? LOGO_URL_LIGHT : LOGO_URL_DARK} alt="BMC" style={{ height: 26, width: 'auto' }} className="object-contain opacity-90" />
               <span className="text-white/40 text-[11px] font-black tracking-[2px] uppercase">Menu</span>
             </div> */}
 
             {/* Nav links */}
-            <div className="relative z-10 flex-1 flex flex-col justify-center px-6 gap-1">
+            <div className="relative z-10 flex-1 flex flex-col justify-center px-6 gap-1 mt-20">
               {links.map(({ label, to }, i) => {
                 const isActive = pathname === to
                 return (
