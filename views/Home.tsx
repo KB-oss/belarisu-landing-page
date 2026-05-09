@@ -20,6 +20,73 @@ const BEFORE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_a
 const AFTER_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002968/1H4A2346_kosbyt.jpg'
 const DONATE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778184935/donate_image_1_baccc2.png'
 
+const PATIENT_GALLERY = [
+  {
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002965/1H4A1675_rngiou.jpg',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002968/1H4A2346_kosbyt.jpg',
+    patientName: 'Blessing Wangui',
+    age: '14 months old',
+    condition: 'Cleft Lip',
+    location: 'Mombasa'
+  },
+  {
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180685/david_before_zwo4zp.jpg',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180681/david_after_dgjqtz.jpg',
+    patientName: 'David',
+    age: '',
+    condition: 'Cleft Lip',
+    location: 'Nairobi'
+  },
+  {
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997453/Mateo_Ndungu_Kimiri_-_Cleft_Lip_and_Cleft_Palate_-_1_year_8_months_-_Juja_zrehfp.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997452/Cleopatra_Njeri_Njunge_-_Cleft_Lip_and_Cleft_Palate_-_1_year_-_Kiambu_xeipzy.webp',
+    patientName: 'Cleopatra Njeri Njunge',
+    age: '1 years old',
+    condition: 'Cleft Lip and Cleft_Palat',
+    location: 'Kisumu'
+  },
+  {
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997449/Lucrecia_Reina_Khalumba_-_Cleft_Lip_-_4_years_-_Nairobi_kubatv.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997450/Lucrecia_Reina_Khalumba_-_Cleft_Lip_-_4_years_-_Nairobi_1_j8f9hg.webp',
+    patientName: 'Lucrecia Reina Khalumba',
+    age: '4 years old',
+    condition: 'Cleft Lip',
+    location: 'Nairobi'
+  },
+  {
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997451/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_xchfpp.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997445/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_1_twxz2t.webp',
+    patientName: 'Abdirakib Ismail',
+    age: '12 years old',
+    condition: 'Cleft Lip',
+    location: 'Nairobi'
+  },
+  {
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997452/Amari_Nderitu_Muriithi_-_Cleft_Lip_-_2_months_-_Kiambu_pwxvbn.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997448/Amari_Nderitu_Muriithi_-_Cleft_Lip_-_2_months_-_Kiambu_1_mp9xt9.webp',
+    patientName: 'Amari Nderitu Muriithi',
+    age: '2 Month old',
+    condition: 'Cleft Lip',
+    location: 'Kiambu'
+  },
+  {
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997445/Bancy_Muthoni_-_Cleft_Lip_and_Cleft_Palate_-_11_months_-_Kiambu_grc2wf.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997447/Bancy_Muthoni_-_Cleft_Lip_and_Cleft_Palate_-_11_months_-_Kiambu_1_zklutu.webp',
+    patientName: 'Bancy Muthoni',
+    age: '11 Months old',
+    condition: 'Cleft Lip and Cleft Palate',
+    location: 'Kiambu'
+  },
+  {
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997447/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_t1zysd.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997446/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_1_caajti.webp',
+    patientName: 'Amelia Chreseria Njeri',
+    age: '4 years old',
+    condition: 'Cleft Lip and Cleft Palate',
+    location: 'Riuru'
+  }
+]
+
 interface ServiceItem {
   title: string
   desc: string
@@ -177,6 +244,10 @@ export default function Home() {
   const [activeService, setActiveService] = useState<number>(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const [isHovered, setIsHovered] = useState(false);
+  const [currentPatientIndex, setCurrentPatientIndex] = useState(0)
+  const currentPatient = PATIENT_GALLERY[currentPatientIndex]
+
+
 
 
   function selectService(i: number) {
@@ -462,16 +533,16 @@ export default function Home() {
               style={{ height: 'clamp(360px, 52vw, 660px)' }}
             >
               <ImageComparisonSlider
-                beforeImage={BEFORE_IMG}
-                afterImage={AFTER_IMG}
-                altBefore="David — before cleft repair"
-                altAfter="David — after cleft repair"
+                images={PATIENT_GALLERY}
+                currentIndex={currentPatientIndex}
+                onIndexChange={setCurrentPatientIndex}
+                autoPlayInterval={40000} // 40 seconds
                 className="w-full h-full"
               />
 
-              {/* Patient overlay */}
+              {/* Patient overlay - now dynamic */}
               <div
-                className="absolute bottom-0 left-0 right-0 px-8 sm:px-12 py-8 pointer-events-none"
+                className="absolute bottom-0 left-0 right-0 px-8 sm:px-12 py-8 pointer-events-none z-20"
                 style={{
                   background: 'linear-gradient(to top, rgba(7,30,54,0.92) 0%, rgba(7,30,54,0.30) 55%, transparent 100%)',
                 }}
@@ -480,25 +551,29 @@ export default function Home() {
                   className="text-white font-black mb-3 leading-none"
                   style={{ fontSize: 'clamp(1.8rem, 3.5vw, 3.2rem)', letterSpacing: '-1.5px' }}
                 >
-                  Blessing Wangui
+                  {currentPatient.patientName}
                 </p>
                 <div className="flex items-center gap-2.5 flex-wrap">
-                  {/* <span className="font-black tracking-[2.5px] uppercase text-accent" style={{ fontSize: '10px' }}>
-                    14 months old
-                  </span> */}
-                  <span className="w-1 h-1 rounded-full bg-accent/40" />
+                  {currentPatient.age && (
+                    <>
+                      <span className="font-black tracking-[2.5px] uppercase text-accent" style={{ fontSize: '10px' }}>
+                        {currentPatient.age}
+                      </span>
+                      <span className="w-1 h-1 rounded-full bg-accent/40" />
+                    </>
+                  )}
                   <span className="font-black tracking-[2.5px] uppercase" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.38)' }}>
-                    Cleft Lip
+                    {currentPatient.condition}
                   </span>
                   <span className="w-1 h-1 rounded-full bg-white/20" />
                   <span className="font-black tracking-[2.5px] uppercase" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.38)' }}>
-                    Mombasa
+                    {currentPatient.location}
                   </span>
                 </div>
               </div>
 
-              {/* View all */}
-              <div className="absolute bottom-5 right-5 pointer-events-auto">
+              {/* View all button */}
+              <div className="absolute bottom-5 right-5 pointer-events-auto z-30">
                 <Link
                   href="/gallery"
                   className="flex items-center gap-1.5 bg-white/92 hover:bg-white backdrop-blur-sm text-navy text-[12px] font-black px-5 py-3 rounded-[10px] transition-all shadow-lg hover:-translate-y-px tracking-[0.2px]"
