@@ -10,15 +10,15 @@ import { Heart } from 'lucide-react'
 
 /* ─── Assets ─── */
 const HERO_IMGS = [
-  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995830/0B2A4824-2_fta35x.webp',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246801/backk_ob1gnv.webp',
   'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995839/MM9_ar0km0.webp',
-  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995833/0B2A0490_vvf8yg.webp',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778247125/backkk_ztmkzm.webp',
   'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995798/YY4_2_of9xhh.webp',
   'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246556/ChatGPT_Image_May_8_2026_04_19_15_PM_bafnwv.webp'
 ]
 const BEFORE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002965/1H4A1675_rngiou.jpg'
 const AFTER_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002968/1H4A2346_kosbyt.jpg'
-const DONATE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778184935/donate_image_1_baccc2.png'
+const DONATE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246041/0B2A0278_1_sy7sb7.webp'
 
 const PATIENT_GALLERY = [
   {
@@ -858,7 +858,7 @@ export default function Home() {
               />
 
               <motion.img
-                src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999849/0B2A0279_fzju18.jpg"
+                src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246029/0B2A0279_1_drz6kf.webp"
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover"
                 animate={{

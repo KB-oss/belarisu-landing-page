@@ -24,7 +24,7 @@ const IMG_SDG_4 = 'https://www.figma.com/api/mcp/asset/74c680f4-450b-45e0-81ba-4
 const IMG_SDG_10 = 'https://www.figma.com/api/mcp/asset/ed06a0d9-118e-4c13-a25d-490bf570ded2'
 const IMG_SDG_17 = 'https://www.figma.com/api/mcp/asset/90f9f1b3-b764-4957-8b59-5b1c00fcad85'
 const IMG_SDG_8 = 'https://www.figma.com/api/mcp/asset/db54ed81-a432-4dac-b789-b1e65b1ea065'
-const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999858/Brighton_Chacha_Marwa_4yrs_z6cg85.jpg'
+const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246027/Brighton_Chacha_Marwa_4yrs_1_z0tcog.webp'
 const IMG_QUOTE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778182124/every_smile_1_p8yhro.jpg'
 
 /* ─── Service icon assets ─── */
@@ -570,7 +570,7 @@ export default function About() {
 
             {/* Hover Image */}
             <motion.img
-              src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999855/Brighton_Chacha_Marwa_4yrs._ie0vzj.jpg"
+              src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246028/Brighton_Chacha_Marwa_4yrs._1_apmux6.webp"
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
               animate={{

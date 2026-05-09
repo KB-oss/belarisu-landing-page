@@ -121,12 +121,8 @@ export default function ImageComparisonSlider({
       hintIntervalRef.current = setInterval(() => {
         if (!hasInteracted) {
           setShowHint(true)
-          // Auto-hide after 3 seconds
-          setTimeout(() => {
-            if (!hasInteracted) setShowHint(false)
-          }, 3000)
         }
-      }, 30000)
+      }, 3000)
       
       return () => {
         if (hintIntervalRef.current) clearInterval(hintIntervalRef.current)

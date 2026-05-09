@@ -16,7 +16,7 @@ const IMG_SPEECH = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_a
 const IMG_NUTRITION = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778179995/nutrition-home_1_vpsqeq.jpg'
 const IMG_PSYCHO = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000764/pshyocology_gsvwmr.png'
 const IMG_ENT = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000766/ENT_zwe3nh.png'
-const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997451/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_xchfpp.webp'
+const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246026/Kaylan_Amani_Mumo_2yrs11mnths_1_xcadvp.webp'
 
 /* ─── Types ─── */
 interface SubItem {
@@ -373,7 +373,7 @@ export default function Services() {
 
             {/* Hover Image */}
             <motion.img
-              src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997445/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_1_twxz2t.webp"
+              src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246026/Kaylan_Amani_Mumo_2yrs11mnths_1_1_xddvuk.webp"
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
               animate={{
