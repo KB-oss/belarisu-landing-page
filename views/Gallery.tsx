@@ -340,12 +340,12 @@ export default function Gallery() {
                 <motion.div
                   className="absolute inset-0"
                   style={{
-                    background: 'linear-gradient(to right, rgba(7,30,54,0.05) 0%, rgba(7,30,54,0.65) 45%, rgba(7,30,54,0.93) 100%)',
+                    background: 'linear-gradient(to right, rgba(7,30,54,0.02) 0%, rgba(7,30,54,0.35) 45%, rgba(7,30,54,0.65) 100%)',
                   }}
                   animate={{
                     background: isHovered
-                      ? 'linear-gradient(to right, rgba(7,30,54,0.15) 0%, rgba(7,30,54,0.75) 45%, rgba(7,30,54,0.95) 100%)'
-                      : 'linear-gradient(to right, rgba(7,30,54,0.05) 0%, rgba(7,30,54,0.65) 45%, rgba(7,30,54,0.93) 100%)'
+                      ? 'linear-gradient(to right, rgba(7,30,54,0.06) 0%, rgba(7,30,54,0.45) 45%, rgba(7,30,54,0.75) 100%)'
+                      : 'linear-gradient(to right, rgba(7,30,54,0.02) 0%, rgba(7,30,54,0.35) 45%, rgba(7,30,54,0.65) 100%)'
                   }}
                   transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
                 />
