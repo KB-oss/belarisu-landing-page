@@ -5,6 +5,22 @@ import Link from 'next/link'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import Reveal from '../components/Reveal'
 import { useDonation } from '../context/DonationContext'
+import {
+  Stethoscope,
+  Smile,
+  Mic,
+  Apple,
+  HeartHandshake,
+  LucideProps,
+  Heart,
+  Users,
+  Badge,
+  BadgeIcon,
+  Medal,
+  MedalIcon,
+  Award,
+  Quote
+} from 'lucide-react';
 
 /* ─── Design tokens ─── */
 const PLAYFAIR = "'Playfair Display', Georgia, 'Times New Roman', serif"
@@ -26,13 +42,12 @@ const IMG_SDG_17 = 'https://www.figma.com/api/mcp/asset/90f9f1b3-b764-4957-8b59-
 const IMG_SDG_8 = 'https://www.figma.com/api/mcp/asset/db54ed81-a432-4dac-b789-b1e65b1ea065'
 const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246027/Brighton_Chacha_Marwa_4yrs_1_z0tcog.webp'
 const IMG_QUOTE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778182124/every_smile_1_p8yhro.jpg'
+const IMG_CARE_1 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001798/ChatGPT_Image_May_5_2026_08_22_15_PM_hvd3dp.png'
+const IMG_CARE_2 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001796/ChatGPT_Image_May_5_2026_08_22_06_PM_pjwlaz.png'
+const IMG_CARE_3 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001795/ChatGPT_Image_May_5_2026_08_22_29_PM_lpuepj.png'
+const IMG_SPLIT_4 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001053/1H4A5193_dg4cqr.jpg'
+const IMG_SPLIT_5 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001045/1H4A5164_2_qgwnob.jpg'
 
-/* ─── Service icon assets ─── */
-const ICON_SURGERY = 'https://www.figma.com/api/mcp/asset/4c0a466c-7d73-4039-99e5-d00e710513d5'
-const ICON_ORTHO = 'https://www.figma.com/api/mcp/asset/567dea32-92fa-4c64-89fe-5ac2e0471beb'
-const ICON_SPEECH = 'https://www.figma.com/api/mcp/asset/efdb2ecc-2b32-483e-8eba-4ae689032709'
-const ICON_NUTRITION = 'https://www.figma.com/api/mcp/asset/d8712e65-6f42-419b-88a9-8f7dbb981e49'
-const ICON_PSYCHO = 'https://www.figma.com/api/mcp/asset/59096b5d-0cfc-4d1b-9a2b-216e767dc7fd'
 const ICON_QUOTE = 'https://www.figma.com/api/mcp/asset/f8d52173-4111-46f8-b04f-1764696393d0'
 
 /* ─── Data ─── */
@@ -93,18 +108,19 @@ const SDG_CARDS: SdgCard[] = [
 ]
 
 interface ServiceCard {
-  icon: string
+  icon: React.ComponentType<LucideProps>;
   title: string
   sub: string
 }
 
 const SERVICES_CARDS: ServiceCard[] = [
-  { icon: ICON_SURGERY, title: 'Cleft Surgery', sub: 'Primary and secondary surgical repair.' },
-  { icon: ICON_ORTHO, title: 'Orthodontics', sub: 'Long-term dental alignment correction.' },
-  { icon: ICON_SPEECH, title: 'Speech Therapy', sub: 'Support for communication development.' },
-  { icon: ICON_NUTRITION, title: 'Nutrition', sub: 'Pre and post-operative feeding support.' },
-  { icon: ICON_PSYCHO, title: 'Psychosocial', sub: 'Emotional and counseling support.' },
-]
+  { icon: Stethoscope, title: 'Cleft Surgery', sub: 'Primary and secondary surgical repair.' },
+  { icon: Heart, title: 'Orthodontics', sub: 'Long-term dental alignment correction.' },
+  { icon: Users, title: 'Speech Therapy', sub: 'Support for communication development.' },
+  { icon: Award, title: 'Nutrition', sub: 'Pre and post-operative feeding support.' },
+  { icon: HeartHandshake, title: 'Psychosocial', sub: 'Emotional and counseling support.' },
+];
+
 
 interface SocialLinks {
   linkedin: string | null
@@ -126,7 +142,7 @@ const TEAM: TeamMember[] = [
     name: 'Dr. Sarah Kimani',
     role: 'Chief Medical Officer',
     dept: 'Clinical',
-    img: IMG_CARE_A,
+    img: IMG_CARE_1,
     bio: 'Dr. Kimani leads BelaRisu\'s medical operations with over 14 years of experience in reconstructive and craniofacial surgery. She has overseen more than 400 successful cleft procedures across East Africa and serves as the clinical lead on all surgical protocols.',
     social: { linkedin: '#', twitter: '#', instagram: '#' },
   },
@@ -134,7 +150,7 @@ const TEAM: TeamMember[] = [
     name: 'Dr. James Otieno',
     role: 'Lead Surgeon',
     dept: 'Clinical',
-    img: IMG_CARE_B,
+    img: IMG_CARE_2,
     bio: 'Dr. Otieno specializes in primary and secondary cleft lip and palate repair. With a fellowship in craniofacial surgery from Nairobi and advanced training in Europe, he brings world-class precision to every operating theatre at BMC.',
     social: { linkedin: '#', twitter: '#', instagram: null },
   },
@@ -142,7 +158,7 @@ const TEAM: TeamMember[] = [
     name: 'Agnes Mwangi',
     role: 'Head of Speech Therapy',
     dept: 'Rehabilitation',
-    img: IMG_CARE_C,
+    img: IMG_CARE_3,
     bio: 'Agnes has dedicated her career to helping patients find their voice. She leads speech and language therapy at BMC, working with children and adults post-surgery to rebuild communication confidence and overcome school and social barriers.',
     social: { linkedin: '#', twitter: null, instagram: '#' },
   },
@@ -150,7 +166,7 @@ const TEAM: TeamMember[] = [
     name: 'Dr. Peter Njoroge',
     role: 'ENT Specialist',
     dept: 'Clinical',
-    img: IMG_SPLIT_L,
+    img: IMG_SPLIT_4,
     bio: 'Dr. Njoroge oversees ear, nose, and throat care for all patients — a critical component of long-term cleft treatment. He monitors hearing health, treats recurring infections, and ensures the airway and auditory systems develop correctly post-surgery.',
     social: { linkedin: '#', twitter: '#', instagram: null },
   },
@@ -158,7 +174,7 @@ const TEAM: TeamMember[] = [
     name: 'Grace Achieng',
     role: 'Psychosocial Counselor',
     dept: 'Rehabilitation',
-    img: IMG_SPLIT_R,
+    img: IMG_SPLIT_5,
     bio: 'Grace provides emotional and psychosocial support to patients and their families throughout the care journey. She helps children and adults build confidence, process stigma, and develop the resilience to participate fully in school, work, and community life.',
     social: { linkedin: '#', twitter: null, instagram: '#' },
   },
@@ -849,8 +865,9 @@ export default function About() {
           </div>
         </Reveal>
 
+        // The grid component
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
-          {SERVICES_CARDS.map(({ icon, title, sub }, i) => (
+          {SERVICES_CARDS.map(({ icon: Icon, title, sub }, i) => (
             <motion.div
               key={title}
               className="rounded-[16px] p-6 border flex flex-col gap-3"
@@ -858,10 +875,10 @@ export default function About() {
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.07, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
+              transition={{ delay: i * 0.07, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
               <div className="w-12 h-12 rounded-[14px] flex items-center justify-center bg-accent shrink-0">
-                <img src={icon} alt={title} className="w-6 h-6 object-contain" />
+                <Icon size={24} className="w-6 h-6 text-white" />
               </div>
               <p className="font-black text-[15px]" style={{ color: '#0a2a49' }}>{title}</p>
               <p className="text-[13px] leading-[1.65]" style={{ color: '#071e36' }}>{sub}</p>
@@ -888,7 +905,7 @@ export default function About() {
               }}
             >
               <div className="rotate-180 shrink-0">
-                <img src={ICON_QUOTE} alt="" className="w-10 h-10" />
+                <Quote className='w-6 h-6 text-white'/>
               </div>
               <p
                 className="text-white font-semibold text-center leading-snug tracking-[-0.5px]"
