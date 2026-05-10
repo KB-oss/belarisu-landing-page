@@ -4,8 +4,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const LOGO_URL = 'https://www.figma.com/api/mcp/asset/97ca07b3-9988-45ae-aa10-aed6be6beeb2'
-
+const LOGO_URL = './LIGHT.webp'
 const navLinks = ['Home', 'About Us', 'Services', 'Gallery', 'Donate', 'Contact']
 const serviceLinks = ['Cleft Surgery', 'Orthodontics', 'Speech Therapy', 'Nutrition', 'Psychosocial', 'ENT Care']
 const navPaths: Record<string, string> = { 'Home': '/', 'About Us': '/about', 'Services': '/services', 'Gallery': '/gallery', 'Donate': '/donate', 'Contact': '/contact' }
@@ -88,7 +87,7 @@ export default function Footer() {
             {/* Brand block */}
             <div className="mb-7">
               <div className="flex items-center gap-3 mb-4">
-                <img src={LOGO_URL} alt="BMC" className="h-10 w-auto object-contain" />
+                <img src={LOGO_URL} alt="BMC" className="h-6  max-h-[30px] w-auto object-contain" />
                 <div className="flex flex-col leading-none">
                   <span className="text-[16px] font-black text-white tracking-tight">BelaRisu</span>
                   <span className="text-[9px] tracking-[2.5px] uppercase text-white/50 font-medium">Medical Centre</span>
@@ -171,7 +170,7 @@ export default function Footer() {
               {/* Brand */}
               <div className="w-72 xl:w-80 shrink-0">
                 <div className="flex items-center gap-3 mb-5">
-                  <img src={LOGO_URL} alt="BMC" className="h-12 w-auto object-contain" />
+                  <img src={LOGO_URL} alt="BMC" className="h-8 w-auto object-contain" />
                   <div className="flex flex-col leading-none">
                     <span className="text-lg font-black text-white tracking-tight">BelaRisu</span>
                     <span className="text-[10px] tracking-[2.5px] uppercase text-white/50 font-medium">Medical Centre</span>

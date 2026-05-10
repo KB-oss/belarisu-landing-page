@@ -178,14 +178,14 @@ const TEAM: TeamMember[] = [
     bio: 'Grace provides emotional and psychosocial support to patients and their families throughout the care journey. She helps children and adults build confidence, process stigma, and develop the resilience to participate fully in school, work, and community life.',
     social: { linkedin: '#', twitter: null, instagram: '#' },
   },
-  {
-    name: 'Faith Wambui',
-    role: 'Lead Nutritionist',
-    dept: 'Rehabilitation',
-    img: IMG_STORY_L,
-    bio: 'Faith specializes in pre- and post-operative nutritional care for cleft patients. She designs individualized feeding and growth plans for infants and children, ensuring every patient has the nutritional foundation needed to heal well and grow strong.',
-    social: { linkedin: '#', twitter: '#', instagram: '#' },
-  },
+  // {
+  //   name: 'Faith Wambui',
+  //   role: 'Lead Nutritionist',
+  //   dept: 'Rehabilitation',
+  //   img: IMG_STORY_L,
+  //   bio: 'Faith specializes in pre- and post-operative nutritional care for cleft patients. She designs individualized feeding and growth plans for infants and children, ensuring every patient has the nutritional foundation needed to heal well and grow strong.',
+  //   social: { linkedin: '#', twitter: '#', instagram: '#' },
+  // },
 ]
 
 const TEAM_DEPTS = ['All', 'Clinical', 'Rehabilitation'] as const
@@ -673,7 +673,7 @@ export default function About() {
             </div>
 
             <div className="flex items-center gap-3 shrink-0 self-start md:self-auto">
-              <div
+              {/* <div
                 className="flex items-center gap-1 p-1 rounded-full"
                 style={{ background: 'rgba(7,30,54,0.07)' }}
               >
@@ -695,7 +695,7 @@ export default function About() {
                     <span className="relative z-10">{dept}</span>
                   </button>
                 ))}
-              </div>
+              </div> */}
 
               <div className="flex items-center gap-1.5">
                 <button
@@ -749,13 +749,16 @@ export default function About() {
                   style={{ width: '300px', height: '420px', scrollSnapAlign: 'start' }}
                   onClick={() => setSelectedMember(member)}
                 >
-                  <div className="absolute inset-x-0 top-0 w-full h-full group-hover:h-[56%] overflow-hidden transition-all duration-500 ease-out">
+                  {/* Image container - always stays at full size */}
+                  <div className="absolute inset-0 w-full h-full overflow-hidden">
                     <img
                       src={member.img}
                       alt={member.name}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute top-3 left-3">
+
+                    {/* Badge overlay on image */}
+                    <div className="absolute top-3 left-3 z-10">
                       <span
                         className="font-black tracking-[2px] uppercase px-2.5 py-1 rounded-full text-white"
                         style={{ fontSize: '9px', background: 'rgba(7,30,54,0.55)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
@@ -763,78 +766,79 @@ export default function About() {
                         {member.dept}
                       </span>
                     </div>
-                    <div className="absolute top-3 right-3">
+
+                    {/* Number overlay on image */}
+                    <div className="absolute top-3 right-3 z-10">
                       <span className="font-black" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.45)' }}>
                         {String(TEAM.indexOf(member) + 1).padStart(2, '0')}
                       </span>
                     </div>
-                    <div
-                      className="absolute bottom-0 left-0 w-full h-16 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      style={{ background: 'linear-gradient(to top, rgba(7,30,54,0.7) 0%, transparent 100%)' }}
-                    />
                   </div>
 
+                  {/* Text overlay - slides up from bottom on hover */}
                   <div
-                    className="absolute bottom-0 left-0 w-full flex flex-col justify-center px-5 py-5 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out"
-                    style={{ height: '44%', background: '#071e36' }}
+                    className="absolute bottom-0 left-0 w-full translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out z-20"
+                    style={{ background: '#071e36' }}
                   >
-                    <p
-                      className="font-black leading-tight tracking-[-0.3px] mb-1"
-                      style={{ fontSize: '17px', color: '#ffffff' }}
-                    >
-                      {member.name}
-                    </p>
-                    <p className="font-semibold mb-3" style={{ fontSize: '12px', color: '#ff7518' }}>
-                      {member.role}
-                    </p>
-                    <p
-                      className="leading-[1.65] line-clamp-2"
-                      style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.6)' }}
-                    >
-                      {member.bio}
-                    </p>
-
-                    <div className="flex items-center gap-1.5 mt-3">
-                      {member.social.linkedin && (
-                        <a href={member.social.linkedin} onClick={(e) => e.stopPropagation()} aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"
-                          className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                          style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
-                            <circle cx="4" cy="4" r="2" />
-                          </svg>
-                        </a>
-                      )}
-                      {member.social.twitter && (
-                        <a href={member.social.twitter} onClick={(e) => e.stopPropagation()} aria-label="Twitter" target="_blank" rel="noopener noreferrer"
-                          className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                          style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                          </svg>
-                        </a>
-                      )}
-                      {member.social.instagram && (
-                        <a href={member.social.instagram} onClick={(e) => e.stopPropagation()} aria-label="Instagram" target="_blank" rel="noopener noreferrer"
-                          className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                          style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                          </svg>
-                        </a>
-                      )}
-                    </div>
-
-                    <div className="absolute bottom-4 right-4">
-                      <div
-                        className="w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300 hover:-rotate-45"
-                        style={{ background: 'rgba(255,117,24,0.22)', color: '#ff7518' }}
+                    <div className="flex flex-col justify-center px-5 py-5" style={{ minHeight: '44%' }}>
+                      <p
+                        className="font-black leading-tight tracking-[-0.3px] mb-1"
+                        style={{ fontSize: '17px', color: '#ffffff' }}
                       >
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
+                        {member.name}
+                      </p>
+                      <p className="font-semibold mb-3" style={{ fontSize: '12px', color: '#ff7518' }}>
+                        {member.role}
+                      </p>
+                      <p
+                        className="leading-[1.65] line-clamp-2"
+                        style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.6)' }}
+                      >
+                        {member.bio}
+                      </p>
+
+                      <div className="flex items-center gap-1.5 mt-3">
+                        {member.social.linkedin && (
+                          <a href={member.social.linkedin} onClick={(e) => e.stopPropagation()} aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"
+                            className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                            style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
+                              <circle cx="4" cy="4" r="2" />
+                            </svg>
+                          </a>
+                        )}
+                        {member.social.twitter && (
+                          <a href={member.social.twitter} onClick={(e) => e.stopPropagation()} aria-label="Twitter" target="_blank" rel="noopener noreferrer"
+                            className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                            style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                            </svg>
+                          </a>
+                        )}
+                        {member.social.instagram && (
+                          <a href={member.social.instagram} onClick={(e) => e.stopPropagation()} aria-label="Instagram" target="_blank" rel="noopener noreferrer"
+                            className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                            style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                            </svg>
+                          </a>
+                        )}
+                      </div>
+
+                      <div className="absolute bottom-4 right-4">
+                        <div
+                          className="w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300 hover:-rotate-45"
+                          style={{ background: 'rgba(255,117,24,0.22)', color: '#ff7518' }}
+                        >
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                          </svg>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -842,7 +846,6 @@ export default function About() {
               ))}
           </AnimatePresence>
         </div>
-
       </div>
 
       {/* ══════════════════════════════════
@@ -905,7 +908,7 @@ export default function About() {
               }}
             >
               <div className="rotate-180 shrink-0">
-                <Quote className='w-6 h-6 text-white'/>
+                <Quote className='w-6 h-6 text-white' />
               </div>
               <p
                 className="text-white font-semibold text-center leading-snug tracking-[-0.5px]"

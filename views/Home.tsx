@@ -335,7 +335,7 @@ export default function Home() {
                   animate="visible"
                 >
                   {['Where', ' '].map((w, i) => (
-                    <motion.span key={i} className="inline-block" style={{ marginRight: w === ' ' ? '0.3em' : '0.28em' }} variants={heroWord}>{w}</motion.span>
+                    <motion.span key={i} className="inline-block" style={{ marginRight: w === ' ' ? '0.1em' : '0.15em' }} variants={heroWord}>{w}</motion.span>
                   ))}
                   <motion.em
                     className="not-italic text-accent inline-block"
