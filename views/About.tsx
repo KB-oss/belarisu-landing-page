@@ -21,7 +21,7 @@ const WRAP = 'w-full max-w-[1366px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20'
 
 /* ─── Figma assets ─── */
 const IMG_HERO = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999410/1H4A3138_rpk5lr.jpg'
-const IMG_STORY_L = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999411/1H4A3088_enrccn.jpg'
+const IMG_STORY_L = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001795/ChatGPT_Image_May_5_2026_08_22_29_PM_lpuepj.png'
 const IMG_FULL = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999413/IMG_0019_id2y16.jpg'
 const IMG_CARE_A = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997868/Care_That_grows_with_you_1_vugnlh.jpg'
 const IMG_CARE_B = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997867/Care_That_grows_with_you_2JPG_wmezgb.jpg'
@@ -31,10 +31,10 @@ const IMG_SPLIT_R = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_
 const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246027/Brighton_Chacha_Marwa_4yrs_1_z0tcog.webp'
 const IMG_QUOTE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778182124/every_smile_1_p8yhro.jpg'
 const IMG_CARE_1 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001798/ChatGPT_Image_May_5_2026_08_22_15_PM_hvd3dp.png'
-const IMG_CARE_2 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001796/ChatGPT_Image_May_5_2026_08_22_06_PM_pjwlaz.png'
-const IMG_CARE_3 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001795/ChatGPT_Image_May_5_2026_08_22_29_PM_lpuepj.png'
-const IMG_SPLIT_4 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001053/1H4A5193_dg4cqr.jpg'
-const IMG_SPLIT_5 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001045/1H4A5164_2_qgwnob.jpg'
+const IMG_CARE_2 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778538133/ChatGPT_Image_May_12_2026_01_17_08_AM_hipp6k.png'
+const IMG_CARE_3 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778538097/ChatGPT_Image_May_12_2026_01_16_54_AM_bqunnt.png'
+const IMG_SPLIT_4 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778538055/ChatGPT_Image_May_12_2026_01_20_38_AM_fzvg5z.png'
+const IMG_SPLIT_5 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778538061/ChatGPT_Image_May_12_2026_01_20_29_AM_sdg7oh.png'
 
 /* ─── Data ─── */
 const CCC_ITEMS: string[] = [
