@@ -20,6 +20,8 @@ interface ImageComparisonSliderProps {
   altAfter?: string
   className?: string
   showControls?: boolean
+  /** When true, animates the divider from 100% → 50% to reveal the After image */
+  scrollReveal?: boolean
 }
 
 export default function ImageComparisonSlider({
@@ -31,10 +33,12 @@ export default function ImageComparisonSlider({
   altAfter = 'After',
   className = '',
   showControls = true,
+  scrollReveal = false,
 }: ImageComparisonSliderProps) {
   const [internalIndex, setInternalIndex] = useState<number>(0)
-  const [position, setPosition] = useState<number>(50)
+  const [position, setPosition] = useState<number>(scrollReveal ? 100 : 50)
   const [dragging, setDragging] = useState<boolean>(false)
+  const hasRevealed = useRef<boolean>(false)
   const [showHint, setShowHint] = useState<boolean>(true)
   const [hasInteracted, setHasInteracted] = useState<boolean>(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -137,6 +141,28 @@ export default function ImageComparisonSlider({
     }
   }, [])
 
+  // Scroll-reveal: animate divider from 100 → 50 when mounted with scrollReveal=true
+  useEffect(() => {
+    if (!scrollReveal || hasRevealed.current) return
+    hasRevealed.current = true
+    // Brief delay so the section has fully entered the viewport
+    const delay = setTimeout(() => {
+      const duration = 1400
+      const start = performance.now()
+      const from = 100
+      const to = 50
+      const tick = (now: number) => {
+        const p = Math.min((now - start) / duration, 1)
+        // ease-out cubic
+        const eased = 1 - Math.pow(1 - p, 3)
+        setPosition(from + (to - from) * eased)
+        if (p < 1) requestAnimationFrame(tick)
+      }
+      requestAnimationFrame(tick)
+    }, 350)
+    return () => clearTimeout(delay)
+  }, [scrollReveal])
+
   if (!currentImage) return null
 
   return (
@@ -149,7 +175,7 @@ export default function ImageComparisonSlider({
       onMouseLeave={resumeAutoplay}
     >
       {/* BASE LAYER: BEFORE image */}
-      <img src={currentImage.before} alt={altBefore} className="h-full w-full object-cover" draggable={false} />
+      <img src={currentImage.before} alt={altBefore} className="h-full w-full object-contain bg-[#071e36]" draggable={false} />
       
       {/* BEFORE badge */}
       <div className="absolute top-5 left-5 bg-navy/70 backdrop-blur-sm text-white text-[10px] font-black tracking-[2px] uppercase px-3 py-1.5 rounded-full z-10">
@@ -161,7 +187,7 @@ export default function ImageComparisonSlider({
         className="absolute inset-0 overflow-hidden"
         style={{ clipPath: `inset(0 0 0 ${position}%)` }}
       >
-        <img src={currentImage.after} alt={altAfter} className="h-full w-full object-cover" draggable={false} />
+        <img src={currentImage.after} alt={altAfter} className="h-full w-full object-contain bg-[#071e36]" draggable={false} />
         
         {/* AFTER badge */}
         <div className="absolute top-5 right-5 bg-accent text-white text-[10px] font-black tracking-[2px] uppercase px-3 py-1.5 rounded-full z-10">

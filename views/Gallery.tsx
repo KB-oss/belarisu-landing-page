@@ -160,6 +160,18 @@ const FILTERS = ['All Stories',
 ] as const
 type FilterType = typeof FILTERS[number]
 
+/* Bento grid span configs — repeats if more images are added */
+const BENTO_SPANS = [
+  { col: 'col-span-2', row: 'row-span-2' },  // 0: large square
+  { col: 'col-span-1', row: 'row-span-1' },  // 1: small
+  { col: 'col-span-1', row: 'row-span-1' },  // 2: small
+  { col: 'col-span-2', row: 'row-span-1' },  // 3: wide
+  { col: 'col-span-1', row: 'row-span-2' },  // 4: tall
+  { col: 'col-span-1', row: 'row-span-1' },  // 5: small
+  { col: 'col-span-2', row: 'row-span-2' },  // 6: large
+  { col: 'col-span-2', row: 'row-span-2' },  // 7: large
+]
+
 function CloseIcon() {
   return (
     <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
@@ -256,7 +268,7 @@ export default function Gallery() {
       </div>
 
       {/* ══════════════════════════════════
-          MASONRY GRID
+          BENTO GRID
       ══════════════════════════════════ */}
       <div className={`${WRAP} pb-20`}>
         <AnimatePresence mode="wait">
@@ -266,34 +278,44 @@ export default function Gallery() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="columns-1 sm:columns-2 md:columns-3 gap-3 [column-gap:12px]"
+            className="grid grid-cols-2 md:grid-cols-4 gap-3"
+            style={{ gridAutoRows: '220px' }}
           >
-            {displayed.map(({ src, tag, desc, name }, i) => (
-              <motion.div
-                key={Array.isArray(src) ? src.join(',') + i : src + i}
-                className="break-inside-avoid mb-3 rounded-[16px] overflow-hidden bg-[#f1f5f9] cursor-pointer group shadow-[0px_1px_3px_rgba(0,0,0,0.1),0px_1px_2px_-1px_rgba(0,0,0,0.1)]"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.04, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
-                onClick={() => {
-                  // Handle both string and array src
-                  setLightbox(src)
-                  setDesc({ title: name || "", desc: desc || "" })
-                }}
-              >
-                <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#f1f5f9]">
+            {displayed.map(({ src, tag, desc, name }, i) => {
+              const bentoCol = BENTO_SPANS[i % BENTO_SPANS.length].col
+              const bentoRow = BENTO_SPANS[i % BENTO_SPANS.length].row
+              const imgSrc = getImageSrc(Array.isArray(src) ? src[0] : src)
+              return (
+                <motion.div
+                  key={Array.isArray(src) ? src.join(',') + i : src + i}
+                  className={`${bentoCol} ${bentoRow} rounded-[16px] overflow-hidden bg-[#f1f5f9] cursor-pointer group shadow-[0px_1px_3px_rgba(0,0,0,0.1),0px_1px_2px_-1px_rgba(0,0,0,0.1)] relative`}
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.055, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  onClick={() => {
+                    setLightbox(src)
+                    setDesc({ title: name || '', desc: desc || '' })
+                  }}
+                >
                   <img
-                    src={getImageSrc(Array.isArray(src) ? src[0] : src)}
+                    src={imgSrc}
                     alt={`${tag} patient story ${i + 1}`}
-                    className="w-full h-full object-contain group-hover:scale-[1.02] transition-transform duration-500"
+                    className="w-full h-full object-contain bg-[#f1f5f9] group-hover:scale-[1.03] transition-transform duration-500"
                     loading="lazy"
                     onError={() => handleImageError(Array.isArray(src) ? src[0] : src)}
                     referrerPolicy="no-referrer"
                     crossOrigin="anonymous"
                   />
-                </div>
-              </motion.div>
-            ))}
+                  {/* Name overlay on hover */}
+                  {name && (
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-4 py-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                      <p className="text-white text-[12px] font-bold">{name}</p>
+                      <p className="text-white/60 text-[10px] uppercase tracking-[1.5px] font-semibold">{tag}</p>
+                    </div>
+                  )}
+                </motion.div>
+              )
+            })}
           </motion.div>
         </AnimatePresence>
       </div>

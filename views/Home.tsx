@@ -490,7 +490,185 @@ export default function Home() {
       {/* ══════════════════════════════════
           TRANSFORMATIONS
       ══════════════════════════════════ */}
-      <section className="py-16 xl:py-20">
+      <TransformSection currentPatientIndex={currentPatientIndex} setCurrentPatientIndex={setCurrentPatientIndex} currentPatient={currentPatient} />
+
+      {/* ══════════════════════════════════
+          SERVICES
+      ══════════════════════════════════ */}
+      <section className="py-16 xl:py-20 bg-[#fdfcfb]">
+        <div className={WRAP}>
+          <Reveal direction="up">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 xl:gap-20 items-end mb-14">
+              <div>
+                <p className="font-black tracking-[3.5px] uppercase mb-4" style={{ fontSize: '10px', color: '#ff7518' }}>Our Services</p>
+                <h2 className="font-black leading-[1.06] tracking-[-1.5px] text-body" style={{ fontSize: 'clamp(1.9rem, 3.6vw, 3.2rem)' }}>
+                  Get to know our{' '}
+                  <em className="not-italic text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>comprehensive care</em>
+                </h2>
+              </div>
+              <div className="flex flex-col gap-4">
+                <p className="text-muted text-[15px] leading-[1.85]">Our multidisciplinary team addresses every dimension of cleft care — restoring health, function, and confidence across every stage of life.</p>
+                <Link href="/services" className="self-start inline-flex items-center gap-2 text-accent font-bold text-[13px] group transition-all">
+                  View all services <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              </div>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-10 items-stretch">
+            <div className="lg:col-span-2 flex flex-col gap-2">
+              {SERVICES.map((svc, i) => {
+                const isActive = i === activeService
+                return (
+                  <motion.div key={svc.title} className="rounded-[16px] cursor-pointer overflow-hidden transition-colors duration-200"
+                    style={{ background: isActive ? '#fff' : 'transparent', boxShadow: isActive ? '0 2px 16px rgba(7,30,54,0.07), 0 0 0 1px rgba(7,30,54,0.06)' : 'none' }}
+                    onClick={() => selectService(i)} layout transition={{ type: 'spring', stiffness: 380, damping: 32 }}>
+                    <div className="flex items-center gap-3 px-4 py-4 select-none">
+                      <div className="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0 transition-all duration-250"
+                        style={{ background: isActive ? 'rgba(255,117,24,0.10)' : '#eae6e0', color: isActive ? '#ff7518' : '#8a939f' }}>
+                        {svc.icon}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <span className="font-bold text-[14.5px] transition-colors duration-200 block" style={{ color: isActive ? '#071e36' : '#62748e' }}>{svc.title}</span>
+                      </div>
+                      <span className="font-black tabular-nums shrink-0 transition-colors duration-200" style={{ fontSize: '10px', color: isActive ? '#ff7518' : 'rgba(7,30,54,0.15)' }}>{String(i + 1).padStart(2, '0')}</span>
+                      <motion.svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"
+                        className="w-3.5 h-3.5 shrink-0" style={{ color: isActive ? '#ff7518' : '#c4ccd4' }}
+                        animate={{ rotate: isActive ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] as [number,number,number,number] }}>
+                        <path d="M3 6l5 5 5-5" />
+                      </motion.svg>
+                    </div>
+                    <AnimatePresence initial={false}>
+                      {isActive && (
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] as [number,number,number,number] }} className="overflow-hidden">
+                          <div className="lg:hidden mx-4 mb-3 rounded-[12px] overflow-hidden h-[180px] bg-[#ede9e3]">
+                            <AnimatePresence mode="wait">
+                              <motion.img key={activeService} src={svc.img} alt={svc.title} className="w-full h-full object-cover"
+                                initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
+                                transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as [number,number,number,number] }} />
+                            </AnimatePresence>
+                          </div>
+                          <p className="text-muted text-[13.5px] leading-[1.78] px-4 pb-3">{svc.desc}</p>
+                          <div className="flex items-center justify-between gap-4 px-4 pb-4">
+                            <div className="flex-1 h-[2px] bg-[#e8e3db] rounded-full overflow-hidden">
+                              <motion.div key={`${i}-bar`} className="h-full rounded-full" style={{ background: '#ff7518', transformOrigin: 'left' }}
+                                initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: AUTO_INTERVAL / 1000, ease: 'linear' }} />
+                            </div>
+                            <Link href="/services" className="inline-flex items-center gap-1.5 text-accent font-bold text-[12px] shrink-0 group/cta" onClick={(e) => e.stopPropagation()}>
+                              Learn more <ArrowRight className="w-3 h-3 transition-transform group-hover/cta:translate-x-0.5" />
+                            </Link>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                )
+              })}
+            </div>
+
+            <div className="hidden lg:block lg:col-span-3 relative rounded-[22px] overflow-hidden bg-[#ede9e3] lg:min-h-[500px]">
+              <AnimatePresence mode="wait">
+                <motion.img key={activeService} src={SERVICES[activeService].img} alt={SERVICES[activeService].title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.97 }}
+                  transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as [number,number,number,number] }} />
+              </AnimatePresence>
+              <AnimatePresence mode="wait">
+                <motion.span key={`ghost-${activeService}`} className="absolute top-5 right-6 font-black leading-none pointer-events-none select-none"
+                  style={{ fontSize: 'clamp(4rem, 6vw, 6.5rem)', color: 'rgba(255,255,255,0.10)', letterSpacing: '-4px' }}
+                  initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] }}>
+                  {String(activeService + 1).padStart(2, '0')}
+                </motion.span>
+              </AnimatePresence>
+              <div className="absolute bottom-0 left-0 right-0 px-7 pt-16 pb-7"
+                style={{ background: 'linear-gradient(to top, rgba(7,30,54,0.84) 0%, rgba(7,30,54,0.28) 55%, transparent 85%)' }}>
+                <AnimatePresence mode="wait">
+                  <motion.div key={activeService} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.28 }} className="flex items-end justify-between gap-4">
+                    <div>
+                      <p className="font-black uppercase tracking-[2.5px] mb-1.5" style={{ fontSize: '9px', color: 'rgba(255,255,255,0.45)' }}>
+                        {String(activeService + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
+                      </p>
+                      <p className="text-white font-black text-[22px] tracking-[-0.5px] leading-tight">{SERVICES[activeService].title}</p>
+                    </div>
+                    <Link href="/booking" className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-full font-bold text-[12px] pointer-events-auto transition-all duration-200 hover:scale-[1.03] active:scale-[0.98]"
+                      style={{ background: '#ff7518', color: '#fff' }}>
+                      Book now <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </motion.div>
+                </AnimatePresence>
+                <div className="flex items-center gap-1.5 mt-4">
+                  {SERVICES.map((_, i) => (
+                    <button key={i} onClick={() => selectService(i)} className="transition-all duration-300 rounded-full cursor-pointer"
+                      style={{ width: i === activeService ? '20px' : '6px', height: '6px', background: i === activeService ? '#ff7518' : 'rgba(255,255,255,0.30)' }}
+                      aria-label={`View ${SERVICES[i].title}`} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════
+          DONATE CTA
+      ══════════════════════════════════ */}
+      <Reveal direction="up">
+        <section className="py-8 sm:py-10 lg:py-14">
+          <div className={WRAP}>
+            <div className="relative overflow-hidden rounded-[24px] sm:rounded-[28px]" style={{ minHeight: '440px' }}
+              onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+              <motion.img src={DONATE_IMG} alt="" className="absolute inset-0 w-full h-full object-cover"
+                animate={{ opacity: isHovered ? 0 : 1 }} transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }} />
+              <motion.img src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246029/0B2A0279_1_drz6kf.webp" alt=""
+                className="absolute inset-0 w-full h-full object-cover"
+                animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1 : 1.02 }}
+                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], opacity: { duration: 0.7 }, scale: { duration: 0.9, ease: [0.32, 0, 0.67, 0] } }} />
+              <motion.div className="absolute inset-0"
+                style={{ background: 'linear-gradient(to right, rgba(7,30,54,0.02) 0%, rgba(7,30,54,0.35) 45%, rgba(7,30,54,0.65) 100%)' }}
+                animate={{ background: isHovered ? 'linear-gradient(to right, rgba(7,30,54,0.06) 0%, rgba(7,30,54,0.45) 45%, rgba(7,30,54,0.75) 100%)' : 'linear-gradient(to right, rgba(7,30,54,0.02) 0%, rgba(7,30,54,0.35) 45%, rgba(7,30,54,0.65) 100%)' }}
+                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }} />
+              <div className="relative z-10 flex items-center justify-end min-h-[440px]">
+                <div className="max-w-[460px] p-10 sm:p-12 lg:p-16">
+                  <motion.p className="font-black uppercase tracking-[3px] mb-4" style={{ fontSize: '8px', color: 'rgba(255,255,255,0.32)' }}
+                    animate={{ opacity: isHovered ? 0.7 : 1 }} transition={{ duration: 0.5 }}>Make a Difference</motion.p>
+                  <h2 className="font-black text-white leading-[1.2] tracking-[-1px] mb-4" style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)' }}>
+                    Give a Child Their{' '}
+                    <em className="not-italic text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>First Smile</em>
+                  </h2>
+                  <motion.p className="text-[12px] leading-[1.7] mb-7 font-light" style={{ color: 'rgba(255,255,255,0.50)' }}
+                    animate={{ opacity: isHovered ? 0.85 : 1 }} transition={{ duration: 0.5 }}>
+                    Your generosity brings life-changing cleft care to those who need it most.
+                  </motion.p>
+                  <motion.button onClick={openModal}
+                    className="inline-flex items-center gap-2 bg-white text-accent font-black text-[13px] px-7 py-3.5 rounded-full hover:bg-accent hover:text-white transition-all duration-200 shadow-xl hover:-translate-y-px"
+                    whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    Donate Now <Heart className="w-4 h-4" />
+                  </motion.button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
+    </div>
+  )
+}
+
+/* ── Transformation section (own component so useInView ref is scoped) ── */
+function TransformSection({ currentPatientIndex, setCurrentPatientIndex, currentPatient }: {
+  currentPatientIndex: number
+  setCurrentPatientIndex: (i: number) => void
+  currentPatient: typeof PATIENT_GALLERY[0]
+}) {
+  const sectionRef = useRef<HTMLElement>(null)
+  const inView = useInView(sectionRef, { once: false, amount: 0.35 })
+
+  return (
+      <section ref={sectionRef} className="py-16 xl:py-20">
         <div className={WRAP}>
 
           <Reveal direction="up">
@@ -536,8 +714,9 @@ export default function Home() {
                 images={PATIENT_GALLERY}
                 currentIndex={currentPatientIndex}
                 onIndexChange={setCurrentPatientIndex}
-                autoPlayInterval={40000} // 40 seconds
+                autoPlayInterval={40000}
                 className="w-full h-full"
+                scrollReveal={inView}
               />
 
               {/* Patient overlay - now dynamic */}
@@ -585,350 +764,6 @@ export default function Home() {
           </Reveal>
         </div>
       </section>
-
-      {/* ══════════════════════════════════
-          SERVICES
-      ══════════════════════════════════ */}
-      <section className="py-16 xl:py-20 bg-[#fdfcfb]">
-        <div className={WRAP}>
-
-          <Reveal direction="up">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 xl:gap-20 items-end mb-14">
-              <div>
-                <p className="font-black tracking-[3.5px] uppercase mb-4" style={{ fontSize: '10px', color: '#ff7518' }}>
-                  Our Services
-                </p>
-                <h2
-                  className="font-black leading-[1.06] tracking-[-1.5px] text-body"
-                  style={{ fontSize: 'clamp(1.9rem, 3.6vw, 3.2rem)' }}
-                >
-                  Get to know our{' '}
-                  <em className="not-italic text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>
-                    comprehensive care
-                  </em>
-                </h2>
-              </div>
-              <div className="flex flex-col gap-4">
-                <p className="text-muted text-[15px] leading-[1.85]">
-                  Our multidisciplinary team addresses every dimension of cleft care — restoring health, function, and confidence across every stage of life.
-                </p>
-                <Link
-                  href="/services"
-                  className="self-start inline-flex items-center gap-2 text-accent font-bold text-[13px] group transition-all"
-                >
-                  View all services
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-                </Link>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Accordion + image */}
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-10 items-stretch">
-
-            {/* ── Accordion list ── */}
-            <div className="lg:col-span-2 flex flex-col gap-2">
-              {SERVICES.map((svc, i) => {
-                const isActive = i === activeService
-                return (
-                  <motion.div
-                    key={svc.title}
-                    className="rounded-[16px] cursor-pointer overflow-hidden transition-colors duration-200"
-                    style={{
-                      background: isActive ? '#fff' : 'transparent',
-                      boxShadow: isActive ? '0 2px 16px rgba(7,30,54,0.07), 0 0 0 1px rgba(7,30,54,0.06)' : 'none',
-                    }}
-                    onClick={() => selectService(i)}
-                    layout
-                    transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-                  >
-                    {/* Row header */}
-                    <div className="flex items-center gap-3 px-4 py-4 select-none">
-                      {/* Icon bubble */}
-                      <div
-                        className="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0 transition-all duration-250"
-                        style={{
-                          background: isActive ? 'rgba(255,117,24,0.10)' : '#eae6e0',
-                          color: isActive ? '#ff7518' : '#8a939f',
-                        }}
-                      >
-                        {svc.icon}
-                      </div>
-
-                      {/* Title + number */}
-                      <div className="flex-1 min-w-0">
-                        <span
-                          className="font-bold text-[14.5px] transition-colors duration-200 block"
-                          style={{ color: isActive ? '#071e36' : '#62748e' }}
-                        >
-                          {svc.title}
-                        </span>
-                      </div>
-
-                      {/* Number badge */}
-                      <span
-                        className="font-black tabular-nums shrink-0 transition-colors duration-200"
-                        style={{ fontSize: '10px', color: isActive ? '#ff7518' : 'rgba(7,30,54,0.15)' }}
-                      >
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-
-                      {/* Chevron */}
-                      <motion.svg
-                        viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2"
-                        strokeLinecap="round" strokeLinejoin="round"
-                        className="w-3.5 h-3.5 shrink-0"
-                        style={{ color: isActive ? '#ff7518' : '#c4ccd4' }}
-                        animate={{ rotate: isActive ? 180 : 0 }}
-                        transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
-                      >
-                        <path d="M3 6l5 5 5-5" />
-                      </motion.svg>
-                    </div>
-
-                    {/* Expanded content */}
-                    <AnimatePresence initial={false}>
-                      {isActive && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
-                          className="overflow-hidden"
-                        >
-                          {/* Mobile-only image thumbnail */}
-                          <div className="lg:hidden mx-4 mb-3 rounded-[12px] overflow-hidden h-[180px] bg-[#ede9e3]">
-                            <AnimatePresence mode="wait">
-                              <motion.img
-                                key={activeService}
-                                src={svc.img}
-                                alt={svc.title}
-                                className="w-full h-full object-cover"
-                                initial={{ opacity: 0, scale: 1.04 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
-                              />
-                            </AnimatePresence>
-                          </div>
-
-                          <p className="text-muted text-[13.5px] leading-[1.78] px-4 pb-3">{svc.desc}</p>
-
-                          {/* Progress bar + CTA row */}
-                          <div className="flex items-center justify-between gap-4 px-4 pb-4">
-                            {/* Auto-advance progress */}
-                            <div className="flex-1 h-[2px] bg-[#e8e3db] rounded-full overflow-hidden">
-                              <motion.div
-                                key={`${i}-bar`}
-                                className="h-full rounded-full"
-                                style={{ background: '#ff7518', transformOrigin: 'left' }}
-                                initial={{ scaleX: 0 }}
-                                animate={{ scaleX: 1 }}
-                                transition={{ duration: AUTO_INTERVAL / 1000, ease: 'linear' }}
-                              />
-                            </div>
-                            {/* Learn more CTA */}
-                            <Link
-                              href="/services"
-                              className="inline-flex items-center gap-1.5 text-accent font-bold text-[12px] shrink-0 group/cta"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              Learn more
-                              <ArrowRight className="w-3 h-3 transition-transform group-hover/cta:translate-x-0.5" />
-                            </Link>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                )
-              })}
-            </div>
-
-            {/* ── Image panel (desktop) ── */}
-            <div className="hidden lg:block lg:col-span-3 relative rounded-[22px] overflow-hidden bg-[#ede9e3] lg:min-h-[500px]">
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={activeService}
-                  src={SERVICES[activeService].img}
-                  alt={SERVICES[activeService].title}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  initial={{ opacity: 0, scale: 1.04 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.97 }}
-                  transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
-                />
-              </AnimatePresence>
-
-              {/* Ghost number watermark */}
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={`ghost-${activeService}`}
-                  className="absolute top-5 right-6 font-black leading-none pointer-events-none select-none"
-                  style={{ fontSize: 'clamp(4rem, 6vw, 6.5rem)', color: 'rgba(255,255,255,0.10)', letterSpacing: '-4px' }}
-                  initial={{ opacity: 0, y: -12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-                >
-                  {String(activeService + 1).padStart(2, '0')}
-                </motion.span>
-              </AnimatePresence>
-
-              {/* Bottom gradient + label */}
-              <div
-                className="absolute bottom-0 left-0 right-0 px-7 pt-16 pb-7"
-                style={{ background: 'linear-gradient(to top, rgba(7,30,54,0.84) 0%, rgba(7,30,54,0.28) 55%, transparent 85%)' }}
-              >
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeService}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -6 }}
-                    transition={{ duration: 0.28 }}
-                    className="flex items-end justify-between gap-4"
-                  >
-                    <div>
-                      <p
-                        className="font-black uppercase tracking-[2.5px] mb-1.5"
-                        style={{ fontSize: '9px', color: 'rgba(255,255,255,0.45)' }}
-                      >
-                        {String(activeService + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
-                      </p>
-                      <p className="text-white font-black text-[22px] tracking-[-0.5px] leading-tight">
-                        {SERVICES[activeService].title}
-                      </p>
-                    </div>
-                    {/* Book now button */}
-                    <Link
-                      href="/booking"
-                      className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-full font-bold text-[12px] pointer-events-auto transition-all duration-200 hover:scale-[1.03] active:scale-[0.98]"
-                      style={{ background: '#ff7518', color: '#fff' }}
-                    >
-                      Book now
-                      <ArrowRight className="w-3 h-3" />
-                    </Link>
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Dot indicators */}
-                <div className="flex items-center gap-1.5 mt-4">
-                  {SERVICES.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => selectService(i)}
-                      className="transition-all duration-300 rounded-full cursor-pointer"
-                      style={{
-                        width: i === activeService ? '20px' : '6px',
-                        height: '6px',
-                        background: i === activeService ? '#ff7518' : 'rgba(255,255,255,0.30)',
-                      }}
-                      aria-label={`View ${SERVICES[i].title}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════
-          DONATE CTA
-      ══════════════════════════════════ */}
-
-      <Reveal direction="up">
-        <section className="py-8 sm:py-10 lg:py-14">
-          <div className={WRAP}>
-            <div
-              className="relative overflow-hidden rounded-[24px] sm:rounded-[28px]"
-              style={{ minHeight: '440px' }}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-            >
-              {/* Both images rendered simultaneously for smoother crossfade */}
-              <motion.img
-                src={DONATE_IMG}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover"
-                animate={{ opacity: isHovered ? 0 : 1 }}
-                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-              />
-
-              <motion.img
-                src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246029/0B2A0279_1_drz6kf.webp"
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover"
-                animate={{
-                  opacity: isHovered ? 1 : 0,
-                  scale: isHovered ? 1 : 1.02
-                }}
-                transition={{
-                  duration: 0.7,
-                  ease: [0.25, 0.1, 0.25, 1],
-                  opacity: { duration: 0.7 },
-                  scale: { duration: 0.9, ease: [0.32, 0, 0.67, 0] }
-                }}
-              />
-
-              {/* Gradient Overlay with subtle hover enhancement */}
-              <motion.div
-                className="absolute inset-0"
-                style={{
-                  background: 'linear-gradient(to right, rgba(7,30,54,0.02) 0%, rgba(7,30,54,0.35) 45%, rgba(7,30,54,0.65) 100%)',
-                }}
-                animate={{
-                  background: isHovered
-                    ? 'linear-gradient(to right, rgba(7,30,54,0.06) 0%, rgba(7,30,54,0.45) 45%, rgba(7,30,54,0.75) 100%)'
-                    : 'linear-gradient(to right, rgba(7,30,54,0.02) 0%, rgba(7,30,54,0.35) 45%, rgba(7,30,54,0.65) 100%)'
-                }}
-                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-              />
-
-              <div className="relative z-10 flex items-center justify-end min-h-[440px]">
-                <div className="max-w-[460px] p-10 sm:p-12 lg:p-16">
-                  <motion.p
-                    className="font-black uppercase tracking-[3px] mb-4"
-                    style={{ fontSize: '8px', color: 'rgba(255,255,255,0.32)' }}
-                    animate={{ opacity: isHovered ? 0.7 : 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    Make a Difference
-                  </motion.p>
-                  <h2
-                    className="font-black text-white leading-[1.2] tracking-[-1px] mb-4"
-                    style={{ fontSize: 'clamp(0.9rem, 3vw, 2.5rem)' }}
-                  >
-                    Give a Child Their{' '}
-                    <em className="not-italic text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>
-                      First Smile
-                    </em>
-                  </h2>
-                  <motion.p
-                    className="text-[12px] leading-[1.7] mb-7 font-light"
-                    style={{ color: 'rgba(255,255,255,0.50)' }}
-                    animate={{ opacity: isHovered ? 0.85 : 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    Your generosity brings life-changing cleft care to those who need it most.
-                  </motion.p>
-                  <motion.button
-                    onClick={openModal}
-                    className="inline-flex items-center gap-2 bg-white text-accent font-black text-[11px] px-6 py-3 rounded-full hover:bg-accent hover:text-white transition-all duration-200 shadow-xl hover:-translate-y-px"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Donate Now <Heart className='w-4 h-4' />
-                  </motion.button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-    </div>
   )
 }
+

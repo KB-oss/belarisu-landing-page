@@ -7,8 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
 /* ─── Assets ─── */
-const LOGO_URL_DARK = './DARK.webp'
-const LOGO_URL_LIGHT = './LIGHT.webp'
+const LOGO_URL_DARK = '/DARK.webp'
+const LOGO_URL_LIGHT = '/LIGHT.webp'
 
 /* Pages where the hero is dark (nav starts white when unscrolled) */
 const DARK_HERO_PAGES = new Set(['/'])

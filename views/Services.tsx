@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import Reveal from '../components/Reveal'
 import { useDonation } from '../context/DonationContext'
+import { Heart } from 'lucide-react'
 
 /* ─── Design tokens ─── */
 const PLAYFAIR = "'Playfair Display', Georgia, 'Times New Roman', serif"
@@ -403,36 +404,41 @@ export default function Services() {
             />
 
             <div className="relative z-10 flex items-center justify-end min-h-[523px]">
-              <div className="max-w-[580px] p-10 sm:p-12 xl:p-16 flex flex-col gap-4">
+              <div className="max-w-[460px] p-10 sm:p-12 xl:p-16 flex flex-col gap-4">
+                <motion.p
+                  className="font-black uppercase tracking-[3px]"
+                  style={{ fontSize: '8px', color: 'rgba(255,255,255,0.32)' }}
+                  animate={{ opacity: isHovered ? 0.7 : 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  Make a Difference
+                </motion.p>
                 <motion.h2
-                  className="font-black leading-[1.2] tracking-[-0.02em]"
-                  style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.8rem)' }}
+                  className="font-black text-white leading-[1.2] tracking-[-1px]"
+                  style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.5rem)' }}
                   animate={{ opacity: isHovered ? 0.95 : 1 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <span className='text-white'>Give a Child Their </span>
-                  <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>First Smile</em>
+                  Give a Child Their{' '}
+                  <em className="not-italic text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>First Smile</em>
                 </motion.h2>
                 <motion.p
-                  className="leading-[1.6]"
-                  style={{ fontSize: '14px', color: '#fff', maxWidth: '440px' }}
-                  animate={{ opacity: isHovered ? 0.9 : 1 }}
+                  className="text-[12px] leading-[1.7] font-light"
+                  style={{ color: 'rgba(255,255,255,0.50)' }}
+                  animate={{ opacity: isHovered ? 0.85 : 1 }}
                   transition={{ duration: 0.5 }}
                 >
-                  Your generosity brings life-changing care to those who need it most. Join us in making a profound difference.
+                  Your generosity brings life-changing care to those who need it most.
                 </motion.p>
                 <div>
                   <motion.button
                     onClick={openModal}
-                    className="inline-flex items-center gap-2 font-black text-[13px] px-6 py-3 rounded-[14px] transition-all duration-200 hover:opacity-90"
-                    style={{ background: '#fff', color: '#ff7518', boxShadow: '0 4px 20px rgba(0,0,0,0.12)' }}
-                    whileHover={{ scale: 1.02, opacity: 0.95 }}
+                    className="inline-flex items-center gap-2 bg-white text-accent font-black text-[13px] px-7 py-3.5 rounded-full hover:bg-accent hover:text-white transition-all duration-200 shadow-xl hover:-translate-y-px"
+                    whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     Donate Now
-                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
+                    <Heart className="w-4 h-4" />
                   </motion.button>
                 </div>
               </div>
