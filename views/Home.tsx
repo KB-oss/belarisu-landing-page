@@ -10,11 +10,11 @@ import { Heart } from 'lucide-react'
 
 /* ─── Assets ─── */
 const HERO_IMGS = [
-  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246801/backk_ob1gnv.webp',
-  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995839/MM9_ar0km0.webp',
-  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778247125/backkk_ztmkzm.webp',
-  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995798/YY4_2_of9xhh.webp',
-  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246556/ChatGPT_Image_May_8_2026_04_19_15_PM_bafnwv.webp'
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512766/Frame_52_eiru04.png',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512764/Frame_51_rklxyx.png',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512762/Frame_50_gsozrp.png',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512757/Frame_49_wom4rs.png',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512755/Frame_48_y96n0n.png'
 ]
 const BEFORE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002965/1H4A1675_rngiou.jpg'
 const AFTER_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002968/1H4A2346_kosbyt.jpg'
@@ -118,7 +118,7 @@ const SERVICES: ServiceItem[] = [
   {
     title: 'Orthodontics & Dental',
     desc: 'Orthodontic assessment and treatment guide proper jaw development, improve dental alignment, and support patients in long-term oral health as they grow.',
-    img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778179639/orthodontics-home_zzxjvc.jpg',
+    img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778513801/WhatsApp_Image_2026-05-11_at_11.14.33_ysigtk.jpg',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
         <circle cx="12" cy="12" r="10" /><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" />
@@ -182,7 +182,7 @@ interface StatNumberProps {
 
 function StatNumber({ target, suffix = '' }: StatNumberProps) {
   const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: true, amount: 0.6 })
+  const inView = useInView(ref, { once: false, amount: 0.6 })
   const [val, setVal] = useState<number>(0)
   useEffect(() => {
     if (!inView) return
@@ -419,14 +419,14 @@ export default function Home() {
                 className="font-black leading-[1.06] text-white mx-auto"
                 style={{ fontSize: 'clamp(2.4rem, 5.5vw, 5.2rem)', letterSpacing: '-2.5px', maxWidth: '820px' }}
               >
-                Over 600 families.{' '}
+                700 families.{' '}
                 <em style={{ fontFamily: PLAYFAIR, fontStyle: 'italic', color: '#ff7518' }}>
                   Not a single bill.
                 </em>
               </h2>
               <p
                 className="mt-5 mx-auto leading-relaxed"
-                style={{ fontSize: '16px', color: 'rgba(255,255,255,0.40)', maxWidth: '460px' }}
+                style={{ fontSize: '16px', color: 'rgba(255,255,255,0.72)', maxWidth: '460px' }}
               >
                 Every surgery, every therapy session, every follow-up — completely free to every patient.
               </p>
@@ -461,11 +461,11 @@ export default function Home() {
                   style={{ background: 'rgba(255,117,24,0.035)' }}
                 />
                 <p
-                  className="font-black leading-none mb-5"
+                  className="font-black leading-none mb-5 inline-flex items-baseline"
                   style={{ fontSize: 'clamp(4rem, 7vw, 7.5rem)', letterSpacing: '-5px', color: '#ffffff' }}
                 >
                   <StatNumber target={num} suffix="" />
-                  <span style={{ color: '#ff7518' }}>{suffix}</span>
+                  <span style={{ color: '#ff7518', marginLeft: '4px' }}>{suffix}</span>
                 </p>
                 <p className="text-white font-bold text-[15px] mb-1 tracking-[-0.2px]">{label}</p>
                 <p
@@ -490,7 +490,7 @@ export default function Home() {
       {/* ══════════════════════════════════
           TRANSFORMATIONS
       ══════════════════════════════════ */}
-      <section className="py-24 xl:py-32">
+      <section className="py-16 xl:py-20">
         <div className={WRAP}>
 
           <Reveal direction="up">
@@ -589,7 +589,7 @@ export default function Home() {
       {/* ══════════════════════════════════
           SERVICES
       ══════════════════════════════════ */}
-      <section className="py-24 xl:py-28 bg-[#fdfcfb]">
+      <section className="py-16 xl:py-20 bg-[#fdfcfb]">
         <div className={WRAP}>
 
           <Reveal direction="up">

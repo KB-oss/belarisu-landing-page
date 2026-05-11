@@ -266,7 +266,7 @@ export default function Gallery() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="columns-2 md:columns-3 lg:columns-4 gap-3 [column-gap:12px]"
+            className="columns-1 sm:columns-2 md:columns-3 gap-3 [column-gap:12px]"
           >
             {displayed.map(({ src, tag, desc, name }, i) => (
               <motion.div
@@ -281,11 +281,11 @@ export default function Gallery() {
                   setDesc({ title: name || "", desc: desc || "" })
                 }}
               >
-                <div className="relative w-full aspect-[4/3] overflow-hidden">
+                <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#f1f5f9]">
                   <img
                     src={getImageSrc(Array.isArray(src) ? src[0] : src)}
                     alt={`${tag} patient story ${i + 1}`}
-                    className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
+                    className="w-full h-full object-contain group-hover:scale-[1.02] transition-transform duration-500"
                     loading="lazy"
                     onError={() => handleImageError(Array.isArray(src) ? src[0] : src)}
                     referrerPolicy="no-referrer"

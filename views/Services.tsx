@@ -11,7 +11,7 @@ const WRAP = 'w-full max-w-[1366px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20'
 
 /* ─── Figma assets ─── */
 const IMG_SURGERY = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000763/Cleft_Palate_Repair_qiuaeo.jpg'
-const IMG_ORTHO = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778182524/orthodontics-service_ctmo2d.png'
+const IMG_ORTHO = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778513802/WhatsApp_Image_2026-05-11_at_11.14.34_ashnkb.jpg'
 const IMG_SPEECH = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000862/Speech_Therapy_aksuao.jpg'
 const IMG_NUTRITION = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778179995/nutrition-home_1_vpsqeq.jpg'
 const IMG_PSYCHO = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000764/pshyocology_gsvwmr.png'
@@ -91,7 +91,7 @@ const SERVICES: Service[] = [
   },
   {
     id: 'nutrition',
-    label: 'Nutritional Support',
+    label: 'Nutrition Support',
     img: IMG_NUTRITION,
     short: 'Children born with cleft conditions often experience feeding challenges and growth delays. Our nutrition team provides feeding guidance, growth monitoring, and nutritional rehabilitation.',
     intro: [
@@ -178,7 +178,7 @@ function ServiceCard({ service }: { service: Service }) {
           alt={service.label}
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[54%] to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[30%] to-black/75" />
         <div className="absolute bottom-0 left-0 right-0 px-8 py-6 flex flex-col gap-3">
           <h2
             className="font-black text-white leading-tight"
@@ -204,9 +204,9 @@ function ServiceCard({ service }: { service: Service }) {
         {service.subType === 'grid' && (
           <div className="grid sm:grid-cols-2 gap-4">
             {(service.subs as SubItem[]).map((sub) => (
-              <div key={sub.title} className="flex flex-col gap-3 bg-[#fafafa] rounded-[14px] p-5">
+              <div key={sub.title} className="flex flex-col gap-3 bg-[#071e36] rounded-[14px] p-5">
                 <p className="font-bold text-[17px]" style={{ color: '#ff7518' }}>{sub.title}</p>
-                <p className="text-[14px] leading-[1.7]" style={{ color: '#7e7c7c' }}>{sub.text}</p>
+                <p className="text-[14px] leading-[1.7]" style={{ color: 'rgba(255,255,255,0.65)' }}>{sub.text}</p>
               </div>
             ))}
           </div>

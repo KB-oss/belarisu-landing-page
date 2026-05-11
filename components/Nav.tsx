@@ -126,7 +126,7 @@ export default function Nav() {
               {/* Logo */}
               <Link href="/" className="shrink-0 flex items-center">
                 <motion.img
-                  src={ LOGO_URL_LIGHT }
+                  src={ onDark ? LOGO_URL_DARK : LOGO_URL_LIGHT }
                   alt="BelaRisu Medical Centre"
                   className={cn("object-contain w-auto h-6 sm:h-7 md:h-8 max-h-[30px]", menuOpen && 'h-8')}
                   whileHover={{ scale: 1.05 }}
@@ -169,7 +169,7 @@ export default function Nav() {
                   className="inline-flex items-center gap-1.5 text-[12px] tracking-[0.2px] font-semibold px-4 py-2 rounded-full border transition-all duration-200 hover:border-[#ff7518]"
                   style={{ borderColor: borderClr, color: textMain }}
                 >
-                  Belarisu Foundation <ExternalIcon />
+                  Bela Risu Foundation <ExternalIcon />
                 </a>
                 <Link
                   href="/booking"

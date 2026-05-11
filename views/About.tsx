@@ -139,57 +139,57 @@ interface TeamMember {
 
 const TEAM: TeamMember[] = [
   {
-    name: 'Dr. Sarah Kimani',
-    role: 'Chief Medical Officer',
-    dept: 'Clinical',
+    name: 'Sesnie Z. Barnabas',
+    role: 'Chief Executive Officer',
+    dept: 'Leadership',
     img: IMG_CARE_1,
-    bio: 'Dr. Kimani leads BelaRisu\'s medical operations with over 14 years of experience in reconstructive and craniofacial surgery. She has overseen more than 400 successful cleft procedures across East Africa and serves as the clinical lead on all surgical protocols.',
-    social: { linkedin: '#', twitter: '#', instagram: '#' },
+    bio: 'Sesnie Z. Barnabas is a senior health and development leader with 18 years of experience advancing programs across Africa. She has led multi-country strategic initiatives, built partnerships with governments and global donors, and strengthened institutions delivering care within complex health systems. At BelaRisu Medical Center, she leads the organization\'s strategic vision and operational growth, working to expand access to comprehensive cleft care and strengthen sustainable systems that improve outcomes for children and families born with cleft conditions.',
+    social: { linkedin: '#', twitter: null, instagram: null },
   },
   {
-    name: 'Dr. James Otieno',
+    name: 'Martin W. Kamau',
     role: 'Lead Surgeon',
     dept: 'Clinical',
     img: IMG_CARE_2,
-    bio: 'Dr. Otieno specializes in primary and secondary cleft lip and palate repair. With a fellowship in craniofacial surgery from Nairobi and advanced training in Europe, he brings world-class precision to every operating theatre at BMC.',
-    social: { linkedin: '#', twitter: '#', instagram: null },
+    bio: 'Martin W. Kamau is the co-founder and Lead Surgeon at BelaRisu Medical Centre, with over a decade of experience in Dental and Oral-Maxillofacial Surgery. His extensive field experience across the continent has been instrumental in shaping the Centre\'s establishment, its life-changing cleft care programs, and the development of the training hub that equips the next generation of surgical professionals. He has pioneered innovative cleft care initiatives, combining local expertise with global standards to drive BelaRisu\'s mission of delivering high-quality, equitable, and patient-centered care.',
+    social: { linkedin: '#', twitter: null, instagram: null },
   },
   {
-    name: 'Agnes Mwangi',
-    role: 'Head of Speech Therapy',
-    dept: 'Rehabilitation',
+    name: 'Abdulhakim Kimani',
+    role: 'Chief Operating Officer',
+    dept: 'Leadership',
     img: IMG_CARE_3,
-    bio: 'Agnes has dedicated her career to helping patients find their voice. She leads speech and language therapy at BMC, working with children and adults post-surgery to rebuild communication confidence and overcome school and social barriers.',
-    social: { linkedin: '#', twitter: null, instagram: '#' },
+    bio: 'Abdulhakim Kimani is the visionary co-founder of BelaRisu Medical Centre, playing an instrumental role in establishing the Centre, shaping its mission, and stewarding it into the beacon of hope it is today. As Chief Operating Officer, he oversees day-to-day operations and drives interdisciplinary initiatives that strengthen patient-centered programs. An avid field team leader, he advances the Centre\'s mission across the continent through its Foundation arm. Abdulhakim is also an accomplished humanitarian photographer, using visual storytelling to connect the wider public with the Centre and the children it serves.',
+    social: { linkedin: null, twitter: null, instagram: null },
   },
   {
-    name: 'Dr. Peter Njoroge',
-    role: 'ENT Specialist',
-    dept: 'Clinical',
+    name: 'Rose Maket',
+    role: 'Chief Growth Officer',
+    dept: 'Leadership',
     img: IMG_SPLIT_4,
-    bio: 'Dr. Njoroge oversees ear, nose, and throat care for all patients — a critical component of long-term cleft treatment. He monitors hearing health, treats recurring infections, and ensures the airway and auditory systems develop correctly post-surgery.',
-    social: { linkedin: '#', twitter: '#', instagram: null },
+    bio: 'Rose Maket is a strategic growth leader with over 20 years of experience across the private sector, social enterprises, and start-ups. She specializes in driving organizational growth through strategic partnerships, revenue generation, operational excellence, and the development of high-performing teams. At BelaRisu Medical Center, she focuses on expanding partnerships and strengthening sustainable financing to support the organization\'s growth and the delivery of life-changing surgical care. Rose also serves on the boards of Alive and Kicking Kenya and Savannah Hospital.',
+    social: { linkedin: '#', twitter: null, instagram: null },
   },
   {
-    name: 'Grace Achieng',
-    role: 'Psychosocial Counselor',
-    dept: 'Rehabilitation',
+    name: 'Eleleta Surafel',
+    role: 'Chief of Staff',
+    dept: 'Leadership',
     img: IMG_SPLIT_5,
-    bio: 'Grace provides emotional and psychosocial support to patients and their families throughout the care journey. She helps children and adults build confidence, process stigma, and develop the resilience to participate fully in school, work, and community life.',
-    social: { linkedin: '#', twitter: null, instagram: '#' },
+    bio: 'Eleleta Surafel is a public health professional with expertise in health systems strengthening and equity-focused programming. At BelaRisu Medical Centre, she supports leadership in advancing strategic initiatives, strengthening partnerships, and designing systems that expand access to surgical care for children and families affected by cleft conditions. She has led initiatives with global and regional institutions including Women in Global Health, Africa CDC, and UNFPA, and serves as an Advisory Council Member at Amref Health Africa in Ethiopia.',
+    social: { linkedin: '#', twitter: null, instagram: null },
   },
-  // {
-  //   name: 'Faith Wambui',
-  //   role: 'Lead Nutritionist',
-  //   dept: 'Rehabilitation',
-  //   img: IMG_STORY_L,
-  //   bio: 'Faith specializes in pre- and post-operative nutritional care for cleft patients. She designs individualized feeding and growth plans for infants and children, ensuring every patient has the nutritional foundation needed to heal well and grow strong.',
-  //   social: { linkedin: '#', twitter: '#', instagram: '#' },
-  // },
+  {
+    name: 'Lynnah Temba',
+    role: 'Program Manager',
+    dept: 'Operations',
+    img: IMG_STORY_L,
+    bio: 'Since the very first day BelaRisu Medical Center opened its doors, Lynnah has been one of the welcoming faces at the heart of our patient journey. Beginning her career as an Administrative Associate and now serving as Program Manager, she has played a central role in coordinating the many moving parts that ensure patients and families are supported throughout their care journey with us.',
+    social: { linkedin: null, twitter: null, instagram: null },
+  },
 ]
 
-const TEAM_DEPTS = ['All', 'Clinical', 'Rehabilitation'] as const
-type TeamDept = typeof TEAM_DEPTS[number]
+const TEAM_DEPTS = ['All', 'Leadership', 'Clinical', 'Operations'] as const
+type TeamDept = (typeof TEAM_DEPTS)[number]
 
 /* ─── Hero stagger ─── */
 const heroStagger: Variants = { hidden: {}, visible: { transition: { staggerChildren: 0.14, delayChildren: 0.2 } } }
@@ -348,11 +348,11 @@ export default function About() {
           OUR STORY
       ══════════════════════════════════ */}
       <div className={`${WRAP} py-20 xl:py-[100px]`}>
-        <div className="flex flex-col lg:flex-row gap-10 xl:gap-14 items-start">
+        <div className="flex flex-col lg:flex-row gap-10 xl:gap-14 items-stretch">
 
-          <Reveal direction="up">
-            <div className="rounded-[16px] overflow-hidden lg:w-[340px] xl:w-[380px] shrink-0" style={{ minHeight: '420px' }}>
-              <img src={IMG_STORY_L} alt="Our story" className="w-full h-full object-cover" style={{ minHeight: '420px' }} />
+          <Reveal direction="up" className="lg:w-[340px] xl:w-[380px] shrink-0">
+            <div className="rounded-[16px] overflow-hidden h-full" style={{ minHeight: '420px' }}>
+              <img src={IMG_STORY_L} alt="Our story" className="w-full h-full object-cover" />
             </div>
           </Reveal>
 
@@ -498,7 +498,7 @@ export default function About() {
               Care that Contributes to{' '}
               <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>Global Goals</em>
             </h2>
-            <div className="max-w-[760px] leading-[1.85] space-y-3" style={{ fontSize: '16px', color: '#696969' }}>
+            <div className="leading-[1.85] space-y-3" style={{ fontSize: '16px', color: '#696969' }}>
               <p>Access to safe surgery and CCC is not just a medical need. It is a matter of equity and opportunity.</p>
               <p>Our work allows children and adults born with cleft conditions to receive life-changing treatment that restores their health, confidence, and ability to participate fully in school, work, and community life. This contributes to broader global efforts to improve health, reduce inequality, and expand opportunity — directly aligned with the United Nations Sustainable Development Goals:</p>
             </div>
