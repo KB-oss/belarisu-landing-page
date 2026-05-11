@@ -28,11 +28,6 @@ const IMG_CARE_B = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_a
 const IMG_CARE_C = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997868/Care_That_grows_with_you_3_ufwofk.jpg'
 const IMG_SPLIT_L = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999411/IMG_0011_raryur.jpg'
 const IMG_SPLIT_R = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999418/1H4A5074_eymfxz.jpg'
-const IMG_SDG_3 = 'https://www.figma.com/api/mcp/asset/76c226ea-d025-4987-84bf-45383411d9b8'
-const IMG_SDG_4 = 'https://www.figma.com/api/mcp/asset/74c680f4-450b-45e0-81ba-40b546e17a58'
-const IMG_SDG_10 = 'https://www.figma.com/api/mcp/asset/ed06a0d9-118e-4c13-a25d-490bf570ded2'
-const IMG_SDG_17 = 'https://www.figma.com/api/mcp/asset/90f9f1b3-b764-4957-8b59-5b1c00fcad85'
-const IMG_SDG_8 = 'https://www.figma.com/api/mcp/asset/db54ed81-a432-4dac-b789-b1e65b1ea065'
 const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246027/Brighton_Chacha_Marwa_4yrs_1_z0tcog.webp'
 const IMG_QUOTE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778182124/every_smile_1_p8yhro.jpg'
 const IMG_CARE_1 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001798/ChatGPT_Image_May_5_2026_08_22_15_PM_hvd3dp.png'
@@ -56,7 +51,6 @@ const CCC_ITEMS: string[] = [
 
 interface SdgCard {
   color: string
-  img: string
   goal: string
   title: string
   text: string
@@ -65,35 +59,30 @@ interface SdgCard {
 const SDG_CARDS: SdgCard[] = [
   {
     color: '#4d9f38',
-    img: IMG_SDG_3,
     goal: 'SDG 3',
     title: 'Good Health & Well-Being',
     text: 'Ensuring healthy lives and promoting well-being by providing life-changing surgical and long-term care.',
   },
   {
     color: '#c5192e',
-    img: IMG_SDG_4,
     goal: 'SDG 4',
     title: 'Quality Education',
     text: 'Helping children with cleft conditions overcome speech barriers and stigma that can otherwise prevent school attendance.',
   },
   {
     color: '#dc1367',
-    img: IMG_SDG_10,
     goal: 'SDG 10',
     title: 'Reduced Inequalities',
     text: 'Providing free access to specialized care for children and families who might otherwise be unable to afford treatment.',
   },
   {
     color: '#19486a',
-    img: IMG_SDG_17,
     goal: 'SDG 17',
     title: 'Partnerships for the Goals',
     text: 'Working with local and international partners to expand access to comprehensive cleft care.',
   },
   {
     color: '#a31942',
-    img: IMG_SDG_8,
     goal: 'SDG 8',
     title: 'Decent Work & Economic Growth',
     text: 'Supporting long-term social and economic participation by helping patients pursue education and employment.',
@@ -498,62 +487,51 @@ export default function About() {
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-          {SDG_CARDS.slice(0, 3).map(({ color, img, goal, title, text }, i) => (
-            <motion.div
-              key={goal}
-              className="flex flex-col rounded-[20px] overflow-hidden"
-              style={{ background: color }}
-              initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
-              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.09, duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-            >
-              <div className="flex items-center justify-center px-6 pt-8 pb-5">
-                <img
-                  src={img}
-                  alt={goal}
-                  className="object-contain rounded-[12px]"
-                  style={{ width: '160px', height: '160px' }}
-                />
-              </div>
-              <div className="mx-6 h-px" style={{ background: 'rgba(255,255,255,0.18)' }} />
-              <div className="flex flex-col gap-1.5 px-6 py-5">
-                <p className="font-black uppercase tracking-[2px]" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.55)' }}>{goal}</p>
-                <p className="font-black text-white leading-tight tracking-[-0.3px]" style={{ fontSize: '15px' }}>{title}</p>
-                <p className="text-white/75 leading-[1.7]" style={{ fontSize: '13.5px' }}>{text}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {/* SDG tiles — all 5 in a unified grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+          {SDG_CARDS.map(({ color, goal, title, text }, i) => {
+            const num = goal.replace('SDG ', '')
+            return (
+              <motion.div
+                key={goal}
+                className="flex flex-col rounded-[20px] overflow-hidden relative"
+                style={{ background: color, minHeight: '260px' }}
+                initial={{ opacity: 0, y: 24, scale: 0.96 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+              >
+                {/* Giant number watermark */}
+                <div
+                  className="absolute bottom-0 right-0 font-black leading-none select-none pointer-events-none"
+                  style={{ fontSize: '9rem', color: 'rgba(255,255,255,0.08)', lineHeight: 1, transform: 'translate(12%, 8%)' }}
+                >
+                  {num}
+                </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {SDG_CARDS.slice(3).map(({ color, img, goal, title, text }, i) => (
-            <motion.div
-              key={goal}
-              className="flex flex-row rounded-[20px] overflow-hidden"
-              style={{ background: color }}
-              initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
-              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.09 + 0.27, duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-            >
-              <div className="flex items-center justify-center p-6 shrink-0">
-                <img
-                  src={img}
-                  alt={goal}
-                  className="object-contain rounded-[12px]"
-                  style={{ width: '130px', height: '130px' }}
-                />
-              </div>
-              <div className="my-5 w-px" style={{ background: 'rgba(255,255,255,0.18)' }} />
-              <div className="flex flex-col justify-center gap-1.5 px-6 py-6">
-                <p className="font-black uppercase tracking-[2px]" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.55)' }}>{goal}</p>
-                <p className="font-black text-white leading-tight tracking-[-0.3px]" style={{ fontSize: '15px' }}>{title}</p>
-                <p className="text-white/75 leading-[1.7]" style={{ fontSize: '13.5px' }}>{text}</p>
-              </div>
-            </motion.div>
-          ))}
+                {/* Content */}
+                <div className="relative z-10 flex flex-col h-full p-5 pt-6">
+                  {/* SDG number badge */}
+                  <div className="mb-auto">
+                    <div
+                      className="inline-flex items-center justify-center rounded-[10px] mb-3"
+                      style={{ width: '44px', height: '44px', background: 'rgba(255,255,255,0.18)' }}
+                    >
+                      <span className="font-black text-white leading-none" style={{ fontSize: '18px' }}>{num}</span>
+                    </div>
+                    <p className="font-black uppercase tracking-[2px] mb-1" style={{ fontSize: '9px', color: 'rgba(255,255,255,0.5)' }}>
+                      {goal}
+                    </p>
+                    <p className="font-black text-white leading-tight tracking-[-0.3px] mb-3" style={{ fontSize: '14px' }}>
+                      {title}
+                    </p>
+                  </div>
+                  <div className="h-px mb-3" style={{ background: 'rgba(255,255,255,0.15)' }} />
+                  <p className="text-white/70 leading-[1.65]" style={{ fontSize: '12px' }}>{text}</p>
+                </div>
+              </motion.div>
+            )
+          })}
         </div>
       </div>
 
@@ -670,48 +648,66 @@ export default function About() {
           </div>
         </Reveal>
 
-        <div className={`${WRAP} grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-6`}>
+        <div className={`${WRAP} grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5`}>
           {TEAM.map((member, i) => (
             <motion.div
               key={member.name}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.5, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-              className="group bg-white rounded-[20px] overflow-hidden cursor-pointer shadow-[0_2px_12px_rgba(7,30,54,0.07)] hover:shadow-[0_8px_28px_rgba(7,30,54,0.12)] transition-shadow duration-300"
+              viewport={{ once: true, amount: 0.12 }}
+              transition={{ duration: 0.55, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+              className="group relative rounded-[20px] overflow-hidden cursor-pointer"
+              style={{ aspectRatio: '3/4' }}
               onClick={() => setSelectedMember(member)}
             >
-              {/* Square image */}
-              <div className="relative w-full aspect-square overflow-hidden bg-[#f1f5f9]">
-                <img
-                  src={member.img}
-                  alt={member.name}
-                  className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
-                />
-                {/* Subtle number badge */}
-                <div className="absolute top-3 left-3">
-                  <span
-                    className="font-black tabular-nums text-white/50 text-[10px] tracking-[1px]"
-                    style={{ textShadow: '0 1px 3px rgba(0,0,0,0.4)' }}
-                  >
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                </div>
-              </div>
+              {/* Full-bleed image */}
+              <img
+                src={member.img}
+                alt={member.name}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+              />
 
-              {/* Info */}
-              <div className="px-4 py-4">
-                <p className="font-black text-[15px] text-[#071e36] leading-tight tracking-[-0.2px] mb-0.5">
+              {/* Permanent bottom gradient — always shows name */}
+              <div
+                className="absolute inset-x-0 bottom-0 h-[55%] pointer-events-none"
+                style={{ background: 'linear-gradient(to top, rgba(7,30,54,0.90) 0%, rgba(7,30,54,0.4) 50%, transparent 100%)' }}
+              />
+
+              {/* Permanent name strip */}
+              <div className="absolute inset-x-0 bottom-0 px-5 pb-5 z-10 transition-opacity duration-400 group-hover:opacity-0">
+                <p className="font-black text-white leading-tight tracking-[-0.3px] mb-0.5" style={{ fontSize: '15px' }}>
                   {member.name}
                 </p>
-                <p className="font-semibold text-[11px] mb-2.5" style={{ color: '#ff7518' }}>
+                <p className="font-semibold" style={{ fontSize: '11px', color: '#ff7518' }}>
                   {member.role}
                 </p>
-                <p className="text-[12px] leading-[1.65] line-clamp-3" style={{ color: '#6b7a91' }}>
+              </div>
+
+              {/* Hover overlay — fades + slides in smoothly */}
+              <div
+                className="absolute inset-0 z-20 flex flex-col justify-end px-5 pb-5 pt-10
+                  opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0
+                  transition-all duration-500 ease-out"
+                style={{ background: 'linear-gradient(to top, rgba(7,30,54,0.96) 0%, rgba(7,30,54,0.72) 60%, transparent 100%)' }}
+              >
+                {/* Name + role */}
+                <p className="font-black text-white text-[15px] leading-tight tracking-[-0.3px] mb-0.5">
+                  {member.name}
+                </p>
+                <p className="font-semibold text-[11px] mb-3" style={{ color: '#ff7518' }}>
+                  {member.role}
+                </p>
+
+                {/* Bio snippet */}
+                <p
+                  className="text-[11.5px] leading-[1.65] line-clamp-3 mb-4"
+                  style={{ color: 'rgba(255,255,255,0.68)' }}
+                >
                   {member.bio}
                 </p>
 
-                <div className="flex items-center justify-between mt-3">
+                {/* Social + expand */}
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     {member.social.linkedin && (
                       <a
@@ -720,8 +716,8 @@ export default function About() {
                         aria-label="LinkedIn"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-7 h-7 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                        style={{ background: 'rgba(7,30,54,0.07)', color: '#071e36' }}
+                        className="w-7 h-7 rounded-full flex items-center justify-center hover:scale-110 transition-transform"
+                        style={{ background: 'rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.8)' }}
                       >
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
@@ -730,16 +726,25 @@ export default function About() {
                       </a>
                     )}
                   </div>
-                  {/* Read more arrow */}
                   <div
-                    className="w-7 h-7 rounded-full flex items-center justify-center transition-all group-hover:bg-accent group-hover:text-white duration-300"
-                    style={{ background: 'rgba(255,117,24,0.1)', color: '#ff7518' }}
+                    className="w-7 h-7 rounded-full flex items-center justify-center"
+                    style={{ background: 'rgba(255,117,24,0.25)', color: '#ff7518' }}
                   >
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
                   </div>
                 </div>
+              </div>
+
+              {/* Number badge (top-left, always visible) */}
+              <div className="absolute top-3 left-3 z-30">
+                <span
+                  className="font-black tabular-nums text-[10px] tracking-[1px]"
+                  style={{ color: 'rgba(255,255,255,0.45)', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
+                >
+                  {String(i + 1).padStart(2, '0')}
+                </span>
               </div>
             </motion.div>
           ))}

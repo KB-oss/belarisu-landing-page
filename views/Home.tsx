@@ -274,19 +274,18 @@ export default function Home() {
           className="relative overflow-hidden rounded-[20px] sm:rounded-[24px]"
           style={{ height: 'calc(100vh - 40px)', minHeight: '600px' }}
         >
-          {/* Crossfade images */}
-          <AnimatePresence>
+          {/* Crossfade — all images rendered simultaneously, opacity drives transition */}
+          {HERO_IMGS.map((src, i) => (
             <motion.img
-              key={heroIdx}
-              src={HERO_IMGS[heroIdx]}
+              key={src}
+              src={src}
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.2, ease: 'easeInOut' }}
+              animate={{ opacity: i === heroIdx ? 1 : 0 }}
+              transition={{ duration: 1.8, ease: [0.4, 0, 0.2, 1] }}
+              style={{ willChange: 'opacity' }}
             />
-          </AnimatePresence>
+          ))}
 
           {/* Vignette */}
           <div
@@ -663,29 +662,37 @@ export default function Home() {
   )
 }
 
-/* ── Transformation section (own component so useInView ref is scoped) ── */
+/* ── Transformation section ── */
 function TransformSection({ currentPatientIndex, setCurrentPatientIndex, currentPatient }: {
   currentPatientIndex: number
   setCurrentPatientIndex: (i: number) => void
   currentPatient: typeof PATIENT_GALLERY[0]
 }) {
   const sectionRef = useRef<HTMLElement>(null)
-  const inView = useInView(sectionRef, { once: false, amount: 0.3 })
+  const inView = useInView(sectionRef, { once: false, amount: 0.25 })
 
   return (
-    <section ref={sectionRef} className="py-20 xl:py-28 bg-[#fdfcfb]">
-      <div className={WRAP}>
+    <section ref={sectionRef} className="overflow-hidden" style={{ background: '#071e36' }}>
+      {/* Subtle radial glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,117,24,0.06) 0%, transparent 65%)' }}
+      />
 
-        {/* Heading row */}
+      <div className={`${WRAP} relative py-20 xl:py-28`}>
+
+        {/* ── Header ── */}
         <Reveal direction="up">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
             <div>
-              <p className="font-black tracking-[3.5px] uppercase mb-3" style={{ fontSize: '10px', color: '#ff7518' }}>
+              <p className="font-black tracking-[3.5px] uppercase mb-4 flex items-center gap-2.5" style={{ fontSize: '10px', color: 'rgba(255,117,24,0.65)' }}>
+                <span className="block w-6 h-px" style={{ background: 'rgba(255,117,24,0.4)' }} />
                 Before &amp; After
+                <span className="block w-6 h-px" style={{ background: 'rgba(255,117,24,0.4)' }} />
               </p>
               <h2
-                className="font-black leading-[1.0] text-body"
-                style={{ fontSize: 'clamp(2rem, 3.8vw, 3.4rem)', letterSpacing: '-1.5px' }}
+                className="font-black leading-[0.97] text-white"
+                style={{ fontSize: 'clamp(2.2rem, 4.5vw, 4rem)', letterSpacing: '-2px' }}
               >
                 Witness the{' '}
                 <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>
@@ -693,17 +700,20 @@ function TransformSection({ currentPatientIndex, setCurrentPatientIndex, current
                 </em>
               </h2>
             </div>
-            <p className="text-[14px] font-medium leading-snug sm:text-right sm:max-w-[220px]" style={{ color: '#8a96a8' }}>
-              Drag the slider to reveal every life-changing result.
+            <p className="text-[14px] font-light leading-relaxed sm:text-right sm:max-w-[230px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
+              Drag the divider to reveal every life-changing result.
             </p>
           </div>
         </Reveal>
 
-        {/* Two-column layout */}
-        <div className="flex flex-col md:flex-row gap-5 md:gap-6 items-stretch">
+        {/* ── Main grid: slider + info panel ── */}
+        <div className="flex flex-col lg:flex-row gap-5 items-stretch">
 
-          {/* ── Slider (65%) ── */}
-          <div className="w-full md:w-[65%]" style={{ minHeight: 'clamp(320px, 48vw, 620px)' }}>
+          {/* Slider */}
+          <div
+            className="w-full lg:w-[65%] rounded-[24px] overflow-hidden"
+            style={{ minHeight: 'clamp(340px, 50vw, 660px)' }}
+          >
             <ImageComparisonSlider
               images={PATIENT_GALLERY}
               currentIndex={currentPatientIndex}
@@ -715,90 +725,116 @@ function TransformSection({ currentPatientIndex, setCurrentPatientIndex, current
             />
           </div>
 
-          {/* ── Info panel (35%) ── */}
-          <div className="w-full md:w-[35%] flex flex-col bg-white rounded-[20px] shadow-[0_4px_24px_rgba(7,30,54,0.08)] overflow-hidden">
-
-            {/* Top: patient details */}
-            <div className="flex-1 px-7 pt-7 pb-5">
-              <p className="font-black uppercase tracking-[2.5px] mb-5" style={{ fontSize: '9px', color: 'rgba(255,117,24,0.7)' }}>
+          {/* Info panel */}
+          <div
+            className="w-full lg:w-[35%] flex flex-col rounded-[24px] overflow-hidden"
+            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+          >
+            <div className="flex-1 p-7 pt-8">
+              <p className="font-black uppercase tracking-[2.5px] mb-6" style={{ fontSize: '9px', color: 'rgba(255,117,24,0.65)' }}>
                 Patient Story
               </p>
 
-              {/* Name */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentPatientIndex}
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }}
-                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <p
-                    className="font-black text-[#071e36] leading-tight mb-4"
-                    style={{ fontSize: 'clamp(1.4rem, 2.2vw, 2rem)', letterSpacing: '-1px' }}
+                    className="font-black text-white leading-[1.0] mb-5"
+                    style={{ fontSize: 'clamp(1.5rem, 2.4vw, 2.2rem)', letterSpacing: '-1.2px' }}
                   >
                     {currentPatient.patientName}
                   </p>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                  <div className="flex flex-wrap items-center gap-x-2.5 gap-y-2 mb-6">
                     {currentPatient.age && (
                       <span className="font-black tracking-[2px] uppercase text-accent" style={{ fontSize: '9px' }}>
                         {currentPatient.age}
                       </span>
                     )}
-                    <span className="w-1 h-1 rounded-full bg-accent/30" />
-                    <span className="font-black tracking-[2px] uppercase" style={{ fontSize: '9px', color: '#8a96a8' }}>
+                    {currentPatient.age && <span className="w-0.5 h-3 rounded-full" style={{ background: 'rgba(255,117,24,0.3)' }} />}
+                    <span className="font-black tracking-[2px] uppercase" style={{ fontSize: '9px', color: 'rgba(255,255,255,0.38)' }}>
                       {currentPatient.condition}
                     </span>
-                    <span className="w-1 h-1 rounded-full bg-[#d0d8e4]" />
-                    <span className="font-black tracking-[2px] uppercase" style={{ fontSize: '9px', color: '#8a96a8' }}>
+                    <span className="w-0.5 h-3 rounded-full" style={{ background: 'rgba(255,255,255,0.14)' }} />
+                    <span className="font-black tracking-[2px] uppercase" style={{ fontSize: '9px', color: 'rgba(255,255,255,0.38)' }}>
                       {currentPatient.location}
                     </span>
                   </div>
                 </motion.div>
               </AnimatePresence>
 
-              {/* Divider */}
-              <div className="w-full h-px mt-6 mb-6" style={{ background: '#f0f3f7' }} />
-
-              {/* Drag hint */}
-              <p className="text-[12px] leading-[1.7]" style={{ color: '#a0acbc' }}>
-                Drag the divider left or right to compare the patient&apos;s journey — before and after care at BMC.
+              <div className="h-px mb-6" style={{ background: 'rgba(255,255,255,0.08)' }} />
+              <p className="text-[12px] leading-[1.8]" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                Drag the divider left or right to reveal the before and after — every surgery performed free of charge.
               </p>
             </div>
 
-            {/* Bottom: navigation + CTA */}
-            <div className="px-7 pb-7 pt-2">
-              {/* Numbered patient nav */}
-              <div className="flex items-center gap-2 mb-5">
-                {PATIENT_GALLERY.map((_, idx) => (
+            {/* Navigation */}
+            <div className="p-7 pt-0">
+              {/* Thumbnail nav */}
+              <div className="flex items-center gap-2 mb-6 flex-wrap">
+                {PATIENT_GALLERY.map((p, idx) => (
                   <button
                     key={idx}
                     onClick={() => setCurrentPatientIndex(idx)}
-                    className="transition-all duration-200 rounded-full font-black flex items-center justify-center"
+                    className="relative rounded-[10px] overflow-hidden transition-all duration-300 flex-shrink-0"
                     style={{
-                      width: idx === currentPatientIndex ? '32px' : '28px',
-                      height: '28px',
-                      fontSize: '10px',
-                      background: idx === currentPatientIndex ? '#ff7518' : 'rgba(7,30,54,0.07)',
-                      color: idx === currentPatientIndex ? '#ffffff' : 'rgba(7,30,54,0.35)',
+                      width: idx === currentPatientIndex ? '54px' : '42px',
+                      height: '42px',
+                      outline: idx === currentPatientIndex ? '2px solid #ff7518' : '2px solid transparent',
+                      outlineOffset: '2px',
+                      opacity: idx === currentPatientIndex ? 1 : 0.45,
                     }}
-                    aria-label={`Patient ${idx + 1}`}
+                    aria-label={`View ${p.patientName}`}
                   >
-                    {String(idx + 1).padStart(2, '0')}
+                    <img src={p.after} alt={p.patientName} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
 
               <Link
                 href="/gallery"
-                className="inline-flex items-center gap-2 bg-[#071e36] text-white font-black text-[12px] px-5 py-3 rounded-full hover:bg-[#0d2d52] transition-colors tracking-[0.2px]"
+                className="inline-flex items-center gap-2 font-black text-[12px] px-5 py-3 rounded-full transition-all hover:-translate-y-px tracking-[0.2px]"
+                style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.75)', border: '1px solid rgba(255,255,255,0.12)' }}
               >
                 View all stories <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           </div>
-
         </div>
+
+        {/* ── Patient name progress strip ── */}
+        <div className="mt-6 flex items-center gap-3 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden">
+          {PATIENT_GALLERY.map((p, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentPatientIndex(idx)}
+              className="flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full transition-all duration-300"
+              style={{
+                background: idx === currentPatientIndex ? 'rgba(255,117,24,0.15)' : 'transparent',
+                border: `1px solid ${idx === currentPatientIndex ? 'rgba(255,117,24,0.4)' : 'rgba(255,255,255,0.08)'}`,
+              }}
+            >
+              <span
+                className="font-black tabular-nums"
+                style={{ fontSize: '9px', color: idx === currentPatientIndex ? '#ff7518' : 'rgba(255,255,255,0.2)' }}
+              >
+                {String(idx + 1).padStart(2, '0')}
+              </span>
+              <span
+                className="font-semibold text-[12px] whitespace-nowrap"
+                style={{ color: idx === currentPatientIndex ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.3)' }}
+              >
+                {p.patientName}
+              </span>
+            </button>
+          ))}
+        </div>
+
       </div>
     </section>
   )
