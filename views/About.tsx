@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import Reveal from '../components/Reveal'
@@ -35,8 +35,6 @@ const IMG_CARE_2 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_a
 const IMG_CARE_3 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001795/ChatGPT_Image_May_5_2026_08_22_29_PM_lpuepj.png'
 const IMG_SPLIT_4 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001053/1H4A5193_dg4cqr.jpg'
 const IMG_SPLIT_5 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001045/1H4A5164_2_qgwnob.jpg'
-
-const ICON_QUOTE = 'https://www.figma.com/api/mcp/asset/f8d52173-4111-46f8-b04f-1764696393d0'
 
 /* ─── Data ─── */
 const CCC_ITEMS: string[] = [
@@ -170,8 +168,6 @@ const TEAM: TeamMember[] = [
   },
 ]
 
-const TEAM_DEPTS = ['All', 'Leadership', 'Clinical', 'Operations'] as const
-type TeamDept = (typeof TEAM_DEPTS)[number]
 
 /* ─── Hero stagger ─── */
 const heroStagger: Variants = { hidden: {}, visible: { transition: { staggerChildren: 0.14, delayChildren: 0.2 } } }
@@ -228,43 +224,7 @@ function SocialLink({ href, label, children }: SocialLinkProps) {
 export default function About() {
   const { openModal } = useDonation()
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null)
-  const [filterDept, setFilterDept] = useState<TeamDept>('All')
   const [isHovered, setIsHovered] = useState(false);
-
-
-  /* ── Team carousel ── */
-  const teamCarouselRef = useRef<HTMLDivElement>(null)
-  const [canScrollPrev, setCanScrollPrev] = useState<boolean>(false)
-  const [canScrollNext, setCanScrollNext] = useState<boolean>(true)
-
-  useEffect(() => {
-    const el = teamCarouselRef.current
-    if (!el) return
-    const update = () => {
-      setCanScrollPrev(el.scrollLeft > 8)
-      setCanScrollNext(el.scrollLeft < el.scrollWidth - el.clientWidth - 8)
-    }
-    update()
-    el.addEventListener('scroll', update, { passive: true })
-    return () => el.removeEventListener('scroll', update)
-  }, [])
-
-  useEffect(() => {
-    const el = teamCarouselRef.current
-    if (!el) return
-    el.scrollTo({ left: 0, behavior: 'smooth' })
-    setTimeout(() => {
-      setCanScrollPrev(false)
-      setCanScrollNext(el.scrollWidth > el.clientWidth + 8)
-    }, 320)
-  }, [filterDept])
-
-  const scrollTeamPrev = () => {
-    teamCarouselRef.current?.scrollBy({ left: -324, behavior: 'smooth' })
-  }
-  const scrollTeamNext = () => {
-    teamCarouselRef.current?.scrollBy({ left: 324, behavior: 'smooth' })
-  }
 
   /* Lightbox: lock scroll + close on Escape */
   useEffect(() => {
@@ -284,7 +244,7 @@ export default function About() {
       {/* ══════════════════════════════════
           HERO
       ══════════════════════════════════ */}
-      <div className={`${WRAP} pt-16 pb-20`}>
+      <div className={`${WRAP} pt-12 pb-14`}>
         <motion.div
           className="text-center mb-10"
           variants={heroStagger}
@@ -329,11 +289,11 @@ export default function About() {
       {/* ══════════════════════════════════
           OUR STORY
       ══════════════════════════════════ */}
-      <div className={`${WRAP} py-20 xl:py-[100px]`}>
+      <div className={`${WRAP} py-14 xl:py-20`}>
         <div className="flex flex-col lg:flex-row gap-10 xl:gap-14 items-stretch">
 
-          <Reveal direction="up" className="lg:w-[340px] xl:w-[380px] shrink-0">
-            <div className="rounded-[16px] overflow-hidden h-full" style={{ minHeight: '420px' }}>
+          <Reveal direction="up" className="lg:w-[340px] xl:w-[380px] shrink-0 self-stretch">
+            <div className="rounded-[16px] overflow-hidden h-full" style={{ minHeight: '480px' }}>
               <img src={IMG_STORY_L} alt="Our story" className="w-full h-full object-cover" />
             </div>
           </Reveal>
@@ -373,7 +333,7 @@ export default function About() {
       {/* ══════════════════════════════════
           FULL-WIDTH IMAGE
       ══════════════════════════════════ */}
-      <div className={`${WRAP} pb-20 xl:pb-[100px]`}>
+      <div className={`${WRAP} pb-14 xl:pb-20`}>
         <Reveal direction="up">
           <div className="w-full rounded-[16px] overflow-hidden" style={{ height: 'clamp(260px, 35vw, 546px)' }}>
             <img src={IMG_FULL} alt="" className="w-full h-full object-cover" />
@@ -384,8 +344,8 @@ export default function About() {
       {/* ══════════════════════════════════
           OUR CARE MODEL
       ══════════════════════════════════ */}
-      <div className={`${WRAP} pb-20 xl:pb-[100px]`}>
-        <div className="grid lg:grid-cols-2 gap-10 xl:gap-14 items-start">
+      <div className={`${WRAP} pb-14 xl:pb-20`}>
+        <div className="grid lg:grid-cols-[1.4fr_1fr] gap-10 xl:gap-14 items-start">
 
           <Reveal direction="up">
             <div className="flex flex-col gap-4">
@@ -453,7 +413,7 @@ export default function About() {
       {/* ══════════════════════════════════
           TWO IMAGES SIDE BY SIDE
       ══════════════════════════════════ */}
-      <div className={`${WRAP} pb-20 xl:pb-[100px]`}>
+      <div className={`${WRAP} pb-14 xl:pb-20`}>
         <Reveal direction="up">
           <div className="flex gap-6" style={{ height: 'clamp(280px, 42vw, 650px)' }}>
             <div className="rounded-[16px] overflow-hidden bg-[#ede9e3]" style={{ flex: '0 0 68%' }}>
@@ -469,25 +429,26 @@ export default function About() {
       {/* ══════════════════════════════════
           GLOBAL IMPACT — SDG cards
       ══════════════════════════════════ */}
-      <div className={`${WRAP} pb-20 xl:pb-[100px]`}>
+      <div className={`${WRAP} pb-14 xl:pb-20`}>
         <Reveal direction="up">
-          <div className="flex flex-col gap-4 mb-10">
-            <Label>Our Global Impact</Label>
-            <h2
-              className="font-black leading-[1.1] tracking-[-0.04em]"
-              style={{ fontSize: 'clamp(1.8rem, 3.2vw, 2.75rem)', color: '#071e36' }}
-            >
-              Care that Contributes to{' '}
-              <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>Global Goals</em>
-            </h2>
-            <div className="leading-[1.85] space-y-3" style={{ fontSize: '16px', color: '#696969' }}>
-              <p>Access to safe surgery and CCC is not just a medical need. It is a matter of equity and opportunity.</p>
-              <p>Our work allows children and adults born with cleft conditions to receive life-changing treatment that restores their health, confidence, and ability to participate fully in school, work, and community life. This contributes to broader global efforts to improve health, reduce inequality, and expand opportunity — directly aligned with the United Nations Sustainable Development Goals:</p>
+          <div className="flex flex-col lg:flex-row lg:items-end gap-6 lg:gap-16 mb-10">
+            <div className="flex-1">
+              <Label>Our Global Impact</Label>
+              <h2
+                className="font-black leading-[1.1] tracking-[-0.04em]"
+                style={{ fontSize: 'clamp(1.8rem, 3.2vw, 2.75rem)', color: '#071e36' }}
+              >
+                Care that Contributes to{' '}
+                <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>Global Goals</em>
+              </h2>
             </div>
+            <p className="lg:max-w-[380px] leading-[1.8] lg:pb-1 shrink-0" style={{ fontSize: '15px', color: '#696969' }}>
+              Our work directly aligns with the United Nations Sustainable Development Goals, helping patients reclaim health, education, and opportunity.
+            </p>
           </div>
         </Reveal>
 
-        {/* SDG tiles — all 5 in a unified grid */}
+        {/* SDG tiles */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           {SDG_CARDS.map(({ color, goal, title, text }, i) => {
             const num = goal.replace('SDG ', '')
@@ -495,7 +456,7 @@ export default function About() {
               <motion.div
                 key={goal}
                 className="flex flex-col rounded-[20px] overflow-hidden relative"
-                style={{ background: color, minHeight: '260px' }}
+                style={{ background: color, minHeight: '300px' }}
                 initial={{ opacity: 0, y: 24, scale: 0.96 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}
@@ -511,7 +472,6 @@ export default function About() {
 
                 {/* Content */}
                 <div className="relative z-10 flex flex-col h-full p-5 pt-6">
-                  {/* SDG number badge */}
                   <div className="mb-auto">
                     <div
                       className="inline-flex items-center justify-center rounded-[10px] mb-3"
@@ -538,7 +498,7 @@ export default function About() {
       {/* ══════════════════════════════════
           DONATE CTA
       ══════════════════════════════════ */}
-      <div className={`${WRAP} pb-20 xl:pb-[100px]`}>
+      <div className={`${WRAP} pb-14 xl:pb-20`}>
         <Reveal direction="up">
           <div
             className="relative rounded-[24px] overflow-hidden"
@@ -633,7 +593,7 @@ export default function About() {
       {/* ══════════════════════════════════
           TEAM
       ══════════════════════════════════ */}
-      <div className="pb-20 xl:pb-[100px]">
+      <div className="pb-14 xl:pb-20">
 
         <Reveal direction="up">
           <div className={`${WRAP} mb-12`}>
@@ -648,15 +608,15 @@ export default function About() {
           </div>
         </Reveal>
 
-        <div className={`${WRAP} grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5`}>
+        <div className={`${WRAP} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8`}>
           {TEAM.map((member, i) => (
             <motion.div
               key={member.name}
               initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.12 }}
+              viewport={{ once: true, amount: 0.08 }}
               transition={{ duration: 0.55, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-              className="group relative rounded-[20px] overflow-hidden cursor-pointer"
+              className="group relative rounded-[24px] overflow-hidden cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.10)]"
               style={{ aspectRatio: '3/4' }}
               onClick={() => setSelectedMember(member)}
             >
@@ -664,18 +624,18 @@ export default function About() {
               <img
                 src={member.img}
                 alt={member.name}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.08]"
               />
 
-              {/* Permanent bottom gradient — always shows name */}
+              {/* Subtle permanent bottom vignette — always shows name */}
               <div
-                className="absolute inset-x-0 bottom-0 h-[55%] pointer-events-none"
-                style={{ background: 'linear-gradient(to top, rgba(7,30,54,0.90) 0%, rgba(7,30,54,0.4) 50%, transparent 100%)' }}
+                className="absolute inset-x-0 bottom-0 h-[45%] pointer-events-none transition-opacity duration-400 group-hover:opacity-0"
+                style={{ background: 'linear-gradient(to top, rgba(5,20,40,0.80) 0%, transparent 100%)' }}
               />
 
               {/* Permanent name strip */}
-              <div className="absolute inset-x-0 bottom-0 px-5 pb-5 z-10 transition-opacity duration-400 group-hover:opacity-0">
-                <p className="font-black text-white leading-tight tracking-[-0.3px] mb-0.5" style={{ fontSize: '15px' }}>
+              <div className="absolute inset-x-0 bottom-0 px-4 pb-4 z-10 transition-opacity duration-400 group-hover:opacity-0">
+                <p className="font-black text-white leading-tight tracking-[-0.3px] mb-0.5" style={{ fontSize: '14px' }}>
                   {member.name}
                 </p>
                 <p className="font-semibold" style={{ fontSize: '11px', color: '#ff7518' }}>
@@ -683,30 +643,38 @@ export default function About() {
                 </p>
               </div>
 
-              {/* Hover overlay — fades + slides in smoothly */}
+              {/* Hover overlay — frosted glass sliding up */}
               <div
-                className="absolute inset-0 z-20 flex flex-col justify-end px-5 pb-5 pt-10
-                  opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0
+                className="absolute inset-0 z-20 flex flex-col justify-end px-4 pb-4 pt-8
+                  opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0
                   transition-all duration-500 ease-out"
-                style={{ background: 'linear-gradient(to top, rgba(7,30,54,0.96) 0%, rgba(7,30,54,0.72) 60%, transparent 100%)' }}
+                style={{ background: 'linear-gradient(to top, rgba(7,30,54,0.92) 0%, rgba(7,30,54,0.60) 55%, rgba(7,30,54,0.15) 100%)', backdropFilter: 'blur(2px)' }}
               >
+                {/* Dept badge */}
+                <span
+                  className="inline-block self-start px-2.5 py-0.5 rounded-full font-bold uppercase tracking-[1.5px] mb-3"
+                  style={{ fontSize: '9px', background: 'rgba(255,117,24,0.22)', color: '#ff7518' }}
+                >
+                  {member.dept}
+                </span>
+
                 {/* Name + role */}
-                <p className="font-black text-white text-[15px] leading-tight tracking-[-0.3px] mb-0.5">
+                <p className="font-black text-white text-[14px] leading-tight tracking-[-0.3px] mb-0.5">
                   {member.name}
                 </p>
-                <p className="font-semibold text-[11px] mb-3" style={{ color: '#ff7518' }}>
+                <p className="font-semibold text-[11px] mb-2.5" style={{ color: '#ff7518' }}>
                   {member.role}
                 </p>
 
                 {/* Bio snippet */}
                 <p
-                  className="text-[11.5px] leading-[1.65] line-clamp-3 mb-4"
-                  style={{ color: 'rgba(255,255,255,0.68)' }}
+                  className="text-[11px] leading-[1.6] line-clamp-2 mb-3"
+                  style={{ color: 'rgba(255,255,255,0.62)' }}
                 >
                   {member.bio}
                 </p>
 
-                {/* Social + expand */}
+                {/* Social + View Profile CTA */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     {member.social.linkedin && (
@@ -716,35 +684,26 @@ export default function About() {
                         aria-label="LinkedIn"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-7 h-7 rounded-full flex items-center justify-center hover:scale-110 transition-transform"
-                        style={{ background: 'rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.8)' }}
+                        className="w-6 h-6 rounded-full flex items-center justify-center hover:scale-110 transition-transform"
+                        style={{ background: 'rgba(255,255,255,0.14)', color: 'rgba(255,255,255,0.8)' }}
                       >
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
                           <circle cx="4" cy="4" r="2" />
                         </svg>
                       </a>
                     )}
                   </div>
-                  <div
-                    className="w-7 h-7 rounded-full flex items-center justify-center"
-                    style={{ background: 'rgba(255,117,24,0.25)', color: '#ff7518' }}
+                  <span
+                    className="flex items-center gap-1 text-[10px] font-bold"
+                    style={{ color: 'rgba(255,255,255,0.55)' }}
                   >
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    View Profile
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
-                  </div>
+                  </span>
                 </div>
-              </div>
-
-              {/* Number badge (top-left, always visible) */}
-              <div className="absolute top-3 left-3 z-30">
-                <span
-                  className="font-black tabular-nums text-[10px] tracking-[1px]"
-                  style={{ color: 'rgba(255,255,255,0.45)', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
-                >
-                  {String(i + 1).padStart(2, '0')}
-                </span>
               </div>
             </motion.div>
           ))}
@@ -754,82 +713,84 @@ export default function About() {
       {/* ══════════════════════════════════
           COMPREHENSIVE CARE
       ══════════════════════════════════ */}
-      <div className={`${WRAP} pb-20 xl:pb-[100px]`}>
+      <div style={{ background: '#071e36' }}>
+        <div className={`${WRAP} py-14 xl:py-20`}>
 
-        <Reveal direction="up">
-          <div className="max-w-[572px] mb-10">
-            <h2
-              className="font-black leading-[1.1] tracking-[-0.04em] mb-4"
-              style={{ fontSize: 'clamp(1.8rem, 3.2vw, 3rem)', color: '#0a2a49' }}
-            >
-              Comprehensive Care —{' '}
-              <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>Not a Single Surgery</em>
-            </h2>
-            <p className="leading-[1.8]" style={{ fontSize: '16px', color: '#071e36' }}>
-              True cleft care is an ongoing journey. It is a comprehensive, coordinated, and deeply patient-centred process involving multiple specialists.
-            </p>
-          </div>
-        </Reveal>
-
-        // The grid component
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
-          {SERVICES_CARDS.map(({ icon: Icon, title, sub }, i) => (
-            <motion.div
-              key={title}
-              className="rounded-[16px] p-6 border flex flex-col gap-3"
-              style={{ background: '#f9f9f9', borderColor: '#e1e1e1' }}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.07, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
-            >
-              <div className="w-12 h-12 rounded-[14px] flex items-center justify-center bg-accent shrink-0">
-                <Icon size={24} className="w-6 h-6 text-white" />
+          <Reveal direction="up">
+            <div className="mb-10">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4" style={{ background: 'rgba(255,117,24,0.15)' }}>
+                <span className="w-3.5 h-3.5 rounded-full shrink-0" style={{ background: '#ff7518' }} />
+                <span className="font-black tracking-[1px] uppercase" style={{ fontSize: '11px', color: '#ff7518' }}>Our Approach</span>
               </div>
-              <p className="font-black text-[15px]" style={{ color: '#0a2a49' }}>{title}</p>
-              <p className="text-[13px] leading-[1.65]" style={{ color: '#071e36' }}>{sub}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        <Reveal direction="up" delay={0.06}>
-          <div
-            className="relative rounded-[16px] overflow-hidden"
-            style={{ height: 'clamp(340px, 50vw, 750px)' }}
-          >
-            <img src={IMG_QUOTE_BG} alt="" className="absolute inset-0 w-full h-full object-cover" />
-
-            <div
-              className="absolute flex flex-col gap-3 items-center justify-center px-8 py-6 rounded-[12px]"
-              style={{
-                backdropFilter: 'blur(6px)',
-                WebkitBackdropFilter: 'blur(6px)',
-                background: 'rgba(28,28,28,0.46)',
-                top: '162px',
-                left: '111px',
-                width: '263px',
-              }}
-            >
-              <div className="rotate-180 shrink-0">
-                <Quote className='w-6 h-6 text-white' />
-              </div>
-              <p
-                className="text-white font-semibold text-center leading-snug tracking-[-0.5px]"
-                style={{ fontSize: '15px' }}
+              <h2
+                className="font-black leading-[1.1] tracking-[-0.04em] mb-4"
+                style={{ fontSize: 'clamp(1.8rem, 3.2vw, 3rem)', color: '#ffffff' }}
               >
-                "Every smile is a reminder of cleft care done right."
+                Not a Single Surgery —{' '}
+                <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>A Full Journey</em>
+              </h2>
+              <p className="max-w-[560px] leading-[1.8]" style={{ fontSize: '16px', color: 'rgba(255,255,255,0.52)' }}>
+                True cleft care is comprehensive, coordinated, and deeply patient-centred — involving multiple specialists throughout every stage of life.
               </p>
-              <div className="flex items-center gap-3 w-full">
-                <div className="h-px bg-white/30 flex-1" />
-                <p className="text-white/70 uppercase tracking-[2px] text-[10px] font-medium whitespace-nowrap">
-                  The BelaRisu Team
-                </p>
-                <div className="h-px bg-white/30 flex-1" />
-              </div>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
 
+          <div className="grid lg:grid-cols-[1fr_1.15fr] gap-10 xl:gap-14 items-start lg:items-stretch">
+
+            <Reveal direction="up" className="h-full">
+              <div className="flex flex-col h-full" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                {SERVICES_CARDS.map(({ icon: Icon, title, sub }, i) => (
+                  <motion.div
+                    key={title}
+                    className="flex items-start gap-5 py-6"
+                    style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}
+                    initial={{ opacity: 0, x: -16 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.07, duration: 0.45, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+                  >
+                    <span className="font-black shrink-0 tabular-nums" style={{ fontSize: '13px', color: '#ff7518', paddingTop: '2px', width: '28px' }}>
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2.5 mb-1">
+                        <Icon size={17} style={{ color: 'rgba(255,255,255,0.45)', flexShrink: 0 }} />
+                        <p className="font-black text-white" style={{ fontSize: '16px' }}>{title}</p>
+                      </div>
+                      <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.42)', lineHeight: 1.7 }}>{sub}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </Reveal>
+
+            <Reveal direction="up" delay={0.1} className="h-full">
+              <div
+                className="relative rounded-[20px] overflow-hidden h-full"
+                style={{ minHeight: '360px' }}
+              >
+                <img src={IMG_QUOTE_BG} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                <div
+                  className="absolute inset-0"
+                  style={{ background: 'linear-gradient(to top, rgba(7,30,54,0.92) 0%, rgba(7,30,54,0.25) 50%, transparent 100%)' }}
+                />
+                <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col gap-3">
+                  <Quote className="w-7 h-7" style={{ color: '#ff7518', transform: 'rotate(180deg)' }} />
+                  <p className="text-white font-black leading-[1.35] tracking-[-0.5px]" style={{ fontSize: 'clamp(1.1rem, 2.2vw, 1.5rem)' }}>
+                    "Every smile is a reminder of cleft care done right."
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="h-px flex-1" style={{ background: 'rgba(255,255,255,0.22)' }} />
+                    <p className="uppercase tracking-[2px] font-medium whitespace-nowrap" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.45)' }}>
+                      The BelaRisu Team
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+          </div>
+        </div>
       </div>
 
       {/* ══════════════════════════════════

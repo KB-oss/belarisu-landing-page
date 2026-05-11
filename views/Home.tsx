@@ -410,7 +410,7 @@ export default function Home() {
         <div className={`${WRAP} relative`}>
 
           <Reveal direction="up">
-            <div className="pt-20 pb-16 lg:pt-24 lg:pb-20 text-center">
+            <div className="pt-14 pb-12 lg:pt-16 lg:pb-14 text-center">
               <p
                 className="inline-flex items-center gap-2.5 mb-7 font-black tracking-[3.5px] uppercase"
                 style={{ fontSize: '10px', color: 'rgba(255,117,24,0.65)' }}
@@ -679,7 +679,7 @@ function TransformSection({ currentPatientIndex, setCurrentPatientIndex, current
         style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,117,24,0.06) 0%, transparent 65%)' }}
       />
 
-      <div className={`${WRAP} relative py-20 xl:py-28`}>
+      <div className={`${WRAP} relative py-14 xl:py-20`}>
 
         {/* ── Header ── */}
         <Reveal direction="up">

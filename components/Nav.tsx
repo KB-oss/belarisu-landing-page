@@ -91,8 +91,8 @@ export default function Nav() {
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
-  /* colour logic */
-  const onDark = scrolled
+  /* colour logic — home hero is dark, all other pages start light */
+  const onDark = scrolled || pathname === '/'
   const textMain = onDark ? '#ffffff' : '#071e36'
   const textMuted = onDark ? 'rgba(255,255,255,0.72)' : 'rgba(7,30,54,0.60)'
   const borderClr = onDark ? 'rgba(255,255,255,0.18)' : 'rgba(7,30,54,0.16)'
@@ -123,7 +123,7 @@ export default function Nav() {
               {/* Logo */}
               <Link href="/" className="shrink-0 flex items-center">
                 <motion.img
-                  src={scrolled ? LOGO_URL_DARK : LOGO_URL_LIGHT}
+                  src={onDark ? LOGO_URL_LIGHT : LOGO_URL_DARK}
                   alt="BelaRisu Medical Centre"
                   className={cn("object-contain w-auto h-6 sm:h-7 md:h-8 max-h-[30px]", menuOpen && 'h-8')}
                   whileHover={{ scale: 1.05 }}

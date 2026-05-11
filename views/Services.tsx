@@ -92,7 +92,7 @@ const SERVICES: Service[] = [
   },
   {
     id: 'nutrition',
-    label: 'Nutrition Support',
+    label: 'Nutrition',
     img: IMG_NUTRITION,
     short: 'Children born with cleft conditions often experience feeding challenges and growth delays. Our nutrition team provides feeding guidance, growth monitoring, and nutritional rehabilitation.',
     intro: [
@@ -205,9 +205,9 @@ function ServiceCard({ service }: { service: Service }) {
         {service.subType === 'grid' && (
           <div className="grid sm:grid-cols-2 gap-4">
             {(service.subs as SubItem[]).map((sub) => (
-              <div key={sub.title} className="flex flex-col gap-3 rounded-[14px] p-5" style={{ background: '#ECECEC' }}>
+              <div key={sub.title} className="flex flex-col gap-3 rounded-[14px] p-5" style={{ background: '#1e3550' }}>
                 <p className="font-bold text-[17px]" style={{ color: '#ff7518' }}>{sub.title}</p>
-                <p className="text-[14px] leading-[1.7]" style={{ color: '#45556c' }}>{sub.text}</p>
+                <p className="text-[14px] leading-[1.7]" style={{ color: 'rgba(255,255,255,0.72)' }}>{sub.text}</p>
               </div>
             ))}
           </div>
@@ -286,7 +286,7 @@ export default function Services() {
       {/* ══════════════════════════════════
           HERO
       ══════════════════════════════════ */}
-      <div className={`${WRAP} pt-16 pb-20`}>
+      <div className={`${WRAP} pt-12 pb-14`}>
         <motion.div
           className="text-center"
           initial={{ opacity: 0, y: 24 }}
@@ -318,12 +318,12 @@ export default function Services() {
       {/* ══════════════════════════════════
           TWO-COLUMN — sticky sidebar + service cards
       ══════════════════════════════════ */}
-      <div className={`${WRAP} pb-28`}>
+      <div className={`${WRAP} pb-20`}>
         <div className="flex gap-8 xl:gap-10">
 
           {/* Left — sticky sidebar */}
           <div className="hidden lg:block shrink-0 self-stretch" style={{ width: '260px' }}>
-            <div className="sticky top-[108px] flex flex-col gap-1 pt-8">
+            <div className="sticky top-[108px] flex flex-col gap-1 pt-8 rounded-[16px] p-3" style={{ background: 'rgba(7,30,54,0.04)' }}>
               {SERVICES.map((s) => (
                 <button
                   key={s.id}

@@ -279,7 +279,7 @@ export default function Gallery() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="grid grid-cols-2 md:grid-cols-4 gap-3"
-            style={{ gridAutoRows: '220px' }}
+            style={{ gridAutoRows: '380px' }}
           >
             {displayed.map(({ src, tag, desc, name }, i) => {
               const bentoCol = BENTO_SPANS[i % BENTO_SPANS.length].col
@@ -288,10 +288,11 @@ export default function Gallery() {
               return (
                 <motion.div
                   key={Array.isArray(src) ? src.join(',') + i : src + i}
-                  className={`${bentoCol} ${bentoRow} rounded-[16px] overflow-hidden bg-[#f1f5f9] cursor-pointer group shadow-[0px_1px_3px_rgba(0,0,0,0.1),0px_1px_2px_-1px_rgba(0,0,0,0.1)] relative`}
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: i * 0.055, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  className={`${bentoCol} ${bentoRow} rounded-[16px] overflow-hidden bg-[#1a2a3a] cursor-pointer group shadow-[0px_2px_8px_rgba(0,0,0,0.18)] relative`}
+                  initial={{ opacity: 0, y: 24, scale: 0.97 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.08 }}
+                  transition={{ delay: (i % 4) * 0.07, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                   onClick={() => {
                     setLightbox(src)
                     setDesc({ title: name || '', desc: desc || '' })
@@ -300,19 +301,30 @@ export default function Gallery() {
                   <img
                     src={imgSrc}
                     alt={`${tag} patient story ${i + 1}`}
-                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-[1.06] transition-transform duration-700 ease-out"
                     loading="lazy"
                     onError={() => handleImageError(Array.isArray(src) ? src[0] : src)}
                     referrerPolicy="no-referrer"
                     crossOrigin="anonymous"
                   />
-                  {/* Name overlay on hover */}
+
+                  {/* Permanent bottom gradient */}
+                  <div
+                    className="absolute inset-x-0 bottom-0 h-[55%] pointer-events-none"
+                    style={{ background: 'linear-gradient(to top, rgba(5,15,30,0.82) 0%, rgba(5,15,30,0.3) 50%, transparent 100%)' }}
+                  />
+
+                  {/* Permanent name strip */}
                   {name && (
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-4 py-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                      <p className="text-white text-[12px] font-bold">{name}</p>
-                      <p className="text-white/60 text-[10px] uppercase tracking-[1.5px] font-semibold">{tag}</p>
+                    <div className="absolute inset-x-0 bottom-0 px-4 pb-4 z-10">
+                      <p className="text-white font-black text-[13px] leading-tight tracking-[-0.2px]">{name}</p>
+                      <p className="text-white/50 text-[10px] uppercase tracking-[1.5px] font-semibold mt-0.5">{tag}</p>
                     </div>
                   )}
+
+                  {/* Hover: bright overlay cue */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
+                    style={{ background: 'rgba(255,117,24,0.06)' }} />
                 </motion.div>
               )
             })}
