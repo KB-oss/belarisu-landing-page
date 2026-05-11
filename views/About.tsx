@@ -658,181 +658,91 @@ export default function About() {
       <div className="pb-20 xl:pb-[100px]">
 
         <Reveal direction="up">
-          <div className={`${WRAP} flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10`}>
-            <div>
-              <Label>Our Experts</Label>
-              <h2
-                className="font-black leading-[1.1] tracking-[-0.04em]"
-                style={{ fontSize: 'clamp(2rem, 3.8vw, 3rem)', color: '#071e36' }}
-              >
-                The People Behind{' '}
-                <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>Every Smile</em>
-              </h2>
-            </div>
-
-            <div className="flex items-center gap-3 shrink-0 self-start md:self-auto">
-              {/* <div
-                className="flex items-center gap-1 p-1 rounded-full"
-                style={{ background: 'rgba(7,30,54,0.07)' }}
-              >
-                {TEAM_DEPTS.map((dept) => (
-                  <button
-                    key={dept}
-                    onClick={() => setFilterDept(dept)}
-                    className="relative px-4 py-1.5 rounded-full text-[12px] font-black tracking-[0.3px] transition-colors duration-200 focus:outline-none"
-                    style={{ color: filterDept === dept ? '#ffffff' : 'rgba(7,30,54,0.45)' }}
-                  >
-                    {filterDept === dept && (
-                      <motion.span
-                        layoutId="team-filter-pill"
-                        className="absolute inset-0 rounded-full"
-                        style={{ background: '#071e36' }}
-                        transition={{ type: 'spring', stiffness: 500, damping: 35 }}
-                      />
-                    )}
-                    <span className="relative z-10">{dept}</span>
-                  </button>
-                ))}
-              </div> */}
-
-              <div className="flex items-center gap-1.5">
-                <button
-                  onClick={scrollTeamPrev}
-                  aria-label="Previous"
-                  className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
-                  style={{
-                    background: canScrollPrev ? '#071e36' : 'rgba(7,30,54,0.08)',
-                    color: canScrollPrev ? '#ffffff' : 'rgba(7,30,54,0.25)',
-                  }}
-                >
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M19 12H5M12 5l-7 7 7 7" />
-                  </svg>
-                </button>
-                <button
-                  onClick={scrollTeamNext}
-                  aria-label="Next"
-                  className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
-                  style={{
-                    background: canScrollNext ? '#071e36' : 'rgba(7,30,54,0.08)',
-                    color: canScrollNext ? '#ffffff' : 'rgba(7,30,54,0.25)',
-                  }}
-                >
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </button>
-              </div>
-            </div>
+          <div className={`${WRAP} mb-12`}>
+            <Label>Our Experts</Label>
+            <h2
+              className="font-black leading-[1.1] tracking-[-0.04em]"
+              style={{ fontSize: 'clamp(2rem, 3.8vw, 3rem)', color: '#071e36' }}
+            >
+              The People Behind{' '}
+              <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>Every Smile</em>
+            </h2>
           </div>
         </Reveal>
 
-        <div
-          ref={teamCarouselRef}
-          className={`${WRAP} flex gap-4 overflow-x-auto pb-3 [&::-webkit-scrollbar]:hidden`}
-          style={{ scrollSnapType: 'x mandatory', scrollbarWidth: 'none' }}
-        >
-          <AnimatePresence mode="popLayout">
-            {TEAM
-              .filter((m) => filterDept === 'All' || m.dept === filterDept)
-              .map((member, i) => (
-                <motion.div
-                  key={member.name}
-                  layout
-                  initial={{ opacity: 0, scale: 0.94 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.92 }}
-                  transition={{ duration: 0.4, delay: i * 0.055, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-                  className="group relative shrink-0 rounded-[20px] overflow-hidden cursor-pointer"
-                  style={{ width: '300px', height: '420px', scrollSnapAlign: 'start' }}
-                  onClick={() => setSelectedMember(member)}
-                >
-                  {/* Image container - always stays at full size */}
-                  <div className="absolute inset-0 w-full h-full overflow-hidden">
-                    <img
-                      src={member.img}
-                      alt={member.name}
-                      className="w-full h-full object-cover"
-                    />
-
-                    {/* Number overlay on image */}
-                    <div className="absolute top-3 right-3 z-10">
-                      <span className="font-black" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.45)' }}>
-                        {String(TEAM.indexOf(member) + 1).padStart(2, '0')}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Text overlay - slides up from bottom on hover */}
-                  <div
-                    className="absolute bottom-0 left-0 w-full translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out z-20"
-                    style={{ background: '#071e36' }}
+        <div className={`${WRAP} grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-6`}>
+          {TEAM.map((member, i) => (
+            <motion.div
+              key={member.name}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.5, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+              className="group bg-white rounded-[20px] overflow-hidden cursor-pointer shadow-[0_2px_12px_rgba(7,30,54,0.07)] hover:shadow-[0_8px_28px_rgba(7,30,54,0.12)] transition-shadow duration-300"
+              onClick={() => setSelectedMember(member)}
+            >
+              {/* Square image */}
+              <div className="relative w-full aspect-square overflow-hidden bg-[#f1f5f9]">
+                <img
+                  src={member.img}
+                  alt={member.name}
+                  className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
+                />
+                {/* Subtle number badge */}
+                <div className="absolute top-3 left-3">
+                  <span
+                    className="font-black tabular-nums text-white/50 text-[10px] tracking-[1px]"
+                    style={{ textShadow: '0 1px 3px rgba(0,0,0,0.4)' }}
                   >
-                    <div className="flex flex-col justify-center px-5 py-5" style={{ minHeight: '44%' }}>
-                      <p
-                        className="font-black leading-tight tracking-[-0.3px] mb-1"
-                        style={{ fontSize: '17px', color: '#ffffff' }}
-                      >
-                        {member.name}
-                      </p>
-                      <p className="font-semibold mb-3" style={{ fontSize: '12px', color: '#ff7518' }}>
-                        {member.role}
-                      </p>
-                      <p
-                        className="leading-[1.65] line-clamp-2"
-                        style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.6)' }}
-                      >
-                        {member.bio}
-                      </p>
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                </div>
+              </div>
 
-                      <div className="flex items-center gap-1.5 mt-3">
-                        {member.social.linkedin && (
-                          <a href={member.social.linkedin} onClick={(e) => e.stopPropagation()} aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"
-                            className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                            style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
-                              <circle cx="4" cy="4" r="2" />
-                            </svg>
-                          </a>
-                        )}
-                        {member.social.twitter && (
-                          <a href={member.social.twitter} onClick={(e) => e.stopPropagation()} aria-label="Twitter" target="_blank" rel="noopener noreferrer"
-                            className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                            style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                            </svg>
-                          </a>
-                        )}
-                        {member.social.instagram && (
-                          <a href={member.social.instagram} onClick={(e) => e.stopPropagation()} aria-label="Instagram" target="_blank" rel="noopener noreferrer"
-                            className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                            style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                            </svg>
-                          </a>
-                        )}
-                      </div>
+              {/* Info */}
+              <div className="px-4 py-4">
+                <p className="font-black text-[15px] text-[#071e36] leading-tight tracking-[-0.2px] mb-0.5">
+                  {member.name}
+                </p>
+                <p className="font-semibold text-[11px] mb-2.5" style={{ color: '#ff7518' }}>
+                  {member.role}
+                </p>
+                <p className="text-[12px] leading-[1.65] line-clamp-3" style={{ color: '#6b7a91' }}>
+                  {member.bio}
+                </p>
 
-                      <div className="absolute bottom-4 right-4">
-                        <div
-                          className="w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300 hover:-rotate-45"
-                          style={{ background: 'rgba(255,117,24,0.22)', color: '#ff7518' }}
-                        >
-                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M5 12h14M12 5l7 7-7 7" />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
+                <div className="flex items-center justify-between mt-3">
+                  <div className="flex items-center gap-1.5">
+                    {member.social.linkedin && (
+                      <a
+                        href={member.social.linkedin}
+                        onClick={(e) => e.stopPropagation()}
+                        aria-label="LinkedIn"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-7 h-7 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                        style={{ background: 'rgba(7,30,54,0.07)', color: '#071e36' }}
+                      >
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
+                          <circle cx="4" cy="4" r="2" />
+                        </svg>
+                      </a>
+                    )}
                   </div>
-                </motion.div>
-              ))}
-          </AnimatePresence>
+                  {/* Read more arrow */}
+                  <div
+                    className="w-7 h-7 rounded-full flex items-center justify-center transition-all group-hover:bg-accent group-hover:text-white duration-300"
+                    style={{ background: 'rgba(255,117,24,0.1)', color: '#ff7518' }}
+                  >
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
 

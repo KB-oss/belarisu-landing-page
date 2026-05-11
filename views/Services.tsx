@@ -205,9 +205,9 @@ function ServiceCard({ service }: { service: Service }) {
         {service.subType === 'grid' && (
           <div className="grid sm:grid-cols-2 gap-4">
             {(service.subs as SubItem[]).map((sub) => (
-              <div key={sub.title} className="flex flex-col gap-3 bg-[#071e36] rounded-[14px] p-5">
+              <div key={sub.title} className="flex flex-col gap-3 rounded-[14px] p-5" style={{ background: '#ECECEC' }}>
                 <p className="font-bold text-[17px]" style={{ color: '#ff7518' }}>{sub.title}</p>
-                <p className="text-[14px] leading-[1.7]" style={{ color: 'rgba(255,255,255,0.65)' }}>{sub.text}</p>
+                <p className="text-[14px] leading-[1.7]" style={{ color: '#45556c' }}>{sub.text}</p>
               </div>
             ))}
           </div>

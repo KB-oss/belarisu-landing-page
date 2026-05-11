@@ -299,6 +299,11 @@ export default function Home() {
             className="absolute inset-0"
             style={{ background: 'linear-gradient(to top, rgba(5,5,5,0.82) 0%, rgba(5,5,5,0.0) 50%)' }}
           />
+          {/* Top gradient — keeps nav + logo readable over any photo */}
+          <div
+            className="absolute inset-0 pointer-events-none z-[1]"
+            style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.0) 28%)' }}
+          />
 
           {/* Slide indicators */}
           <div className="absolute bottom-7 right-8 z-20 flex gap-2 items-center">
@@ -476,7 +481,7 @@ export default function Home() {
                 </p>
                 <p
                   className="leading-relaxed"
-                  style={{ fontSize: '13px', color: 'rgba(255,255,255,0.30)', maxWidth: '210px' }}
+                  style={{ fontSize: '13px', color: 'rgba(255,255,255,0.65)', maxWidth: '210px' }}
                 >
                   {desc}
                 </p>
@@ -665,105 +670,137 @@ function TransformSection({ currentPatientIndex, setCurrentPatientIndex, current
   currentPatient: typeof PATIENT_GALLERY[0]
 }) {
   const sectionRef = useRef<HTMLElement>(null)
-  const inView = useInView(sectionRef, { once: false, amount: 0.35 })
+  const inView = useInView(sectionRef, { once: false, amount: 0.3 })
 
   return (
-      <section ref={sectionRef} className="py-16 xl:py-20">
-        <div className={WRAP}>
+    <section ref={sectionRef} className="py-20 xl:py-28 bg-[#fdfcfb]">
+      <div className={WRAP}>
 
-          <Reveal direction="up">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 mb-10">
-              <div>
-                <p
-                  className="font-black leading-[1.0] text-body"
-                  style={{ fontSize: 'clamp(2.2rem, 4vw, 3.8rem)', letterSpacing: '-2px' }}
-                >
-                  Witness the
-                </p>
-                <p
-                  className="font-black leading-[1.0] text-accent"
-                  style={{
-                    fontSize: 'clamp(2.2rem, 4vw, 3.8rem)',
-                    letterSpacing: '-1.5px',
-                    fontFamily: PLAYFAIR,
-                    fontStyle: 'italic',
-                  }}
-                >
-                  Transformations
-                </p>
-              </div>
-              <p
-                className="font-semibold italic leading-snug tracking-[-0.3px] md:text-right md:pb-1"
-                style={{ fontSize: 'clamp(1rem, 1.6vw, 1.2rem)', color: '#8a96a8', maxWidth: '260px' }}
-              >
-                That happen every{' '}
-                <em className="not-italic font-black text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>
-                  day
-                </em>
+        {/* Heading row */}
+        <Reveal direction="up">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+            <div>
+              <p className="font-black tracking-[3.5px] uppercase mb-3" style={{ fontSize: '10px', color: '#ff7518' }}>
+                Before &amp; After
               </p>
-            </div>
-          </Reveal>
-
-          {/* Slider */}
-          <Reveal direction="up" delay={0.08}>
-            <div
-              className="relative w-full rounded-[20px] overflow-hidden"
-              style={{ height: 'clamp(360px, 52vw, 660px)' }}
-            >
-              <ImageComparisonSlider
-                images={PATIENT_GALLERY}
-                currentIndex={currentPatientIndex}
-                onIndexChange={setCurrentPatientIndex}
-                autoPlayInterval={40000}
-                className="w-full h-full"
-                scrollReveal={inView}
-              />
-
-              {/* Patient overlay - now dynamic */}
-              <div
-                className="absolute bottom-0 left-0 right-0 px-8 sm:px-12 py-8 pointer-events-none z-20"
-                style={{
-                  background: 'linear-gradient(to top, rgba(7,30,54,0.92) 0%, rgba(7,30,54,0.30) 55%, transparent 100%)',
-                }}
+              <h2
+                className="font-black leading-[1.0] text-body"
+                style={{ fontSize: 'clamp(2rem, 3.8vw, 3.4rem)', letterSpacing: '-1.5px' }}
               >
-                <p
-                  className="text-white font-black mb-3 leading-none"
-                  style={{ fontSize: 'clamp(1.8rem, 3.5vw, 3.2rem)', letterSpacing: '-1.5px' }}
+                Witness the{' '}
+                <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>
+                  Transformations
+                </em>
+              </h2>
+            </div>
+            <p className="text-[14px] font-medium leading-snug sm:text-right sm:max-w-[220px]" style={{ color: '#8a96a8' }}>
+              Drag the slider to reveal every life-changing result.
+            </p>
+          </div>
+        </Reveal>
+
+        {/* Two-column layout */}
+        <div className="flex flex-col md:flex-row gap-5 md:gap-6 items-stretch">
+
+          {/* ── Slider (65%) ── */}
+          <div className="w-full md:w-[65%]" style={{ minHeight: 'clamp(320px, 48vw, 620px)' }}>
+            <ImageComparisonSlider
+              images={PATIENT_GALLERY}
+              currentIndex={currentPatientIndex}
+              onIndexChange={setCurrentPatientIndex}
+              autoPlayInterval={40000}
+              className="w-full h-full"
+              showControls={false}
+              scrollReveal={inView}
+            />
+          </div>
+
+          {/* ── Info panel (35%) ── */}
+          <div className="w-full md:w-[35%] flex flex-col bg-white rounded-[20px] shadow-[0_4px_24px_rgba(7,30,54,0.08)] overflow-hidden">
+
+            {/* Top: patient details */}
+            <div className="flex-1 px-7 pt-7 pb-5">
+              <p className="font-black uppercase tracking-[2.5px] mb-5" style={{ fontSize: '9px', color: 'rgba(255,117,24,0.7)' }}>
+                Patient Story
+              </p>
+
+              {/* Name */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentPatientIndex}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  {currentPatient.patientName}
-                </p>
-                <div className="flex items-center gap-2.5 flex-wrap">
-                  {currentPatient.age && (
-                    <>
-                      <span className="font-black tracking-[2.5px] uppercase text-accent" style={{ fontSize: '10px' }}>
+                  <p
+                    className="font-black text-[#071e36] leading-tight mb-4"
+                    style={{ fontSize: 'clamp(1.4rem, 2.2vw, 2rem)', letterSpacing: '-1px' }}
+                  >
+                    {currentPatient.patientName}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                    {currentPatient.age && (
+                      <span className="font-black tracking-[2px] uppercase text-accent" style={{ fontSize: '9px' }}>
                         {currentPatient.age}
                       </span>
-                      <span className="w-1 h-1 rounded-full bg-accent/40" />
-                    </>
-                  )}
-                  <span className="font-black tracking-[2.5px] uppercase" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.38)' }}>
-                    {currentPatient.condition}
-                  </span>
-                  <span className="w-1 h-1 rounded-full bg-white/20" />
-                  <span className="font-black tracking-[2.5px] uppercase" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.38)' }}>
-                    {currentPatient.location}
-                  </span>
-                </div>
+                    )}
+                    <span className="w-1 h-1 rounded-full bg-accent/30" />
+                    <span className="font-black tracking-[2px] uppercase" style={{ fontSize: '9px', color: '#8a96a8' }}>
+                      {currentPatient.condition}
+                    </span>
+                    <span className="w-1 h-1 rounded-full bg-[#d0d8e4]" />
+                    <span className="font-black tracking-[2px] uppercase" style={{ fontSize: '9px', color: '#8a96a8' }}>
+                      {currentPatient.location}
+                    </span>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Divider */}
+              <div className="w-full h-px mt-6 mb-6" style={{ background: '#f0f3f7' }} />
+
+              {/* Drag hint */}
+              <p className="text-[12px] leading-[1.7]" style={{ color: '#a0acbc' }}>
+                Drag the divider left or right to compare the patient&apos;s journey — before and after care at BMC.
+              </p>
+            </div>
+
+            {/* Bottom: navigation + CTA */}
+            <div className="px-7 pb-7 pt-2">
+              {/* Numbered patient nav */}
+              <div className="flex items-center gap-2 mb-5">
+                {PATIENT_GALLERY.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentPatientIndex(idx)}
+                    className="transition-all duration-200 rounded-full font-black flex items-center justify-center"
+                    style={{
+                      width: idx === currentPatientIndex ? '32px' : '28px',
+                      height: '28px',
+                      fontSize: '10px',
+                      background: idx === currentPatientIndex ? '#ff7518' : 'rgba(7,30,54,0.07)',
+                      color: idx === currentPatientIndex ? '#ffffff' : 'rgba(7,30,54,0.35)',
+                    }}
+                    aria-label={`Patient ${idx + 1}`}
+                  >
+                    {String(idx + 1).padStart(2, '0')}
+                  </button>
+                ))}
               </div>
 
-              {/* View all button */}
-              <div className="absolute bottom-5 right-5 pointer-events-auto z-30">
-                <Link
-                  href="/gallery"
-                  className="flex items-center gap-1.5 bg-white/92 hover:bg-white backdrop-blur-sm text-navy text-[12px] font-black px-5 py-3 rounded-[10px] transition-all shadow-lg hover:-translate-y-px tracking-[0.2px]"
-                >
-                  View all transformations <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
+              <Link
+                href="/gallery"
+                className="inline-flex items-center gap-2 bg-[#071e36] text-white font-black text-[12px] px-5 py-3 rounded-full hover:bg-[#0d2d52] transition-colors tracking-[0.2px]"
+              >
+                View all stories <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
-          </Reveal>
+          </div>
+
         </div>
-      </section>
+      </div>
+    </section>
   )
 }
 
