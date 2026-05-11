@@ -110,6 +110,7 @@ interface SocialLinks {
 
 interface TeamMember {
   name: string
+  credentials?: string
   role: string
   dept: string
   img: string
@@ -124,22 +125,23 @@ const TEAM: TeamMember[] = [
     dept: 'Leadership',
     img: IMG_CARE_1,
     bio: 'Sesnie Z. Barnabas is a senior health and development leader with 18 years of experience advancing programs across Africa. She has led multi-country strategic initiatives, built partnerships with governments and global donors, and strengthened institutions delivering care within complex health systems. At BelaRisu Medical Center, she leads the organization\'s strategic vision and operational growth, working to expand access to comprehensive cleft care and strengthen sustainable systems that improve outcomes for children and families born with cleft conditions.',
-    social: { linkedin: '#', twitter: null, instagram: null },
+    social: { linkedin: 'https://www.linkedin.com/in/sesnie-zemichael-barnabas-68a783a', twitter: null, instagram: null },
   },
   {
     name: 'Martin W. Kamau',
+    credentials: 'BDS, MDS (OMFS), FAOCMF',
     role: 'Lead Surgeon',
     dept: 'Clinical',
     img: IMG_CARE_2,
-    bio: 'Martin W. Kamau is the co-founder and Lead Surgeon at BelaRisu Medical Centre, with over a decade of experience in Dental and Oral-Maxillofacial Surgery. His extensive field experience across the continent has been instrumental in shaping the Centre\'s establishment, its life-changing cleft care programs, and the development of the training hub that equips the next generation of surgical professionals. He has pioneered innovative cleft care initiatives, combining local expertise with global standards to drive BelaRisu\'s mission of delivering high-quality, equitable, and patient-centered care.',
-    social: { linkedin: '#', twitter: null, instagram: null },
+    bio: 'Martin W. Kamau is the co-founder and Lead Surgeon at BelaRisu Medical Centre, with over a decade of experience in Dental and Oral-Maxillofacial Surgery. His extensive field experience across the continent has been instrumental in shaping the Centre\'s establishment, its life-changing cleft care programs, and the development of the training hub that equips the next generation of surgical professionals. He has pioneered innovative cleft care initiatives by combining local expertise with global standards, and his visionary leadership in surgical care continues to drive BelaRisu\'s mission to deliver high-quality, equitable, and patient-centered care.',
+    social: { linkedin: 'https://www.linkedin.com/in/martin-kamau-15a2454a', twitter: null, instagram: null },
   },
   {
     name: 'Abdulhakim Kimani',
     role: 'Chief Operating Officer',
     dept: 'Leadership',
     img: IMG_CARE_3,
-    bio: 'Abdulhakim Kimani is the visionary co-founder of BelaRisu Medical Centre, playing an instrumental role in establishing the Centre, shaping its mission, and stewarding it into the beacon of hope it is today. As Chief Operating Officer, he oversees day-to-day operations and drives interdisciplinary initiatives that strengthen patient-centered programs. An avid field team leader, he advances the Centre\'s mission across the continent through its Foundation arm. Abdulhakim is also an accomplished humanitarian photographer, using visual storytelling to connect the wider public with the Centre and the children it serves.',
+    bio: 'Abdulhakim Kimani is the visionary co-founder of BelaRisu Medical Centre, playing an instrumental role in establishing the Centre, shaping its mission, and stewarding it into the beacon of hope it is today. As Chief Operating Officer, he oversees day-to-day operations and drives interdisciplinary initiatives that strengthen patient-centered programs. An avid field team leader, he further advances the Centre\'s mission across the continent through its Foundation arm, bringing hands-on leadership to programs on the ground. Abdulhakim is also an accomplished humanitarian photographer, using visual storytelling to connect the wider public with the Centre and the children and families it serves.',
     social: { linkedin: null, twitter: null, instagram: null },
   },
   {
@@ -147,23 +149,24 @@ const TEAM: TeamMember[] = [
     role: 'Chief Growth Officer',
     dept: 'Leadership',
     img: IMG_SPLIT_4,
-    bio: 'Rose Maket is a strategic growth leader with over 20 years of experience across the private sector, social enterprises, and start-ups. She specializes in driving organizational growth through strategic partnerships, revenue generation, operational excellence, and the development of high-performing teams. At BelaRisu Medical Center, she focuses on expanding partnerships and strengthening sustainable financing to support the organization\'s growth and the delivery of life-changing surgical care. Rose also serves on the boards of Alive and Kicking Kenya and Savannah Hospital.',
-    social: { linkedin: '#', twitter: null, instagram: null },
+    bio: 'Rose Maket is a strategic growth leader with over 20 years of experience across the private sector, social enterprises, and start-ups. She specializes in driving organizational growth through strategic partnerships, revenue generation, operational excellence, and the development of high-performing teams. Rose has held senior leadership roles across multiple industries, including retail, oil and gas, renewable energy, tourism, academia, agribusiness, and the non-profit sector, working across Kenya, Ghana, and Zambia. At BelaRisu Medical Center, she focuses on expanding partnerships and strengthening sustainable financing to support the organization\'s growth and the delivery of life-changing surgical care. Rose also serves on the boards of Alive and Kicking Kenya and Savannah Hospital.',
+    social: { linkedin: 'https://www.linkedin.com/in/rosemaket', twitter: null, instagram: null },
   },
   {
     name: 'Eleleta Surafel',
+    credentials: 'MD, MPH',
     role: 'Chief of Staff',
     dept: 'Leadership',
     img: IMG_SPLIT_5,
-    bio: 'Eleleta Surafel is a public health professional with expertise in health systems strengthening and equity-focused programming. At BelaRisu Medical Centre, she supports leadership in advancing strategic initiatives, strengthening partnerships, and designing systems that expand access to surgical care for children and families affected by cleft conditions. She has led initiatives with global and regional institutions including Women in Global Health, Africa CDC, and UNFPA, and serves as an Advisory Council Member at Amref Health Africa in Ethiopia.',
-    social: { linkedin: '#', twitter: null, instagram: null },
+    bio: 'Eleleta Surafel is a public health professional with expertise in health systems strengthening and equity-focused programming. At BelaRisu Medical Centre, she supports leadership in advancing strategic initiatives, strengthening partnerships, and designing systems that expand access to surgical care for children and families affected by cleft conditions. Eleleta has led and supported initiatives with global and regional institutions including Women in Global Health, Africa CDC, and UNFPA, and serves as an Advisory Council Member at Amref Health Africa in Ethiopia. As a young member of the management team, her role reflects the Centre\'s commitment to cultivating the next generation of health leaders.',
+    social: { linkedin: 'https://www.linkedin.com/in/eleletamd', twitter: null, instagram: null },
   },
   {
     name: 'Lynnah Temba',
     role: 'Program Manager',
     dept: 'Operations',
     img: IMG_STORY_L,
-    bio: 'Since the very first day BelaRisu Medical Center opened its doors, Lynnah has been one of the welcoming faces at the heart of our patient journey. Beginning her career as an Administrative Associate and now serving as Program Manager, she has played a central role in coordinating the many moving parts that ensure patients and families are supported throughout their care journey with us.',
+    bio: 'Since the very first day Bela Risu Medical Center opened its doors, Lynnah has been one of the welcoming faces at the heart of our patient journey. Beginning her career with us as an Administrative Associate and now serving as Program Manager, she has played a central role in coordinating the many moving parts that ensure patients and families are supported through their journey with us.',
     social: { linkedin: null, twitter: null, instagram: null },
   },
 ]
@@ -846,6 +849,11 @@ export default function About() {
                   >
                     {selectedMember.name}
                   </h3>
+                  {selectedMember.credentials && (
+                    <p className="font-semibold mt-1" style={{ fontSize: '12px', color: 'rgba(7,30,54,0.45)', letterSpacing: '0.5px' }}>
+                      {selectedMember.credentials}
+                    </p>
+                  )}
                 </div>
 
                 <div className="h-px w-full" style={{ background: '#e8e3dc' }} />
