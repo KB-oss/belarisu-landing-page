@@ -1,26 +1,37 @@
 'use client'
 
-interface WayItem {
-  icon: string
-  title: string
-  text: string
-}
-
-const WAYS: WayItem[] = [
+const WAYS = [
   {
-    icon: 'https://www.figma.com/api/mcp/asset/edcbc255-da22-4dc5-90c4-0444d1f8f057',
-    title: 'In-kind donations',
-    text: 'Make an immediate impact with a single gift.',
+    title: 'In-kind Donations',
+    text: 'Donate medical supplies, equipment, or professional services to support our care programs directly.',
+    color: '#0ea5e9',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+        <path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+      </svg>
+    ),
   },
   {
-    icon: 'https://www.figma.com/api/mcp/asset/ab94f148-61f2-4104-8c7e-bffa9e203f19',
     title: 'Corporate Partnership',
-    text: 'Partner with BMC as an organization. Corporate partnerships build lasting change.',
+    text: 'Partner with BMC as an organization. Corporate partnerships build lasting, systemic change.',
+    color: '#8b5cf6',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+    ),
   },
   {
-    icon: 'https://www.figma.com/api/mcp/asset/8f763915-390d-4356-a538-835ba47c65a3',
     title: 'Gift in Memory',
-    text: "Make a donation in memory of a loved one or honor someone's legacy.",
+    text: "Honor a loved one's legacy with a memorial donation that funds free cleft care for a child.",
+    color: '#ec4899',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+      </svg>
+    ),
   },
 ]
 
@@ -30,32 +41,40 @@ interface DonationSuccessProps {
 
 export default function DonationSuccess({ onClose }: DonationSuccessProps) {
   return (
-    <div className="flex flex-col gap-6 p-8 flex-1 overflow-y-auto">
+    <div className="flex flex-col p-6 sm:p-8 flex-1 overflow-y-auto gap-6">
       {/* Success banner */}
-      <div className="bg-[#fcfff1] rounded-2xl p-8 flex flex-col items-center gap-3 text-center">
-        <div className="w-16 h-16 rounded-full bg-[rgba(164,196,16,0.15)] flex items-center justify-center">
-          <svg className="w-8 h-8 text-[#39b54a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+      <div className="rounded-2xl px-6 py-7 flex flex-col items-center gap-3 text-center" style={{ background: '#f0fdf4' }}>
+        <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'rgba(57,181,74,0.15)' }}>
+          <svg className="w-7 h-7" style={{ color: '#39b54a' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <polyline points="20 6 9 17 4 12" />
           </svg>
         </div>
-        <p className="text-[#005526] font-black text-xl">Donation Successful</p>
-        <p className="text-muted text-sm leading-relaxed max-w-sm">
-          In today's world of multiple crises, you can still make a difference in someone's life. Your support can give a child their first smile, their first word, their first chance to belong.
+        <p className="font-black text-[1.15rem] tracking-tight" style={{ color: '#005526' }}>
+          Thank you — donation received!
+        </p>
+        <p className="text-sm leading-relaxed max-w-sm" style={{ color: '#2d6a4f' }}>
+          Your support can give a child their first smile, their first word, their first chance to belong.
         </p>
       </div>
 
-      {/* Other ways to give */}
+      {/* Other ways */}
       <div>
-        <p className="text-navy font-black text-xl mb-4">Other Ways to Give</p>
-        <div className="grid grid-cols-1 gap-3">
-          {WAYS.map(({ icon, title, text }) => (
-            <div key={title} className="bg-white border border-[#f1f5f9] rounded-2xl p-5 flex gap-4 items-start hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center shrink-0">
-                <img src={icon} alt="" className="w-5 h-5 object-contain" />
+        <p className="font-black text-base mb-3" style={{ color: '#071e36' }}>More ways to make an impact</p>
+        <div className="flex flex-col gap-2.5">
+          {WAYS.map(({ icon, title, text, color }) => (
+            <div
+              key={title}
+              className="flex gap-4 items-start p-4 rounded-2xl border border-slate-100 hover:shadow-sm transition-all"
+            >
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                style={{ background: `${color}18`, color }}
+              >
+                {icon}
               </div>
               <div>
-                <p className="text-navy font-black text-sm mb-1">{title}</p>
-                <p className="text-muted text-xs leading-relaxed">{text}</p>
+                <p className="font-black text-sm mb-0.5" style={{ color: '#071e36' }}>{title}</p>
+                <p className="text-xs text-slate-400 leading-relaxed">{text}</p>
               </div>
             </div>
           ))}
@@ -64,7 +83,8 @@ export default function DonationSuccess({ onClose }: DonationSuccessProps) {
 
       <button
         onClick={onClose}
-        className="w-full bg-navy text-white font-black py-4 rounded-xl hover:bg-navy/90 transition-colors"
+        className="w-full font-black py-3.5 rounded-xl text-sm transition-all hover:opacity-90"
+        style={{ background: '#071e36', color: '#fff' }}
       >
         Close
       </button>

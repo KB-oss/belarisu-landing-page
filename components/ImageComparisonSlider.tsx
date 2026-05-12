@@ -115,6 +115,17 @@ export default function ImageComparisonSlider({
     }
   }, [])
 
+  // Passive touch-move listener so the browser can scroll without waiting for JS
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const onTouchMove = (e: TouchEvent) => {
+      move(e.touches[0].clientX)
+    }
+    el.addEventListener('touchmove', onTouchMove, { passive: true })
+    return () => el.removeEventListener('touchmove', onTouchMove)
+  }, [move])
+
   // Recurring hint every 30 seconds if no interaction
   useEffect(() => {
     if (!hasInteracted) {
@@ -170,7 +181,6 @@ export default function ImageComparisonSlider({
       ref={ref}
       className={`relative select-none overflow-hidden rounded-2xl ${className}`}
       onMouseMove={(e) => move(e.clientX)}
-      onTouchMove={(e) => move(e.touches[0].clientX)}
       onMouseEnter={pauseAutoplay}
       onMouseLeave={resumeAutoplay}
     >
@@ -198,7 +208,7 @@ export default function ImageComparisonSlider({
       {/* Divider line */}
       <div
         className="absolute top-0 bottom-0 w-px bg-white/80 pointer-events-none z-20"
-        style={{ left: `${position}%` }}
+        style={{ left: `${position}%`, willChange: 'left' }}
       />
 
          {/* Simple Draggability Hint - Recurring every 30 seconds - positioned above handle */}
@@ -255,7 +265,6 @@ export default function ImageComparisonSlider({
           }
         }}
         onMouseEnter={() => {
-          setDragging(true)
           if (!hasInteracted) {
             setHasInteracted(true)
             setShowHint(false)

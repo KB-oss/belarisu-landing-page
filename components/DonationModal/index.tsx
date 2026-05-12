@@ -6,16 +6,11 @@ import GiveOnce from './GiveOnce'
 import CardForm from './CardForm'
 import MpesaForm from './MpesaForm'
 import DonationSuccess from './DonationSuccess'
+import OtherWays from './OtherWays'
 
-const PANEL_IMG = 'https://www.figma.com/api/mcp/asset/43c860bf-569c-4c85-8fc6-e1206952b560'
+const PANEL_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001854/Bancy_Muthoni_11mnths_Kiambu._1_zlonij.jpg'
 
-const FAQ_LINKS = [
-  'Is my donation secure?',
-  'Is this donation tax-deductible?',
-  'Can I cancel my recurring donation?',
-]
-
-type ModalState = 'amount' | 'card' | 'mpesa' | 'success'
+type ModalState = 'amount' | 'card' | 'mpesa' | 'other' | 'success'
 type TabType = 'once' | 'monthly'
 type PayMethod = 'card' | 'mpesa'
 
@@ -29,22 +24,19 @@ export default function DonationModal({ onClose }: DonationModalProps) {
   const [amount, setAmount] = useState<number>(100)
   const [payMethod, setPayMethod] = useState<PayMethod>('card')
 
-  // Close on Escape
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose?.() }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
 
-  const handleDonate = () => {
-    setState(payMethod === 'card' ? 'card' : 'mpesa')
-  }
+  const handleDonate = () => setState(payMethod === 'card' ? 'card' : 'mpesa')
   const handleSubmit = () => setState('success')
 
   return (
     <motion.div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
-      style={{ background: 'rgba(7,30,54,0.85)', backdropFilter: 'blur(8px)' }}
+      className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center sm:p-4"
+      style={{ background: 'rgba(7,30,54,0.88)', backdropFilter: 'blur(10px)' }}
       onClick={onClose}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -52,69 +44,97 @@ export default function DonationModal({ onClose }: DonationModalProps) {
       transition={{ duration: 0.25 }}
     >
       <motion.div
-        className="relative w-full max-w-[940px] rounded-2xl overflow-hidden shadow-2xl"
+        className="relative w-full sm:max-w-[980px] rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl"
+        style={{ maxHeight: '95dvh' }}
         onClick={(e) => e.stopPropagation()}
-        initial={{ opacity: 0, scale: 0.94, y: 24 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.96, y: 16 }}
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 24 }}
         transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
       >
-        {/* Close button */}
+        {/* Close */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 text-white/60 hover:text-white bg-black/20 rounded-full p-1.5"
+          className="absolute top-4 right-4 z-20 text-white/70 hover:text-white bg-black/25 hover:bg-black/40 rounded-full p-2 transition-all"
           aria-label="Close"
         >
-          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M18 6 6 18M6 6l12 12" />
           </svg>
         </button>
 
-        <div className="flex">
-          {/* Left panel — persistent image */}
-          <div className="hidden md:flex relative w-[360px] shrink-0 min-h-[540px]">
+        <div className="flex h-full">
+          {/* Left panel */}
+          <div className="hidden md:flex relative w-[340px] xl:w-[380px] shrink-0">
             <img src={PANEL_IMG} alt="" className="absolute inset-0 w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-black/20 rounded-none" />
             <div
-              className="absolute bottom-0 left-0 right-0 flex flex-col gap-4 px-6 py-8 rounded-bl-2xl"
-              style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7) 60%, transparent)' }}
-            >
-              <p className="text-white font-black text-[32px] leading-tight tracking-tight">
-                Give a Child Their <em className="not-italic text-accent">First Smile</em>
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(160deg, rgba(7,30,54,0.1) 0%, rgba(7,30,54,0.78) 100%)' }}
+            />
+            <div className="absolute bottom-0 left-0 right-0 px-7 py-8">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-1 h-8 rounded-full bg-accent" />
+                <p className="font-black text-[10px] tracking-[3px] uppercase" style={{ color: 'rgba(255,117,24,0.85)' }}>
+                  Bela Risu Foundation
+                </p>
+              </div>
+              <p
+                className="text-white font-black leading-[1.1] mb-3"
+                style={{ fontSize: 'clamp(1.4rem, 2vw, 1.9rem)', letterSpacing: '-0.8px' }}
+              >
+                Give a Child<br />Their <em className="not-italic text-accent">First Smile</em>
               </p>
-              <p className="text-white/85 text-sm italic leading-relaxed">
+              <p className="text-white/70 text-sm leading-relaxed italic">
                 "The care we couldn't afford was made possible because someone, somewhere chose to give."
               </p>
             </div>
           </div>
 
           {/* Right panel */}
-          <div className="flex-1 bg-white/95 backdrop-blur-md flex flex-col min-h-[540px] overflow-hidden">
+          <div className="flex-1 flex flex-col bg-white overflow-hidden" style={{ maxHeight: '95dvh' }}>
             <AnimatePresence mode="wait">
               {state === 'amount' && (
-                <motion.div key="amount" className="flex flex-col flex-1"
+                <motion.div key="amount" className="flex flex-col flex-1 overflow-y-auto"
                   initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.28, ease: 'easeOut' }}>
+                  transition={{ duration: 0.25, ease: 'easeOut' }}>
                   <GiveOnce
                     tab={tab} setTab={setTab}
                     amount={amount} setAmount={setAmount}
                     payMethod={payMethod} setPayMethod={setPayMethod}
                     onDonate={handleDonate}
+                    onOtherWays={() => setState('other')}
                   />
                 </motion.div>
               )}
               {state === 'card' && (
-                <motion.div key="card" className="flex flex-col flex-1"
+                <motion.div key="card" className="flex flex-col flex-1 overflow-y-auto"
                   initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.28, ease: 'easeOut' }}>
-                  <CardForm amount={amount} onBack={() => setState('amount')} onSubmit={handleSubmit} />
+                  transition={{ duration: 0.25, ease: 'easeOut' }}>
+                  <CardForm
+                    amount={amount}
+                    onBack={() => setState('amount')}
+                    onSwitchToMpesa={() => setState('mpesa')}
+                    onSubmit={handleSubmit}
+                  />
                 </motion.div>
               )}
               {state === 'mpesa' && (
-                <motion.div key="mpesa" className="flex flex-col flex-1"
+                <motion.div key="mpesa" className="flex flex-col flex-1 overflow-y-auto"
                   initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.28, ease: 'easeOut' }}>
-                  <MpesaForm amount={amount} onBack={() => setState('amount')} onSubmit={handleSubmit} />
+                  transition={{ duration: 0.25, ease: 'easeOut' }}>
+                  <MpesaForm
+                    amount={amount}
+                    onBack={() => setState('amount')}
+                    onSwitchToCard={() => setState('card')}
+                    onSubmit={handleSubmit}
+                  />
+                </motion.div>
+              )}
+              {state === 'other' && (
+                <motion.div key="other" className="flex flex-col flex-1 overflow-y-auto"
+                  initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.25, ease: 'easeOut' }}>
+                  <OtherWays onBack={() => setState('amount')} onClose={onClose} />
                 </motion.div>
               )}
               {state === 'success' && (
@@ -126,15 +146,6 @@ export default function DonationModal({ onClose }: DonationModalProps) {
               )}
             </AnimatePresence>
           </div>
-        </div>
-
-        {/* FAQ footer */}
-        <div className="bg-navy flex items-center justify-center gap-6 py-3 flex-wrap">
-          {FAQ_LINKS.map((q) => (
-            <button key={q} className="text-white/60 text-xs hover:text-white transition-colors">
-              {q}
-            </button>
-          ))}
         </div>
       </motion.div>
     </motion.div>

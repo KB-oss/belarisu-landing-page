@@ -22,6 +22,7 @@ const WRAP = 'w-full max-w-[1366px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20'
 /* ─── Figma assets ─── */
 const IMG_HERO = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999410/1H4A3138_rpk5lr.jpg'
 const IMG_STORY_L = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001795/ChatGPT_Image_May_5_2026_08_22_29_PM_lpuepj.png'
+const IMG_STORY_SECTION = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999411/1H4A3088_enrccn.jpg'
 const IMG_FULL = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999413/IMG_0019_id2y16.jpg'
 const IMG_CARE_A = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997868/Care_That_grows_with_you_1_vugnlh.jpg'
 const IMG_CARE_B = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997867/Care_That_grows_with_you_2JPG_wmezgb.jpg'
@@ -297,7 +298,7 @@ export default function About() {
 
           <Reveal direction="up" className="lg:w-[340px] xl:w-[380px] shrink-0 self-stretch">
             <div className="rounded-[16px] overflow-hidden h-full" style={{ minHeight: '480px' }}>
-              <img src={IMG_STORY_L} alt="Our story" className="w-full h-full object-cover" />
+              <img src={IMG_STORY_SECTION} alt="Our story" className="w-full h-full object-cover" />
             </div>
           </Reveal>
 

@@ -279,7 +279,7 @@ export default function Gallery() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="grid grid-cols-2 md:grid-cols-4 gap-3"
-            style={{ gridAutoRows: '380px' }}
+            style={{ gridAutoRows: '200px' }}
           >
             {displayed.map(({ src, tag, desc, name }, i) => {
               const bentoCol = BENTO_SPANS[i % BENTO_SPANS.length].col
@@ -322,9 +322,16 @@ export default function Gallery() {
                     </div>
                   )}
 
-                  {/* Hover: bright overlay cue */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
-                    style={{ background: 'rgba(255,117,24,0.06)' }} />
+                  {/* Hover: story CTA overlay */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 z-20 pointer-events-none"
+                    style={{ background: 'linear-gradient(to top, rgba(7,20,50,0.95) 0%, rgba(7,20,50,0.65) 55%, rgba(7,20,50,0.15) 100%)' }}>
+                    <span className="text-white/50 text-[9px] uppercase tracking-[2px] font-black mb-1">{tag}</span>
+                    {name && <p className="text-white font-black text-[15px] leading-snug tracking-tight mb-3">{name}</p>}
+                    <span className="inline-flex items-center gap-1.5 text-accent text-[11px] font-black uppercase tracking-wider">
+                      Read Story
+                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </span>
+                  </div>
                 </motion.div>
               )
             })}

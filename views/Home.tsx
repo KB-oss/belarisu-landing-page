@@ -22,69 +22,61 @@ const DONATE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_a
 
 const PATIENT_GALLERY = [
   {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002965/1H4A1675_rngiou.jpg',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002968/1H4A2346_kosbyt.jpg',
-    patientName: 'Blessing Wangui',
-    age: '14 months old',
-    condition: 'Cleft Lip',
-    location: 'Mombasa'
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_copy_lfxtir.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_1_copy_cwkfkx.webp',
+    patientName: 'Abdirakib Ismail',
+    age: '12 years old',
+    condition: 'Cleft Lip and Cleft Palate',
+    location: 'Garissa'
   },
   {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180685/david_before_zwo4zp.jpg',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180681/david_after_dgjqtz.jpg',
-    patientName: 'David',
-    age: '',
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Amari_Nderitu_Muriithi_-_Cleft_Lip_-_2_months_-_Kiambu_copy_yjikgu.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Amari_Nderitu_Muriithi_-_Cleft_Lip_-_2_months_-_Kiambu_1_copy_llmasr.webp',
+    patientName: 'Amari Nderitu Muriithi',
+    age: '2 months old',
+    condition: 'Cleft Lip',
+    location: 'Kiambu'
+  },
+  {
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542419/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_copy_xfbrwj.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_1_copy_cpk19z.webp',
+    patientName: 'Amelia Chreseria Njeri',
+    age: '4 years old',
+    condition: 'Cleft Lip and Cleft Palate',
+    location: 'Ruiru'
+  },
+  {
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542419/Artboard_2_usn13i.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542419/appointment_xpl7gq.webp',
+    patientName: 'Brighton Chacha Marwa',
+    age: '4 years old',
     condition: 'Cleft Lip',
     location: 'Nairobi'
   },
   {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997453/Mateo_Ndungu_Kimiri_-_Cleft_Lip_and_Cleft_Palate_-_1_year_8_months_-_Juja_zrehfp.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997452/Cleopatra_Njeri_Njunge_-_Cleft_Lip_and_Cleft_Palate_-_1_year_-_Kiambu_xeipzy.webp',
-    patientName: 'Cleopatra Njeri Njunge',
-    age: '1 years old',
-    condition: 'Cleft Lip and Cleft_Palat',
-    location: 'Kisumu'
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542420/Bancy_Muthoni_-_Cleft_Lip_and_Cleft_Palate_-_11_months_-_Kiambu_copy_rsinmw.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542425/Bancy_Muthoni_-_Cleft_Lip_and_Cleft_Palate_-_11_months_-_Kiambu_1_copy_ja41vf.webp',
+    patientName: 'Bancy Muthoni',
+    age: '11 months old',
+    condition: 'Cleft Lip and Cleft Palate',
+    location: 'Kiambu'
   },
   {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997449/Lucrecia_Reina_Khalumba_-_Cleft_Lip_-_4_years_-_Nairobi_kubatv.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997450/Lucrecia_Reina_Khalumba_-_Cleft_Lip_-_4_years_-_Nairobi_1_j8f9hg.webp',
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542420/Cleopatra_Njeri_Njunge_-_Cleft_Lip_and_Cleft_Palate_-_1_year_-_Kiambu_copy_mqiyc0.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542423/Cleopatra_Njeri_Njunge_-_Cleft_Lip_and_Cleft_Palate_-_1_year_-_Kiambu_1_copy_ucdtme.webp',
+    patientName: 'Cleopatra Njeri Njunge',
+    age: '1 year old',
+    condition: 'Cleft Lip and Cleft Palate',
+    location: 'Kiambu'
+  },
+  {
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Mateo_Ndungu_Kimiri_-_Cleft_Lip_and_Cleft_Palate_-_1_year_8_months_-_Juja_copy_hur0cf.jpg',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542420/Lucrecia_Reina_Khalumba_-_Cleft_Lip_-_4_years_-_Nairobi_copy_h8wmxb.webp',
     patientName: 'Lucrecia Reina Khalumba',
     age: '4 years old',
     condition: 'Cleft Lip',
     location: 'Nairobi'
   },
-  {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997451/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_xchfpp.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997445/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_1_twxz2t.webp',
-    patientName: 'Abdirakib Ismail',
-    age: '12 years old',
-    condition: 'Cleft Lip',
-    location: 'Nairobi'
-  },
-  {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997452/Amari_Nderitu_Muriithi_-_Cleft_Lip_-_2_months_-_Kiambu_pwxvbn.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997448/Amari_Nderitu_Muriithi_-_Cleft_Lip_-_2_months_-_Kiambu_1_mp9xt9.webp',
-    patientName: 'Amari Nderitu Muriithi',
-    age: '2 Month old',
-    condition: 'Cleft Lip',
-    location: 'Kiambu'
-  },
-  {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997445/Bancy_Muthoni_-_Cleft_Lip_and_Cleft_Palate_-_11_months_-_Kiambu_grc2wf.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997447/Bancy_Muthoni_-_Cleft_Lip_and_Cleft_Palate_-_11_months_-_Kiambu_1_zklutu.webp',
-    patientName: 'Bancy Muthoni',
-    age: '11 Months old',
-    condition: 'Cleft Lip and Cleft Palate',
-    location: 'Kiambu'
-  },
-  {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997447/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_t1zysd.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997446/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_1_caajti.webp',
-    patientName: 'Amelia Chreseria Njeri',
-    age: '4 years old',
-    condition: 'Cleft Lip and Cleft Palate',
-    location: 'Riuru'
-  }
 ]
 
 interface ServiceItem {
@@ -519,44 +511,64 @@ export default function Home() {
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-10 items-stretch">
-            <div className="lg:col-span-2 flex flex-col gap-2">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-8 items-stretch">
+            {/* Left: clean tab list */}
+            <div className="lg:col-span-2 flex flex-col gap-1">
               {SERVICES.map((svc, i) => {
                 const isActive = i === activeService
                 return (
-                  <motion.div key={svc.title} className="rounded-[16px] cursor-pointer overflow-hidden transition-colors duration-200"
-                    style={{ background: isActive ? '#fff' : 'transparent', boxShadow: isActive ? '0 2px 16px rgba(7,30,54,0.07), 0 0 0 1px rgba(7,30,54,0.06)' : 'none' }}
-                    onClick={() => selectService(i)} layout transition={{ type: 'spring', stiffness: 380, damping: 32 }}>
-                    <div className="flex items-center gap-3 px-4 py-4 select-none">
-                      <div className="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0 transition-all duration-250"
-                        style={{ background: isActive ? 'rgba(255,117,24,0.10)' : '#eae6e0', color: isActive ? '#ff7518' : '#8a939f' }}>
+                  <div key={svc.title}>
+                    <motion.button
+                      onClick={() => selectService(i)}
+                      className="relative w-full flex items-center gap-3 px-4 py-3.5 rounded-[14px] transition-colors duration-200 text-left overflow-hidden"
+                      style={{
+                        background: isActive ? '#fff' : 'transparent',
+                        boxShadow: isActive ? '0 2px 16px rgba(7,30,54,0.07), 0 0 0 1px rgba(7,30,54,0.06)' : 'none',
+                      }}
+                      layout
+                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="svc-active-bar"
+                          className="absolute left-0 top-3 bottom-3 w-[3px] rounded-full"
+                          style={{ background: '#ff7518' }}
+                          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                        />
+                      )}
+                      <div
+                        className="w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 transition-all duration-200"
+                        style={{ background: isActive ? 'rgba(255,117,24,0.10)' : '#eae6e0', color: isActive ? '#ff7518' : '#8a939f' }}
+                      >
                         {svc.icon}
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <span className="font-bold text-[14.5px] transition-colors duration-200 block" style={{ color: isActive ? '#071e36' : '#62748e' }}>{svc.title}</span>
-                      </div>
-                      <span className="font-black tabular-nums shrink-0 transition-colors duration-200" style={{ fontSize: '10px', color: isActive ? '#ff7518' : 'rgba(7,30,54,0.15)' }}>{String(i + 1).padStart(2, '0')}</span>
-                      <motion.svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"
-                        className="w-3.5 h-3.5 shrink-0" style={{ color: isActive ? '#ff7518' : '#c4ccd4' }}
-                        animate={{ rotate: isActive ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] as [number,number,number,number] }}>
-                        <path d="M3 6l5 5 5-5" />
-                      </motion.svg>
-                    </div>
+                      <span className="flex-1 font-bold text-[14px] transition-colors duration-200" style={{ color: isActive ? '#071e36' : '#62748e' }}>
+                        {svc.title}
+                      </span>
+                      <span className="font-black tabular-nums text-[10px] shrink-0 transition-colors duration-200" style={{ color: isActive ? '#ff7518' : 'rgba(7,30,54,0.15)' }}>
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                    </motion.button>
+
+                    {/* Mobile-only: image + description expand */}
                     <AnimatePresence initial={false}>
                       {isActive && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] as [number,number,number,number] }} className="overflow-hidden">
-                          <div className="lg:hidden mx-4 mb-3 rounded-[12px] overflow-hidden h-[180px] bg-[#ede9e3]">
+                        <motion.div
+                          className="lg:hidden overflow-hidden"
+                          initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
+                        >
+                          <div className="mx-1 mt-2 mb-1 rounded-[12px] overflow-hidden h-[200px] bg-[#ede9e3]">
                             <AnimatePresence mode="wait">
                               <motion.img key={activeService} src={svc.img} alt={svc.title} className="w-full h-full object-cover"
                                 initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
-                                transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as [number,number,number,number] }} />
+                                transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }} />
                             </AnimatePresence>
                           </div>
-                          <p className="text-muted text-[13.5px] leading-[1.78] px-4 pb-3">{svc.desc}</p>
-                          <div className="flex items-center justify-between gap-4 px-4 pb-4">
+                          <p className="text-muted text-[13px] leading-[1.75] px-5 pt-3 pb-2">{svc.desc}</p>
+                          <div className="flex items-center gap-4 px-5 pb-4">
                             <div className="flex-1 h-[2px] bg-[#e8e3db] rounded-full overflow-hidden">
-                              <motion.div key={`${i}-bar`} className="h-full rounded-full" style={{ background: '#ff7518', transformOrigin: 'left' }}
+                              <motion.div key={`${i}-mob-bar`} className="h-full rounded-full" style={{ background: '#ff7518', transformOrigin: 'left' }}
                                 initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: AUTO_INTERVAL / 1000, ease: 'linear' }} />
                             </div>
                             <Link href="/services" className="inline-flex items-center gap-1.5 text-accent font-bold text-[12px] shrink-0 group/cta" onClick={(e) => e.stopPropagation()}>
@@ -566,44 +578,58 @@ export default function Home() {
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </motion.div>
+                  </div>
                 )
               })}
             </div>
 
-            <div className="hidden lg:block lg:col-span-3 relative rounded-[22px] overflow-hidden bg-[#ede9e3] lg:min-h-[500px]">
+            {/* Right: image panel with description overlay */}
+            <div className="hidden lg:block lg:col-span-3 relative rounded-[22px] overflow-hidden bg-[#ede9e3] lg:min-h-[540px]">
               <AnimatePresence mode="wait">
                 <motion.img key={activeService} src={SERVICES[activeService].img} alt={SERVICES[activeService].title}
                   className="absolute inset-0 w-full h-full object-cover"
                   initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.97 }}
-                  transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as [number,number,number,number] }} />
+                  transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }} />
               </AnimatePresence>
+
+              {/* Ghost number */}
               <AnimatePresence mode="wait">
                 <motion.span key={`ghost-${activeService}`} className="absolute top-5 right-6 font-black leading-none pointer-events-none select-none"
                   style={{ fontSize: 'clamp(4rem, 6vw, 6.5rem)', color: 'rgba(255,255,255,0.10)', letterSpacing: '-4px' }}
                   initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] }}>
+                  transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}>
                   {String(activeService + 1).padStart(2, '0')}
                 </motion.span>
               </AnimatePresence>
-              <div className="absolute bottom-0 left-0 right-0 px-7 pt-16 pb-7"
-                style={{ background: 'linear-gradient(to top, rgba(7,30,54,0.84) 0%, rgba(7,30,54,0.28) 55%, transparent 85%)' }}>
+
+              {/* Bottom overlay — title + desc + nav */}
+              <div className="absolute bottom-0 left-0 right-0 px-7 pt-20 pb-6"
+                style={{ background: 'linear-gradient(to top, rgba(7,30,54,0.93) 0%, rgba(7,30,54,0.55) 50%, transparent 85%)' }}>
                 <AnimatePresence mode="wait">
-                  <motion.div key={activeService} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}
-                    transition={{ duration: 0.28 }} className="flex items-end justify-between gap-4">
-                    <div>
-                      <p className="font-black uppercase tracking-[2.5px] mb-1.5" style={{ fontSize: '9px', color: 'rgba(255,255,255,0.45)' }}>
-                        {String(activeService + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
-                      </p>
+                  <motion.div key={activeService} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.3 }}>
+                    <p className="font-black uppercase tracking-[2.5px] mb-1.5" style={{ fontSize: '9px', color: 'rgba(255,255,255,0.4)' }}>
+                      {String(activeService + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
+                    </p>
+                    <div className="flex items-end justify-between gap-4 mb-3">
                       <p className="text-white font-black text-[22px] tracking-[-0.5px] leading-tight">{SERVICES[activeService].title}</p>
+                      <Link href="/booking" className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-full font-bold text-[12px] transition-all duration-200 hover:scale-[1.03] active:scale-[0.98]"
+                        style={{ background: '#ff7518', color: '#fff' }}>
+                        Book now <ArrowRight className="w-3 h-3" />
+                      </Link>
                     </div>
-                    <Link href="/booking" className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-full font-bold text-[12px] pointer-events-auto transition-all duration-200 hover:scale-[1.03] active:scale-[0.98]"
-                      style={{ background: '#ff7518', color: '#fff' }}>
-                      Book now <ArrowRight className="w-3 h-3" />
-                    </Link>
+                    <p className="text-[13px] leading-[1.7] mb-4" style={{ color: 'rgba(255,255,255,0.62)', maxWidth: '420px' }}>
+                      {SERVICES[activeService].desc}
+                    </p>
                   </motion.div>
                 </AnimatePresence>
-                <div className="flex items-center gap-1.5 mt-4">
+
+                {/* Progress bar + dots */}
+                <div className="h-[2px] bg-white/15 rounded-full overflow-hidden mb-3">
+                  <motion.div key={`${activeService}-bar`} className="h-full rounded-full" style={{ background: '#ff7518', transformOrigin: 'left' }}
+                    initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: AUTO_INTERVAL / 1000, ease: 'linear' }} />
+                </div>
+                <div className="flex items-center gap-1.5">
                   {SERVICES.map((_, i) => (
                     <button key={i} onClick={() => selectService(i)} className="transition-all duration-300 rounded-full cursor-pointer"
                       style={{ width: i === activeService ? '20px' : '6px', height: '6px', background: i === activeService ? '#ff7518' : 'rgba(255,255,255,0.30)' }}
@@ -669,7 +695,7 @@ function TransformSection({ currentPatientIndex, setCurrentPatientIndex, current
   currentPatient: typeof PATIENT_GALLERY[0]
 }) {
   const sectionRef = useRef<HTMLElement>(null)
-  const inView = useInView(sectionRef, { once: false, amount: 0.25 })
+  const inView = useInView(sectionRef, { once: true, amount: 0.25 })
 
   return (
     <section ref={sectionRef} className="overflow-hidden" style={{ background: '#071e36' }}>
@@ -791,7 +817,7 @@ function TransformSection({ currentPatientIndex, setCurrentPatientIndex, current
                     }}
                     aria-label={`View ${p.patientName}`}
                   >
-                    <img src={p.after} alt={p.patientName} className="w-full h-full object-cover" />
+                    <img src={p.after} alt={p.patientName} className="w-full h-full object-cover" loading="lazy" />
                   </button>
                 ))}
               </div>
