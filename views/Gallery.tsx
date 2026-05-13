@@ -160,6 +160,18 @@ const FILTERS = ['All Stories',
 ] as const
 type FilterType = typeof FILTERS[number]
 
+/* Bento grid span configs — repeats if more images are added */
+const BENTO_SPANS = [
+  { col: 'col-span-2', row: 'row-span-2' },  // 0: large square
+  { col: 'col-span-1', row: 'row-span-1' },  // 1: small
+  { col: 'col-span-1', row: 'row-span-1' },  // 2: small
+  { col: 'col-span-2', row: 'row-span-1' },  // 3: wide
+  { col: 'col-span-1', row: 'row-span-2' },  // 4: tall
+  { col: 'col-span-1', row: 'row-span-1' },  // 5: small
+  { col: 'col-span-2', row: 'row-span-2' },  // 6: large
+  { col: 'col-span-2', row: 'row-span-2' },  // 7: large
+]
+
 function CloseIcon() {
   return (
     <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
@@ -256,7 +268,7 @@ export default function Gallery() {
       </div>
 
       {/* ══════════════════════════════════
-          MASONRY GRID
+          BENTO GRID
       ══════════════════════════════════ */}
       <div className={`${WRAP} pb-20`}>
         <AnimatePresence mode="wait">
@@ -266,34 +278,63 @@ export default function Gallery() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="columns-2 md:columns-3 lg:columns-4 gap-3 [column-gap:12px]"
+            className="grid grid-cols-2 md:grid-cols-4 gap-3"
+            style={{ gridAutoRows: '200px' }}
           >
-            {displayed.map(({ src, tag, desc, name }, i) => (
-              <motion.div
-                key={Array.isArray(src) ? src.join(',') + i : src + i}
-                className="break-inside-avoid mb-3 rounded-[16px] overflow-hidden bg-[#f1f5f9] cursor-pointer group shadow-[0px_1px_3px_rgba(0,0,0,0.1),0px_1px_2px_-1px_rgba(0,0,0,0.1)]"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.04, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
-                onClick={() => {
-                  // Handle both string and array src
-                  setLightbox(src)
-                  setDesc({ title: name || "", desc: desc || "" })
-                }}
-              >
-                <div className="relative w-full aspect-[4/3] overflow-hidden">
+            {displayed.map(({ src, tag, desc, name }, i) => {
+              const bentoCol = BENTO_SPANS[i % BENTO_SPANS.length].col
+              const bentoRow = BENTO_SPANS[i % BENTO_SPANS.length].row
+              const imgSrc = getImageSrc(Array.isArray(src) ? src[0] : src)
+              return (
+                <motion.div
+                  key={Array.isArray(src) ? src.join(',') + i : src + i}
+                  className={`${bentoCol} ${bentoRow} rounded-[16px] overflow-hidden bg-[#1a2a3a] cursor-pointer group shadow-[0px_2px_8px_rgba(0,0,0,0.18)] relative`}
+                  initial={{ opacity: 0, y: 24, scale: 0.97 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.08 }}
+                  transition={{ delay: (i % 4) * 0.07, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                  onClick={() => {
+                    setLightbox(src)
+                    setDesc({ title: name || '', desc: desc || '' })
+                  }}
+                >
                   <img
-                    src={getImageSrc(Array.isArray(src) ? src[0] : src)}
+                    src={imgSrc}
                     alt={`${tag} patient story ${i + 1}`}
-                    className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-[1.06] transition-transform duration-700 ease-out"
                     loading="lazy"
                     onError={() => handleImageError(Array.isArray(src) ? src[0] : src)}
                     referrerPolicy="no-referrer"
                     crossOrigin="anonymous"
                   />
-                </div>
-              </motion.div>
-            ))}
+
+                  {/* Permanent bottom gradient */}
+                  <div
+                    className="absolute inset-x-0 bottom-0 h-[55%] pointer-events-none"
+                    style={{ background: 'linear-gradient(to top, rgba(5,15,30,0.82) 0%, rgba(5,15,30,0.3) 50%, transparent 100%)' }}
+                  />
+
+                  {/* Permanent name strip */}
+                  {name && (
+                    <div className="absolute inset-x-0 bottom-0 px-4 pb-4 z-10">
+                      <p className="text-white font-black text-[13px] leading-tight tracking-[-0.2px]">{name}</p>
+                      <p className="text-white/50 text-[10px] uppercase tracking-[1.5px] font-semibold mt-0.5">{tag}</p>
+                    </div>
+                  )}
+
+                  {/* Hover: story CTA overlay */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 z-20 pointer-events-none"
+                    style={{ background: 'linear-gradient(to top, rgba(7,20,50,0.95) 0%, rgba(7,20,50,0.65) 55%, rgba(7,20,50,0.15) 100%)' }}>
+                    <span className="text-white/50 text-[9px] uppercase tracking-[2px] font-black mb-1">{tag}</span>
+                    {name && <p className="text-white font-black text-[15px] leading-snug tracking-tight mb-3">{name}</p>}
+                    <span className="inline-flex items-center gap-1.5 text-accent text-[11px] font-black uppercase tracking-wider">
+                      Read Story
+                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </span>
+                  </div>
+                </motion.div>
+              )
+            })}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -399,109 +440,107 @@ export default function Gallery() {
       <AnimatePresence>
         {lightbox && (
           <motion.div
-            className="fixed inset-0 z-[100] flex items-center justify-center p-6 cursor-pointer"
-            style={{ background: 'rgba(0,0,0,0.88)' }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 cursor-pointer"
+            style={{ background: 'rgba(0,0,0,0.92)' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.22 }}
             onClick={() => setLightbox(null)}
           >
-            {/* Side by side container - or full width if no description */}
-            <div
-              className={`flex flex-col md:flex-row gap-6 bg-white rounded-2xl overflow-hidden max-h-[90vh] cursor-default ${description?.desc ? 'max-w-6xl w-full' : 'max-w-[90vw] w-auto'
-                }`}
+            {/* Modal card — vertical stack: image top, story bottom */}
+            <motion.div
+              className="relative w-full max-w-2xl bg-white rounded-[24px] overflow-hidden cursor-default flex flex-col"
+              style={{ maxHeight: '90vh' }}
+              initial={{ scale: 0.96, opacity: 0, y: 16 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.96, opacity: 0, y: 8 }}
+              transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Image side with carousel - adjusts based on description */}
-              <div
-                className={`flex items-center justify-center relative ${description?.desc ? 'md:w-1/2 w-full' : 'w-full'
-                  }`}
-              >
-                <div className="relative w-full h-full flex items-center justify-center">
+              {/* ── Image area ── */}
+              <div className="relative w-full flex-shrink-0" style={{ height: '52vh', minHeight: '240px' }}>
+                <AnimatePresence mode="wait">
                   <motion.img
                     key={Array.isArray(lightbox) ? currentImageIndex : 0}
                     src={Array.isArray(lightbox) ? getImageSrc(lightbox[currentImageIndex]) : getImageSrc(lightbox)}
-                    alt="Enlarged photo"
-                    className={`${description?.desc
-                      ? 'w-full h-full object-cover'
-                      : 'max-h-[85vh] w-auto object-contain'
-                      }`}
-                    initial={{ scale: 0.94, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.94, opacity: 0 }}
-                    transition={{ duration: 0.26, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    alt="Patient photo"
+                    className="w-full h-full object-cover"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.22 }}
                     referrerPolicy="no-referrer"
                     crossOrigin="anonymous"
                     onError={() => handleImageError(Array.isArray(lightbox) ? lightbox[currentImageIndex] : lightbox)}
                   />
+                </AnimatePresence>
 
-                  {/* Navigation arrows - only show for before/after arrays */}
-                  {Array.isArray(lightbox) && lightbox.length > 1 && (
-                    <>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          setCurrentImageIndex((prev) => prev === 0 ? lightbox.length - 1 : prev - 1)
-                        }}
-                        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all z-10"
-                        aria-label="Previous image"
-                      >
-                        <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                        </svg>
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          setCurrentImageIndex((prev) => prev === lightbox.length - 1 ? 0 : prev + 1)
-                        }}
-                        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all z-10"
-                        aria-label="Next image"
-                      >
-                        <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </button>
+                {/* Bottom fade on image */}
+                <div className="absolute inset-x-0 bottom-0 h-16 pointer-events-none"
+                  style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.18) 0%, transparent 100%)' }} />
 
-                      {/* Image counter */}
-                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white text-xs md:text-sm px-3 py-1 rounded-full z-10">
+                {/* Before / After arrows */}
+                {Array.isArray(lightbox) && lightbox.length > 1 && (
+                  <>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setCurrentImageIndex((p) => p === 0 ? lightbox.length - 1 : p - 1) }}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white rounded-full p-2.5 transition-all z-10 backdrop-blur-sm"
+                      aria-label="Previous"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setCurrentImageIndex((p) => p === lightbox.length - 1 ? 0 : p + 1) }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white rounded-full p-2.5 transition-all z-10 backdrop-blur-sm"
+                      aria-label="Next"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                    </button>
+                    {/* Before / After label pill */}
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1 z-10">
+                      <span className="text-white/50 text-[10px] font-black uppercase tracking-[1.5px]">
+                        {currentImageIndex === 0 ? 'Before' : 'After'}
+                      </span>
+                      <span className="w-1 h-1 rounded-full bg-white/30" />
+                      <span className="text-white/50 text-[10px] font-black uppercase tracking-[1.5px]">
                         {currentImageIndex + 1} / {lightbox.length}
-                      </div>
-                    </>
-                  )}
-                </div>
+                      </span>
+                    </div>
+                  </>
+                )}
+
+                {/* Close button */}
+                <button
+                  onClick={() => setLightbox(null)}
+                  className="absolute top-3 right-3 bg-black/50 hover:bg-black/75 text-white rounded-full p-2 transition-all z-20 backdrop-blur-sm"
+                  aria-label="Close"
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" /></svg>
+                </button>
               </div>
 
-              {/* Text side - only show if description exists */}
-              {description?.desc && (
-                <div
-                  className="md:w-1/2 w-full bg-white overflow-y-auto p-6 md:p-8 max-h-[90vh]"
-                  style={{ overscrollBehavior: 'contain' }}
-                  onWheel={(e) => e.stopPropagation()}
-                >
-                  <div className="prose prose-lg max-w-none">
-                    {description?.title && (
-                      <h1 className='text-gray-800 text-2xl font-bold leading-relaxed mb-2'>
-                        {description.title}
-                      </h1>
-                    )}
-                    <p className="text-gray-800 leading-relaxed whitespace-pre-line">
-                      {description.desc}
-                    </p>
+              {/* ── Story panel ── */}
+              <div
+                className="flex-1 overflow-y-auto px-7 py-6 min-h-0"
+                style={{ overscrollBehavior: 'contain' }}
+                onWheel={(e) => e.stopPropagation()}
+              >
+                {description?.title && (
+                  <div className="mb-4">
+                    <span className="inline-block text-[10px] font-black uppercase tracking-[2px] text-accent mb-2">Patient Story</span>
+                    <h2 className="text-[#071e36] font-black text-[22px] leading-tight tracking-[-0.5px]">
+                      {description.title}
+                    </h2>
                   </div>
-                </div>
-              )}
-            </div>
-
-            {/* Close button outside the modal content */}
-            <button
-              onClick={() => setLightbox(null)}
-              className="absolute top-6 right-6 text-white/60 hover:text-white transition-colors p-1"
-              aria-label="Close"
-            >
-              <CloseIcon />
-            </button>
+                )}
+                {description?.desc && (
+                  <p className="text-[14px] leading-[1.85] whitespace-pre-line" style={{ color: '#45556c' }}>
+                    {description.desc}
+                  </p>
+                )}
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

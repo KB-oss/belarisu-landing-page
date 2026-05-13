@@ -42,6 +42,20 @@ export default function Unstitched() {
                   It's time to tell a different one.
                 </p>
               </div>
+
+              <div className="relative z-10 shrink-0">
+                <motion.a
+                  href="#article"
+                  className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold text-[13px] px-5 py-3 rounded-full border border-white/20 transition-all duration-200"
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  Read More
+                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </motion.a>
+              </div>
             </div>
           </Reveal>
 
@@ -50,6 +64,7 @@ export default function Unstitched() {
           ══════════════════════════════ */}
           <Reveal direction="up" delay={0.1}>
             <div
+              id="article"
               className="flex flex-col gap-6 px-8 sm:px-10 lg:px-14 py-10 sm:py-12 rounded-bl-[24px] rounded-br-[24px]"
               style={{ background: '#fdf8f2' }}
             >

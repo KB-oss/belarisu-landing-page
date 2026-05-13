@@ -10,11 +10,11 @@ import { Heart } from 'lucide-react'
 
 /* ─── Assets ─── */
 const HERO_IMGS = [
-  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246801/backk_ob1gnv.webp',
-  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995839/MM9_ar0km0.webp',
-  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778247125/backkk_ztmkzm.webp',
-  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777995798/YY4_2_of9xhh.webp',
-  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246556/ChatGPT_Image_May_8_2026_04_19_15_PM_bafnwv.webp'
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512766/Frame_52_eiru04.png',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512764/Frame_51_rklxyx.png',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512762/Frame_50_gsozrp.png',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512757/Frame_49_wom4rs.png',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512755/Frame_48_y96n0n.png'
 ]
 const BEFORE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002965/1H4A1675_rngiou.jpg'
 const AFTER_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002968/1H4A2346_kosbyt.jpg'
@@ -22,69 +22,61 @@ const DONATE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_a
 
 const PATIENT_GALLERY = [
   {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002965/1H4A1675_rngiou.jpg',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002968/1H4A2346_kosbyt.jpg',
-    patientName: 'Blessing Wangui',
-    age: '14 months old',
-    condition: 'Cleft Lip',
-    location: 'Mombasa'
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_copy_lfxtir.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_1_copy_cwkfkx.webp',
+    patientName: 'Abdirakib Ismail',
+    age: '12 years old',
+    condition: 'Cleft Lip and Cleft Palate',
+    location: 'Garissa'
   },
   {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180685/david_before_zwo4zp.jpg',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778180681/david_after_dgjqtz.jpg',
-    patientName: 'David',
-    age: '',
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Amari_Nderitu_Muriithi_-_Cleft_Lip_-_2_months_-_Kiambu_copy_yjikgu.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Amari_Nderitu_Muriithi_-_Cleft_Lip_-_2_months_-_Kiambu_1_copy_llmasr.webp',
+    patientName: 'Amari Nderitu Muriithi',
+    age: '2 months old',
+    condition: 'Cleft Lip',
+    location: 'Kiambu'
+  },
+  {
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542419/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_copy_xfbrwj.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_1_copy_cpk19z.webp',
+    patientName: 'Amelia Chreseria Njeri',
+    age: '4 years old',
+    condition: 'Cleft Lip and Cleft Palate',
+    location: 'Ruiru'
+  },
+  {
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542419/Artboard_2_usn13i.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542419/appointment_xpl7gq.webp',
+    patientName: 'Brighton Chacha Marwa',
+    age: '4 years old',
     condition: 'Cleft Lip',
     location: 'Nairobi'
   },
   {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997453/Mateo_Ndungu_Kimiri_-_Cleft_Lip_and_Cleft_Palate_-_1_year_8_months_-_Juja_zrehfp.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997452/Cleopatra_Njeri_Njunge_-_Cleft_Lip_and_Cleft_Palate_-_1_year_-_Kiambu_xeipzy.webp',
-    patientName: 'Cleopatra Njeri Njunge',
-    age: '1 years old',
-    condition: 'Cleft Lip and Cleft_Palat',
-    location: 'Kisumu'
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542420/Bancy_Muthoni_-_Cleft_Lip_and_Cleft_Palate_-_11_months_-_Kiambu_copy_rsinmw.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542425/Bancy_Muthoni_-_Cleft_Lip_and_Cleft_Palate_-_11_months_-_Kiambu_1_copy_ja41vf.webp',
+    patientName: 'Bancy Muthoni',
+    age: '11 months old',
+    condition: 'Cleft Lip and Cleft Palate',
+    location: 'Kiambu'
   },
   {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997449/Lucrecia_Reina_Khalumba_-_Cleft_Lip_-_4_years_-_Nairobi_kubatv.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997450/Lucrecia_Reina_Khalumba_-_Cleft_Lip_-_4_years_-_Nairobi_1_j8f9hg.webp',
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542420/Cleopatra_Njeri_Njunge_-_Cleft_Lip_and_Cleft_Palate_-_1_year_-_Kiambu_copy_mqiyc0.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542423/Cleopatra_Njeri_Njunge_-_Cleft_Lip_and_Cleft_Palate_-_1_year_-_Kiambu_1_copy_ucdtme.webp',
+    patientName: 'Cleopatra Njeri Njunge',
+    age: '1 year old',
+    condition: 'Cleft Lip and Cleft Palate',
+    location: 'Kiambu'
+  },
+  {
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Mateo_Ndungu_Kimiri_-_Cleft_Lip_and_Cleft_Palate_-_1_year_8_months_-_Juja_copy_hur0cf.jpg',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542420/Lucrecia_Reina_Khalumba_-_Cleft_Lip_-_4_years_-_Nairobi_copy_h8wmxb.webp',
     patientName: 'Lucrecia Reina Khalumba',
     age: '4 years old',
     condition: 'Cleft Lip',
     location: 'Nairobi'
   },
-  {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997451/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_xchfpp.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997445/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_1_twxz2t.webp',
-    patientName: 'Abdirakib Ismail',
-    age: '12 years old',
-    condition: 'Cleft Lip',
-    location: 'Nairobi'
-  },
-  {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997452/Amari_Nderitu_Muriithi_-_Cleft_Lip_-_2_months_-_Kiambu_pwxvbn.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997448/Amari_Nderitu_Muriithi_-_Cleft_Lip_-_2_months_-_Kiambu_1_mp9xt9.webp',
-    patientName: 'Amari Nderitu Muriithi',
-    age: '2 Month old',
-    condition: 'Cleft Lip',
-    location: 'Kiambu'
-  },
-  {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997445/Bancy_Muthoni_-_Cleft_Lip_and_Cleft_Palate_-_11_months_-_Kiambu_grc2wf.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997447/Bancy_Muthoni_-_Cleft_Lip_and_Cleft_Palate_-_11_months_-_Kiambu_1_zklutu.webp',
-    patientName: 'Bancy Muthoni',
-    age: '11 Months old',
-    condition: 'Cleft Lip and Cleft Palate',
-    location: 'Kiambu'
-  },
-  {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997447/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_t1zysd.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997446/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_1_caajti.webp',
-    patientName: 'Amelia Chreseria Njeri',
-    age: '4 years old',
-    condition: 'Cleft Lip and Cleft Palate',
-    location: 'Riuru'
-  }
 ]
 
 interface ServiceItem {
@@ -118,7 +110,7 @@ const SERVICES: ServiceItem[] = [
   {
     title: 'Orthodontics & Dental',
     desc: 'Orthodontic assessment and treatment guide proper jaw development, improve dental alignment, and support patients in long-term oral health as they grow.',
-    img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778179639/orthodontics-home_zzxjvc.jpg',
+    img: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778513801/WhatsApp_Image_2026-05-11_at_11.14.33_ysigtk.jpg',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
         <circle cx="12" cy="12" r="10" /><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" />
@@ -182,7 +174,7 @@ interface StatNumberProps {
 
 function StatNumber({ target, suffix = '' }: StatNumberProps) {
   const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: true, amount: 0.6 })
+  const inView = useInView(ref, { once: false, amount: 0.6 })
   const [val, setVal] = useState<number>(0)
   useEffect(() => {
     if (!inView) return
@@ -274,19 +266,18 @@ export default function Home() {
           className="relative overflow-hidden rounded-[20px] sm:rounded-[24px]"
           style={{ height: 'calc(100vh - 40px)', minHeight: '600px' }}
         >
-          {/* Crossfade images */}
-          <AnimatePresence>
+          {/* Crossfade — all images rendered simultaneously, opacity drives transition */}
+          {HERO_IMGS.map((src, i) => (
             <motion.img
-              key={heroIdx}
-              src={HERO_IMGS[heroIdx]}
+              key={src}
+              src={src}
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.2, ease: 'easeInOut' }}
+              animate={{ opacity: i === heroIdx ? 1 : 0 }}
+              transition={{ duration: 1.8, ease: [0.4, 0, 0.2, 1] }}
+              style={{ willChange: 'opacity' }}
             />
-          </AnimatePresence>
+          ))}
 
           {/* Vignette */}
           <div
@@ -298,6 +289,11 @@ export default function Home() {
           <div
             className="absolute inset-0"
             style={{ background: 'linear-gradient(to top, rgba(5,5,5,0.82) 0%, rgba(5,5,5,0.0) 50%)' }}
+          />
+          {/* Top gradient — keeps nav + logo readable over any photo */}
+          <div
+            className="absolute inset-0 pointer-events-none z-[1]"
+            style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.0) 28%)' }}
           />
 
           {/* Slide indicators */}
@@ -406,7 +402,7 @@ export default function Home() {
         <div className={`${WRAP} relative`}>
 
           <Reveal direction="up">
-            <div className="pt-20 pb-16 lg:pt-24 lg:pb-20 text-center">
+            <div className="pt-14 pb-12 lg:pt-16 lg:pb-14 text-center">
               <p
                 className="inline-flex items-center gap-2.5 mb-7 font-black tracking-[3.5px] uppercase"
                 style={{ fontSize: '10px', color: 'rgba(255,117,24,0.65)' }}
@@ -419,14 +415,14 @@ export default function Home() {
                 className="font-black leading-[1.06] text-white mx-auto"
                 style={{ fontSize: 'clamp(2.4rem, 5.5vw, 5.2rem)', letterSpacing: '-2.5px', maxWidth: '820px' }}
               >
-                Over 600 families.{' '}
+                700 families.{' '}
                 <em style={{ fontFamily: PLAYFAIR, fontStyle: 'italic', color: '#ff7518' }}>
                   Not a single bill.
                 </em>
               </h2>
               <p
                 className="mt-5 mx-auto leading-relaxed"
-                style={{ fontSize: '16px', color: 'rgba(255,255,255,0.40)', maxWidth: '460px' }}
+                style={{ fontSize: '16px', color: 'rgba(255,255,255,0.72)', maxWidth: '460px' }}
               >
                 Every surgery, every therapy session, every follow-up — completely free to every patient.
               </p>
@@ -461,11 +457,11 @@ export default function Home() {
                   style={{ background: 'rgba(255,117,24,0.035)' }}
                 />
                 <p
-                  className="font-black leading-none mb-5"
+                  className="font-black leading-none mb-5 inline-flex items-baseline"
                   style={{ fontSize: 'clamp(4rem, 7vw, 7.5rem)', letterSpacing: '-5px', color: '#ffffff' }}
                 >
                   <StatNumber target={num} suffix="" />
-                  <span style={{ color: '#ff7518' }}>{suffix}</span>
+                  <span style={{ color: '#ff7518', marginLeft: '4px' }}>{suffix}</span>
                 </p>
                 <p className="text-white font-bold text-[15px] mb-1 tracking-[-0.2px]">{label}</p>
                 <p
@@ -476,7 +472,7 @@ export default function Home() {
                 </p>
                 <p
                   className="leading-relaxed"
-                  style={{ fontSize: '13px', color: 'rgba(255,255,255,0.30)', maxWidth: '210px' }}
+                  style={{ fontSize: '13px', color: 'rgba(255,255,255,0.65)', maxWidth: '210px' }}
                 >
                   {desc}
                 </p>
@@ -490,347 +486,158 @@ export default function Home() {
       {/* ══════════════════════════════════
           TRANSFORMATIONS
       ══════════════════════════════════ */}
-      <section className="py-24 xl:py-32">
-        <div className={WRAP}>
-
-          <Reveal direction="up">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 mb-10">
-              <div>
-                <p
-                  className="font-black leading-[1.0] text-body"
-                  style={{ fontSize: 'clamp(2.2rem, 4vw, 3.8rem)', letterSpacing: '-2px' }}
-                >
-                  Witness the
-                </p>
-                <p
-                  className="font-black leading-[1.0] text-accent"
-                  style={{
-                    fontSize: 'clamp(2.2rem, 4vw, 3.8rem)',
-                    letterSpacing: '-1.5px',
-                    fontFamily: PLAYFAIR,
-                    fontStyle: 'italic',
-                  }}
-                >
-                  Transformations
-                </p>
-              </div>
-              <p
-                className="font-semibold italic leading-snug tracking-[-0.3px] md:text-right md:pb-1"
-                style={{ fontSize: 'clamp(1rem, 1.6vw, 1.2rem)', color: '#8a96a8', maxWidth: '260px' }}
-              >
-                That happen every{' '}
-                <em className="not-italic font-black text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>
-                  day
-                </em>
-              </p>
-            </div>
-          </Reveal>
-
-          {/* Slider */}
-          <Reveal direction="up" delay={0.08}>
-            <div
-              className="relative w-full rounded-[20px] overflow-hidden"
-              style={{ height: 'clamp(360px, 52vw, 660px)' }}
-            >
-              <ImageComparisonSlider
-                images={PATIENT_GALLERY}
-                currentIndex={currentPatientIndex}
-                onIndexChange={setCurrentPatientIndex}
-                autoPlayInterval={40000} // 40 seconds
-                className="w-full h-full"
-              />
-
-              {/* Patient overlay - now dynamic */}
-              <div
-                className="absolute bottom-0 left-0 right-0 px-8 sm:px-12 py-8 pointer-events-none z-20"
-                style={{
-                  background: 'linear-gradient(to top, rgba(7,30,54,0.92) 0%, rgba(7,30,54,0.30) 55%, transparent 100%)',
-                }}
-              >
-                <p
-                  className="text-white font-black mb-3 leading-none"
-                  style={{ fontSize: 'clamp(1.8rem, 3.5vw, 3.2rem)', letterSpacing: '-1.5px' }}
-                >
-                  {currentPatient.patientName}
-                </p>
-                <div className="flex items-center gap-2.5 flex-wrap">
-                  {currentPatient.age && (
-                    <>
-                      <span className="font-black tracking-[2.5px] uppercase text-accent" style={{ fontSize: '10px' }}>
-                        {currentPatient.age}
-                      </span>
-                      <span className="w-1 h-1 rounded-full bg-accent/40" />
-                    </>
-                  )}
-                  <span className="font-black tracking-[2.5px] uppercase" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.38)' }}>
-                    {currentPatient.condition}
-                  </span>
-                  <span className="w-1 h-1 rounded-full bg-white/20" />
-                  <span className="font-black tracking-[2.5px] uppercase" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.38)' }}>
-                    {currentPatient.location}
-                  </span>
-                </div>
-              </div>
-
-              {/* View all button */}
-              <div className="absolute bottom-5 right-5 pointer-events-auto z-30">
-                <Link
-                  href="/gallery"
-                  className="flex items-center gap-1.5 bg-white/92 hover:bg-white backdrop-blur-sm text-navy text-[12px] font-black px-5 py-3 rounded-[10px] transition-all shadow-lg hover:-translate-y-px tracking-[0.2px]"
-                >
-                  View all transformations <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <TransformSection currentPatientIndex={currentPatientIndex} setCurrentPatientIndex={setCurrentPatientIndex} currentPatient={currentPatient} />
 
       {/* ══════════════════════════════════
           SERVICES
       ══════════════════════════════════ */}
-      <section className="py-24 xl:py-28 bg-[#fdfcfb]">
+      <section className="py-16 xl:py-20 bg-[#fdfcfb]">
         <div className={WRAP}>
-
           <Reveal direction="up">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 xl:gap-20 items-end mb-14">
               <div>
-                <p className="font-black tracking-[3.5px] uppercase mb-4" style={{ fontSize: '10px', color: '#ff7518' }}>
-                  Our Services
-                </p>
-                <h2
-                  className="font-black leading-[1.06] tracking-[-1.5px] text-body"
-                  style={{ fontSize: 'clamp(1.9rem, 3.6vw, 3.2rem)' }}
-                >
+                <p className="font-black tracking-[3.5px] uppercase mb-4" style={{ fontSize: '10px', color: '#ff7518' }}>Our Services</p>
+                <h2 className="font-black leading-[1.06] tracking-[-1.5px] text-body" style={{ fontSize: 'clamp(1.9rem, 3.6vw, 3.2rem)' }}>
                   Get to know our{' '}
-                  <em className="not-italic text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>
-                    comprehensive care
-                  </em>
+                  <em className="not-italic text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>comprehensive care</em>
                 </h2>
               </div>
               <div className="flex flex-col gap-4">
-                <p className="text-muted text-[15px] leading-[1.85]">
-                  Our multidisciplinary team addresses every dimension of cleft care — restoring health, function, and confidence across every stage of life.
-                </p>
-                <Link
-                  href="/services"
-                  className="self-start inline-flex items-center gap-2 text-accent font-bold text-[13px] group transition-all"
-                >
-                  View all services
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                <p className="text-muted text-[15px] leading-[1.85]">Our multidisciplinary team addresses every dimension of cleft care — restoring health, function, and confidence across every stage of life.</p>
+                <Link href="/services" className="self-start inline-flex items-center gap-2 text-accent font-bold text-[13px] group transition-all">
+                  View all services <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                 </Link>
               </div>
             </div>
           </Reveal>
 
-          {/* Accordion + image */}
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-10 items-stretch">
-
-            {/* ── Accordion list ── */}
-            <div className="lg:col-span-2 flex flex-col gap-2">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-8 items-stretch">
+            {/* Left: clean tab list */}
+            <div className="lg:col-span-2 flex flex-col gap-1">
               {SERVICES.map((svc, i) => {
                 const isActive = i === activeService
                 return (
-                  <motion.div
-                    key={svc.title}
-                    className="rounded-[16px] cursor-pointer overflow-hidden transition-colors duration-200"
-                    style={{
-                      background: isActive ? '#fff' : 'transparent',
-                      boxShadow: isActive ? '0 2px 16px rgba(7,30,54,0.07), 0 0 0 1px rgba(7,30,54,0.06)' : 'none',
-                    }}
-                    onClick={() => selectService(i)}
-                    layout
-                    transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-                  >
-                    {/* Row header */}
-                    <div className="flex items-center gap-3 px-4 py-4 select-none">
-                      {/* Icon bubble */}
+                  <div key={svc.title}>
+                    <motion.button
+                      onClick={() => selectService(i)}
+                      className="relative w-full flex items-center gap-3 px-4 py-3.5 rounded-[14px] transition-colors duration-200 text-left overflow-hidden"
+                      style={{
+                        background: isActive ? '#fff' : 'transparent',
+                        boxShadow: isActive ? '0 2px 16px rgba(7,30,54,0.07), 0 0 0 1px rgba(7,30,54,0.06)' : 'none',
+                      }}
+                      layout
+                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="svc-active-bar"
+                          className="absolute left-0 top-3 bottom-3 w-[3px] rounded-full"
+                          style={{ background: '#ff7518' }}
+                          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                        />
+                      )}
                       <div
-                        className="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0 transition-all duration-250"
-                        style={{
-                          background: isActive ? 'rgba(255,117,24,0.10)' : '#eae6e0',
-                          color: isActive ? '#ff7518' : '#8a939f',
-                        }}
+                        className="w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 transition-all duration-200"
+                        style={{ background: isActive ? 'rgba(255,117,24,0.10)' : '#eae6e0', color: isActive ? '#ff7518' : '#8a939f' }}
                       >
                         {svc.icon}
                       </div>
-
-                      {/* Title + number */}
-                      <div className="flex-1 min-w-0">
-                        <span
-                          className="font-bold text-[14.5px] transition-colors duration-200 block"
-                          style={{ color: isActive ? '#071e36' : '#62748e' }}
-                        >
-                          {svc.title}
-                        </span>
-                      </div>
-
-                      {/* Number badge */}
-                      <span
-                        className="font-black tabular-nums shrink-0 transition-colors duration-200"
-                        style={{ fontSize: '10px', color: isActive ? '#ff7518' : 'rgba(7,30,54,0.15)' }}
-                      >
+                      <span className="flex-1 font-bold text-[14px] transition-colors duration-200" style={{ color: isActive ? '#071e36' : '#62748e' }}>
+                        {svc.title}
+                      </span>
+                      <span className="font-black tabular-nums text-[10px] shrink-0 transition-colors duration-200" style={{ color: isActive ? '#ff7518' : 'rgba(7,30,54,0.15)' }}>
                         {String(i + 1).padStart(2, '0')}
                       </span>
+                    </motion.button>
 
-                      {/* Chevron */}
-                      <motion.svg
-                        viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2"
-                        strokeLinecap="round" strokeLinejoin="round"
-                        className="w-3.5 h-3.5 shrink-0"
-                        style={{ color: isActive ? '#ff7518' : '#c4ccd4' }}
-                        animate={{ rotate: isActive ? 180 : 0 }}
-                        transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
-                      >
-                        <path d="M3 6l5 5 5-5" />
-                      </motion.svg>
-                    </div>
-
-                    {/* Expanded content */}
+                    {/* Mobile-only: image + description expand */}
                     <AnimatePresence initial={false}>
                       {isActive && (
                         <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
+                          className="lg:hidden overflow-hidden"
+                          initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
-                          className="overflow-hidden"
                         >
-                          {/* Mobile-only image thumbnail */}
-                          <div className="lg:hidden mx-4 mb-3 rounded-[12px] overflow-hidden h-[180px] bg-[#ede9e3]">
+                          <div className="mx-1 mt-2 mb-1 rounded-[12px] overflow-hidden h-[200px] bg-[#ede9e3]">
                             <AnimatePresence mode="wait">
-                              <motion.img
-                                key={activeService}
-                                src={svc.img}
-                                alt={svc.title}
-                                className="w-full h-full object-cover"
-                                initial={{ opacity: 0, scale: 1.04 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
-                              />
+                              <motion.img key={activeService} src={svc.img} alt={svc.title} className="w-full h-full object-cover"
+                                initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
+                                transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }} />
                             </AnimatePresence>
                           </div>
-
-                          <p className="text-muted text-[13.5px] leading-[1.78] px-4 pb-3">{svc.desc}</p>
-
-                          {/* Progress bar + CTA row */}
-                          <div className="flex items-center justify-between gap-4 px-4 pb-4">
-                            {/* Auto-advance progress */}
+                          <p className="text-muted text-[13px] leading-[1.75] px-5 pt-3 pb-2">{svc.desc}</p>
+                          <div className="flex items-center gap-4 px-5 pb-4">
                             <div className="flex-1 h-[2px] bg-[#e8e3db] rounded-full overflow-hidden">
-                              <motion.div
-                                key={`${i}-bar`}
-                                className="h-full rounded-full"
-                                style={{ background: '#ff7518', transformOrigin: 'left' }}
-                                initial={{ scaleX: 0 }}
-                                animate={{ scaleX: 1 }}
-                                transition={{ duration: AUTO_INTERVAL / 1000, ease: 'linear' }}
-                              />
+                              <motion.div key={`${i}-mob-bar`} className="h-full rounded-full" style={{ background: '#ff7518', transformOrigin: 'left' }}
+                                initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: AUTO_INTERVAL / 1000, ease: 'linear' }} />
                             </div>
-                            {/* Learn more CTA */}
-                            <Link
-                              href="/services"
-                              className="inline-flex items-center gap-1.5 text-accent font-bold text-[12px] shrink-0 group/cta"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              Learn more
-                              <ArrowRight className="w-3 h-3 transition-transform group-hover/cta:translate-x-0.5" />
+                            <Link href="/services" className="inline-flex items-center gap-1.5 text-accent font-bold text-[12px] shrink-0 group/cta" onClick={(e) => e.stopPropagation()}>
+                              Learn more <ArrowRight className="w-3 h-3 transition-transform group-hover/cta:translate-x-0.5" />
                             </Link>
                           </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </motion.div>
+                  </div>
                 )
               })}
             </div>
 
-            {/* ── Image panel (desktop) ── */}
-            <div className="hidden lg:block lg:col-span-3 relative rounded-[22px] overflow-hidden bg-[#ede9e3] lg:min-h-[500px]">
+            {/* Right: image panel with description overlay */}
+            <div className="hidden lg:block lg:col-span-3 relative rounded-[22px] overflow-hidden bg-[#ede9e3] lg:min-h-[540px]">
               <AnimatePresence mode="wait">
-                <motion.img
-                  key={activeService}
-                  src={SERVICES[activeService].img}
-                  alt={SERVICES[activeService].title}
+                <motion.img key={activeService} src={SERVICES[activeService].img} alt={SERVICES[activeService].title}
                   className="absolute inset-0 w-full h-full object-cover"
-                  initial={{ opacity: 0, scale: 1.04 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.97 }}
-                  transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
-                />
+                  initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.97 }}
+                  transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }} />
               </AnimatePresence>
 
-              {/* Ghost number watermark */}
+              {/* Ghost number */}
               <AnimatePresence mode="wait">
-                <motion.span
-                  key={`ghost-${activeService}`}
-                  className="absolute top-5 right-6 font-black leading-none pointer-events-none select-none"
+                <motion.span key={`ghost-${activeService}`} className="absolute top-5 right-6 font-black leading-none pointer-events-none select-none"
                   style={{ fontSize: 'clamp(4rem, 6vw, 6.5rem)', color: 'rgba(255,255,255,0.10)', letterSpacing: '-4px' }}
-                  initial={{ opacity: 0, y: -12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-                >
+                  initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}>
                   {String(activeService + 1).padStart(2, '0')}
                 </motion.span>
               </AnimatePresence>
 
-              {/* Bottom gradient + label */}
-              <div
-                className="absolute bottom-0 left-0 right-0 px-7 pt-16 pb-7"
-                style={{ background: 'linear-gradient(to top, rgba(7,30,54,0.84) 0%, rgba(7,30,54,0.28) 55%, transparent 85%)' }}
-              >
+              {/* Bottom overlay — title + desc + nav */}
+              <div className="absolute bottom-0 left-0 right-0 px-7 pt-20 pb-6"
+                style={{ background: 'linear-gradient(to top, rgba(7,30,54,0.93) 0%, rgba(7,30,54,0.55) 50%, transparent 85%)' }}>
                 <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeService}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -6 }}
-                    transition={{ duration: 0.28 }}
-                    className="flex items-end justify-between gap-4"
-                  >
-                    <div>
-                      <p
-                        className="font-black uppercase tracking-[2.5px] mb-1.5"
-                        style={{ fontSize: '9px', color: 'rgba(255,255,255,0.45)' }}
-                      >
-                        {String(activeService + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
-                      </p>
-                      <p className="text-white font-black text-[22px] tracking-[-0.5px] leading-tight">
-                        {SERVICES[activeService].title}
-                      </p>
+                  <motion.div key={activeService} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.3 }}>
+                    <p className="font-black uppercase tracking-[2.5px] mb-1.5" style={{ fontSize: '9px', color: 'rgba(255,255,255,0.4)' }}>
+                      {String(activeService + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
+                    </p>
+                    <div className="flex items-end justify-between gap-4 mb-3">
+                      <p className="text-white font-black text-[22px] tracking-[-0.5px] leading-tight">{SERVICES[activeService].title}</p>
+                      <Link href="/booking" className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-full font-bold text-[12px] transition-all duration-200 hover:scale-[1.03] active:scale-[0.98]"
+                        style={{ background: '#ff7518', color: '#fff' }}>
+                        Book now <ArrowRight className="w-3 h-3" />
+                      </Link>
                     </div>
-                    {/* Book now button */}
-                    <Link
-                      href="/booking"
-                      className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-full font-bold text-[12px] pointer-events-auto transition-all duration-200 hover:scale-[1.03] active:scale-[0.98]"
-                      style={{ background: '#ff7518', color: '#fff' }}
-                    >
-                      Book now
-                      <ArrowRight className="w-3 h-3" />
-                    </Link>
+                    <p className="text-[13px] leading-[1.7] mb-4" style={{ color: 'rgba(255,255,255,0.62)', maxWidth: '420px' }}>
+                      {SERVICES[activeService].desc}
+                    </p>
                   </motion.div>
                 </AnimatePresence>
 
-                {/* Dot indicators */}
-                <div className="flex items-center gap-1.5 mt-4">
+                {/* Progress bar + dots */}
+                <div className="h-[2px] bg-white/15 rounded-full overflow-hidden mb-3">
+                  <motion.div key={`${activeService}-bar`} className="h-full rounded-full" style={{ background: '#ff7518', transformOrigin: 'left' }}
+                    initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: AUTO_INTERVAL / 1000, ease: 'linear' }} />
+                </div>
+                <div className="flex items-center gap-1.5">
                   {SERVICES.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => selectService(i)}
-                      className="transition-all duration-300 rounded-full cursor-pointer"
-                      style={{
-                        width: i === activeService ? '20px' : '6px',
-                        height: '6px',
-                        background: i === activeService ? '#ff7518' : 'rgba(255,255,255,0.30)',
-                      }}
-                      aria-label={`View ${SERVICES[i].title}`}
-                    />
+                    <button key={i} onClick={() => selectService(i)} className="transition-all duration-300 rounded-full cursor-pointer"
+                      style={{ width: i === activeService ? '20px' : '6px', height: '6px', background: i === activeService ? '#ff7518' : 'rgba(255,255,255,0.30)' }}
+                      aria-label={`View ${SERVICES[i].title}`} />
                   ))}
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -838,89 +645,37 @@ export default function Home() {
       {/* ══════════════════════════════════
           DONATE CTA
       ══════════════════════════════════ */}
-
       <Reveal direction="up">
         <section className="py-8 sm:py-10 lg:py-14">
           <div className={WRAP}>
-            <div
-              className="relative overflow-hidden rounded-[24px] sm:rounded-[28px]"
-              style={{ minHeight: '440px' }}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-            >
-              {/* Both images rendered simultaneously for smoother crossfade */}
-              <motion.img
-                src={DONATE_IMG}
-                alt=""
+            <div className="relative overflow-hidden rounded-[24px] sm:rounded-[28px]" style={{ minHeight: '440px' }}
+              onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+              <motion.img src={DONATE_IMG} alt="" className="absolute inset-0 w-full h-full object-cover"
+                animate={{ opacity: isHovered ? 0 : 1 }} transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }} />
+              <motion.img src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246029/0B2A0279_1_drz6kf.webp" alt=""
                 className="absolute inset-0 w-full h-full object-cover"
-                animate={{ opacity: isHovered ? 0 : 1 }}
-                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-              />
-
-              <motion.img
-                src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246029/0B2A0279_1_drz6kf.webp"
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover"
-                animate={{
-                  opacity: isHovered ? 1 : 0,
-                  scale: isHovered ? 1 : 1.02
-                }}
-                transition={{
-                  duration: 0.7,
-                  ease: [0.25, 0.1, 0.25, 1],
-                  opacity: { duration: 0.7 },
-                  scale: { duration: 0.9, ease: [0.32, 0, 0.67, 0] }
-                }}
-              />
-
-              {/* Gradient Overlay with subtle hover enhancement */}
-              <motion.div
-                className="absolute inset-0"
-                style={{
-                  background: 'linear-gradient(to right, rgba(7,30,54,0.02) 0%, rgba(7,30,54,0.35) 45%, rgba(7,30,54,0.65) 100%)',
-                }}
-                animate={{
-                  background: isHovered
-                    ? 'linear-gradient(to right, rgba(7,30,54,0.06) 0%, rgba(7,30,54,0.45) 45%, rgba(7,30,54,0.75) 100%)'
-                    : 'linear-gradient(to right, rgba(7,30,54,0.02) 0%, rgba(7,30,54,0.35) 45%, rgba(7,30,54,0.65) 100%)'
-                }}
-                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-              />
-
+                animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1 : 1.02 }}
+                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], opacity: { duration: 0.7 }, scale: { duration: 0.9, ease: [0.32, 0, 0.67, 0] } }} />
+              <motion.div className="absolute inset-0"
+                style={{ background: 'linear-gradient(to right, rgba(7,30,54,0.02) 0%, rgba(7,30,54,0.35) 45%, rgba(7,30,54,0.65) 100%)' }}
+                animate={{ background: isHovered ? 'linear-gradient(to right, rgba(7,30,54,0.06) 0%, rgba(7,30,54,0.45) 45%, rgba(7,30,54,0.75) 100%)' : 'linear-gradient(to right, rgba(7,30,54,0.02) 0%, rgba(7,30,54,0.35) 45%, rgba(7,30,54,0.65) 100%)' }}
+                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }} />
               <div className="relative z-10 flex items-center justify-end min-h-[440px]">
                 <div className="max-w-[460px] p-10 sm:p-12 lg:p-16">
-                  <motion.p
-                    className="font-black uppercase tracking-[3px] mb-4"
-                    style={{ fontSize: '8px', color: 'rgba(255,255,255,0.32)' }}
-                    animate={{ opacity: isHovered ? 0.7 : 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    Make a Difference
-                  </motion.p>
-                  <h2
-                    className="font-black text-white leading-[1.2] tracking-[-1px] mb-4"
-                    style={{ fontSize: 'clamp(0.9rem, 3vw, 2.5rem)' }}
-                  >
+                  <motion.p className="font-black uppercase tracking-[3px] mb-4" style={{ fontSize: '8px', color: 'rgba(255,255,255,0.32)' }}
+                    animate={{ opacity: isHovered ? 0.7 : 1 }} transition={{ duration: 0.5 }}>Make a Difference</motion.p>
+                  <h2 className="font-black text-white leading-[1.2] tracking-[-1px] mb-4" style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)' }}>
                     Give a Child Their{' '}
-                    <em className="not-italic text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>
-                      First Smile
-                    </em>
+                    <em className="not-italic text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>First Smile</em>
                   </h2>
-                  <motion.p
-                    className="text-[12px] leading-[1.7] mb-7 font-light"
-                    style={{ color: 'rgba(255,255,255,0.50)' }}
-                    animate={{ opacity: isHovered ? 0.85 : 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
+                  <motion.p className="text-[12px] leading-[1.7] mb-7 font-light" style={{ color: 'rgba(255,255,255,0.50)' }}
+                    animate={{ opacity: isHovered ? 0.85 : 1 }} transition={{ duration: 0.5 }}>
                     Your generosity brings life-changing cleft care to those who need it most.
                   </motion.p>
-                  <motion.button
-                    onClick={openModal}
-                    className="inline-flex items-center gap-2 bg-white text-accent font-black text-[11px] px-6 py-3 rounded-full hover:bg-accent hover:text-white transition-all duration-200 shadow-xl hover:-translate-y-px"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Donate Now <Heart className='w-4 h-4' />
+                  <motion.button onClick={openModal}
+                    className="inline-flex items-center gap-2 bg-white text-accent font-black text-[13px] px-7 py-3.5 rounded-full hover:bg-accent hover:text-white transition-all duration-200 shadow-xl hover:-translate-y-px"
+                    whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    Donate Now <Heart className="w-4 h-4" />
                   </motion.button>
                 </div>
               </div>
@@ -932,3 +687,182 @@ export default function Home() {
     </div>
   )
 }
+
+/* ── Transformation section ── */
+function TransformSection({ currentPatientIndex, setCurrentPatientIndex, currentPatient }: {
+  currentPatientIndex: number
+  setCurrentPatientIndex: (i: number) => void
+  currentPatient: typeof PATIENT_GALLERY[0]
+}) {
+  const sectionRef = useRef<HTMLElement>(null)
+  const inView = useInView(sectionRef, { once: true, amount: 0.25 })
+
+  return (
+    <section ref={sectionRef} className="overflow-hidden" style={{ background: '#071e36' }}>
+      {/* Subtle radial glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,117,24,0.06) 0%, transparent 65%)' }}
+      />
+
+      <div className={`${WRAP} relative py-14 xl:py-20`}>
+
+        {/* ── Header ── */}
+        <Reveal direction="up">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
+            <div>
+              <p className="font-black tracking-[3.5px] uppercase mb-4 flex items-center gap-2.5" style={{ fontSize: '10px', color: 'rgba(255,117,24,0.65)' }}>
+                <span className="block w-6 h-px" style={{ background: 'rgba(255,117,24,0.4)' }} />
+                Before &amp; After
+                <span className="block w-6 h-px" style={{ background: 'rgba(255,117,24,0.4)' }} />
+              </p>
+              <h2
+                className="font-black leading-[0.97] text-white"
+                style={{ fontSize: 'clamp(2.2rem, 4.5vw, 4rem)', letterSpacing: '-2px' }}
+              >
+                Witness the{' '}
+                <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>
+                  Transformations
+                </em>
+              </h2>
+            </div>
+            <p className="text-[14px] font-light leading-relaxed sm:text-right sm:max-w-[230px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
+              Drag the divider to reveal every life-changing result.
+            </p>
+          </div>
+        </Reveal>
+
+        {/* ── Main grid: slider + info panel ── */}
+        <div className="flex flex-col lg:flex-row gap-5 items-stretch">
+
+          {/* Slider */}
+          <div
+            className="w-full lg:w-[65%] rounded-[24px] overflow-hidden"
+            style={{ minHeight: 'clamp(340px, 50vw, 660px)' }}
+          >
+            <ImageComparisonSlider
+              images={PATIENT_GALLERY}
+              currentIndex={currentPatientIndex}
+              onIndexChange={setCurrentPatientIndex}
+              autoPlayInterval={40000}
+              className="w-full h-full"
+              showControls={false}
+              scrollReveal={inView}
+            />
+          </div>
+
+          {/* Info panel */}
+          <div
+            className="w-full lg:w-[35%] flex flex-col rounded-[24px] overflow-hidden"
+            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+          >
+            <div className="flex-1 p-7 pt-8">
+              <p className="font-black uppercase tracking-[2.5px] mb-6" style={{ fontSize: '9px', color: 'rgba(255,117,24,0.65)' }}>
+                Patient Story
+              </p>
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentPatientIndex}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <p
+                    className="font-black text-white leading-[1.0] mb-5"
+                    style={{ fontSize: 'clamp(1.5rem, 2.4vw, 2.2rem)', letterSpacing: '-1.2px' }}
+                  >
+                    {currentPatient.patientName}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-x-2.5 gap-y-2 mb-6">
+                    {currentPatient.age && (
+                      <span className="font-black tracking-[2px] uppercase text-accent" style={{ fontSize: '9px' }}>
+                        {currentPatient.age}
+                      </span>
+                    )}
+                    {currentPatient.age && <span className="w-0.5 h-3 rounded-full" style={{ background: 'rgba(255,117,24,0.3)' }} />}
+                    <span className="font-black tracking-[2px] uppercase" style={{ fontSize: '9px', color: 'rgba(255,255,255,0.38)' }}>
+                      {currentPatient.condition}
+                    </span>
+                    <span className="w-0.5 h-3 rounded-full" style={{ background: 'rgba(255,255,255,0.14)' }} />
+                    <span className="font-black tracking-[2px] uppercase" style={{ fontSize: '9px', color: 'rgba(255,255,255,0.38)' }}>
+                      {currentPatient.location}
+                    </span>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+
+              <div className="h-px mb-6" style={{ background: 'rgba(255,255,255,0.08)' }} />
+              <p className="text-[12px] leading-[1.8]" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                Drag the divider left or right to reveal the before and after — every surgery performed free of charge.
+              </p>
+            </div>
+
+            {/* Navigation */}
+            <div className="p-7 pt-0">
+              {/* Thumbnail nav */}
+              <div className="flex items-center gap-2 mb-6 flex-wrap">
+                {PATIENT_GALLERY.map((p, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentPatientIndex(idx)}
+                    className="relative rounded-[10px] overflow-hidden transition-all duration-300 flex-shrink-0"
+                    style={{
+                      width: idx === currentPatientIndex ? '54px' : '42px',
+                      height: '42px',
+                      outline: idx === currentPatientIndex ? '2px solid #ff7518' : '2px solid transparent',
+                      outlineOffset: '2px',
+                      opacity: idx === currentPatientIndex ? 1 : 0.45,
+                    }}
+                    aria-label={`View ${p.patientName}`}
+                  >
+                    <img src={p.after} alt={p.patientName} className="w-full h-full object-cover" loading="lazy" />
+                  </button>
+                ))}
+              </div>
+
+              <Link
+                href="/gallery"
+                className="inline-flex items-center gap-2 font-black text-[12px] px-5 py-3 rounded-full transition-all hover:-translate-y-px tracking-[0.2px]"
+                style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.75)', border: '1px solid rgba(255,255,255,0.12)' }}
+              >
+                View all stories <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Patient name progress strip ── */}
+        <div className="mt-6 flex items-center gap-3 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden">
+          {PATIENT_GALLERY.map((p, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentPatientIndex(idx)}
+              className="flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full transition-all duration-300"
+              style={{
+                background: idx === currentPatientIndex ? 'rgba(255,117,24,0.15)' : 'transparent',
+                border: `1px solid ${idx === currentPatientIndex ? 'rgba(255,117,24,0.4)' : 'rgba(255,255,255,0.08)'}`,
+              }}
+            >
+              <span
+                className="font-black tabular-nums"
+                style={{ fontSize: '9px', color: idx === currentPatientIndex ? '#ff7518' : 'rgba(255,255,255,0.2)' }}
+              >
+                {String(idx + 1).padStart(2, '0')}
+              </span>
+              <span
+                className="font-semibold text-[12px] whitespace-nowrap"
+                style={{ color: idx === currentPatientIndex ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.3)' }}
+              >
+                {p.patientName}
+              </span>
+            </button>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  )
+}
+

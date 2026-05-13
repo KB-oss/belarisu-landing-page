@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import Reveal from '../components/Reveal'
 import { useDonation } from '../context/DonationContext'
+import { Heart } from 'lucide-react'
 
 /* ─── Design tokens ─── */
 const PLAYFAIR = "'Playfair Display', Georgia, 'Times New Roman', serif"
@@ -11,7 +12,7 @@ const WRAP = 'w-full max-w-[1366px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20'
 
 /* ─── Figma assets ─── */
 const IMG_SURGERY = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000763/Cleft_Palate_Repair_qiuaeo.jpg'
-const IMG_ORTHO = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778182524/orthodontics-service_ctmo2d.png'
+const IMG_ORTHO = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778513802/WhatsApp_Image_2026-05-11_at_11.14.34_ashnkb.jpg'
 const IMG_SPEECH = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000862/Speech_Therapy_aksuao.jpg'
 const IMG_NUTRITION = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778179995/nutrition-home_1_vpsqeq.jpg'
 const IMG_PSYCHO = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000764/pshyocology_gsvwmr.png'
@@ -91,7 +92,7 @@ const SERVICES: Service[] = [
   },
   {
     id: 'nutrition',
-    label: 'Nutritional Support',
+    label: 'Nutrition',
     img: IMG_NUTRITION,
     short: 'Children born with cleft conditions often experience feeding challenges and growth delays. Our nutrition team provides feeding guidance, growth monitoring, and nutritional rehabilitation.',
     intro: [
@@ -178,7 +179,7 @@ function ServiceCard({ service }: { service: Service }) {
           alt={service.label}
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[54%] to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[30%] to-black/75" />
         <div className="absolute bottom-0 left-0 right-0 px-8 py-6 flex flex-col gap-3">
           <h2
             className="font-black text-white leading-tight"
@@ -204,9 +205,9 @@ function ServiceCard({ service }: { service: Service }) {
         {service.subType === 'grid' && (
           <div className="grid sm:grid-cols-2 gap-4">
             {(service.subs as SubItem[]).map((sub) => (
-              <div key={sub.title} className="flex flex-col gap-3 bg-[#fafafa] rounded-[14px] p-5">
-                <p className="font-bold text-[17px]" style={{ color: '#ff7518' }}>{sub.title}</p>
-                <p className="text-[14px] leading-[1.7]" style={{ color: '#7e7c7c' }}>{sub.text}</p>
+              <div key={sub.title} className="flex flex-col gap-3 rounded-[14px] p-5" style={{ background: '#ECECEC' }}>
+                <p className="font-bold text-[17px]" style={{ color: '#071e36' }}>{sub.title}</p>
+                <p className="text-[14px] leading-[1.7]" style={{ color: '#555' }}>{sub.text}</p>
               </div>
             ))}
           </div>
@@ -285,7 +286,7 @@ export default function Services() {
       {/* ══════════════════════════════════
           HERO
       ══════════════════════════════════ */}
-      <div className={`${WRAP} pt-16 pb-20`}>
+      <div className={`${WRAP} pt-12 pb-14`}>
         <motion.div
           className="text-center"
           initial={{ opacity: 0, y: 24 }}
@@ -317,12 +318,12 @@ export default function Services() {
       {/* ══════════════════════════════════
           TWO-COLUMN — sticky sidebar + service cards
       ══════════════════════════════════ */}
-      <div className={`${WRAP} pb-28`}>
+      <div className={`${WRAP} pb-20`}>
         <div className="flex gap-8 xl:gap-10">
 
           {/* Left — sticky sidebar */}
           <div className="hidden lg:block shrink-0 self-stretch" style={{ width: '260px' }}>
-            <div className="sticky top-[108px] flex flex-col gap-1 pt-8">
+            <div className="sticky top-[108px] flex flex-col gap-1 pt-8 rounded-[16px] p-3" style={{ background: 'rgba(7,30,54,0.04)' }}>
               {SERVICES.map((s) => (
                 <button
                   key={s.id}
@@ -403,36 +404,41 @@ export default function Services() {
             />
 
             <div className="relative z-10 flex items-center justify-end min-h-[523px]">
-              <div className="max-w-[580px] p-10 sm:p-12 xl:p-16 flex flex-col gap-4">
+              <div className="max-w-[460px] p-10 sm:p-12 xl:p-16 flex flex-col gap-4">
+                <motion.p
+                  className="font-black uppercase tracking-[3px]"
+                  style={{ fontSize: '8px', color: 'rgba(255,255,255,0.32)' }}
+                  animate={{ opacity: isHovered ? 0.7 : 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  Make a Difference
+                </motion.p>
                 <motion.h2
-                  className="font-black leading-[1.2] tracking-[-0.02em]"
-                  style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.8rem)' }}
+                  className="font-black text-white leading-[1.2] tracking-[-1px]"
+                  style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.5rem)' }}
                   animate={{ opacity: isHovered ? 0.95 : 1 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <span className='text-white'>Give a Child Their </span>
-                  <em style={{ color: '#ff7518', fontFamily: PLAYFAIR, fontStyle: 'italic' }}>First Smile</em>
+                  Give a Child Their{' '}
+                  <em className="not-italic text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>First Smile</em>
                 </motion.h2>
                 <motion.p
-                  className="leading-[1.6]"
-                  style={{ fontSize: '14px', color: '#fff', maxWidth: '440px' }}
-                  animate={{ opacity: isHovered ? 0.9 : 1 }}
+                  className="text-[12px] leading-[1.7] font-light"
+                  style={{ color: 'rgba(255,255,255,0.50)' }}
+                  animate={{ opacity: isHovered ? 0.85 : 1 }}
                   transition={{ duration: 0.5 }}
                 >
-                  Your generosity brings life-changing care to those who need it most. Join us in making a profound difference.
+                  Your generosity brings life-changing care to those who need it most.
                 </motion.p>
                 <div>
                   <motion.button
                     onClick={openModal}
-                    className="inline-flex items-center gap-2 font-black text-[13px] px-6 py-3 rounded-[14px] transition-all duration-200 hover:opacity-90"
-                    style={{ background: '#fff', color: '#ff7518', boxShadow: '0 4px 20px rgba(0,0,0,0.12)' }}
-                    whileHover={{ scale: 1.02, opacity: 0.95 }}
+                    className="inline-flex items-center gap-2 bg-white text-accent font-black text-[13px] px-7 py-3.5 rounded-full hover:bg-accent hover:text-white transition-all duration-200 shadow-xl hover:-translate-y-px"
+                    whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     Donate Now
-                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
+                    <Heart className="w-4 h-4" />
                   </motion.button>
                 </div>
               </div>

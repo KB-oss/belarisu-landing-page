@@ -32,8 +32,16 @@ export default function GiveOnce({
   };
 
   return (
-    <div className="flex flex-col gap-5 p-8 flex-1">
-      <p className="text-navy font-black text-2xl tracking-tight">Secure Donation</p>
+    <div className="flex flex-col gap-5 p-6 sm:p-8 flex-1">
+      {/* Header */}
+      <div>
+        <p className="font-black text-[10px] tracking-[3px] uppercase mb-1" style={{ color: 'rgba(255,117,24,0.7)' }}>
+          Secure Donation
+        </p>
+        <h2 className="font-black text-[1.45rem] tracking-tight" style={{ color: '#071e36' }}>
+          Make an Impact
+        </h2>
+      </div>
 
       {/* Tabs */}
       <div className="flex gap-2">
@@ -87,7 +95,8 @@ export default function GiveOnce({
             if (e.target.value) setAmount(parseFloat(e.target.value) || 0);
           }}
           placeholder={String(amount)}
-          className="flex-1 text-xl font-semibold outline-none bg-transparent text-black placeholder-black/40"
+          className="flex-1 text-lg font-bold outline-none bg-transparent placeholder-black/30"
+          style={{ color: '#071e36' }}
           min="1"
         />
         <span className="text-muted text-sm">KES ▾</span>
@@ -117,10 +126,11 @@ export default function GiveOnce({
         </button>
       </div>
 
-      {/* Donate button */}
+      {/* Donate CTA */}
       <button
         onClick={onDonate}
-        className="mt-auto w-full flex items-center justify-between bg-navy text-white font-black px-6 py-4 rounded-xl shadow-lg hover:bg-navy/90 transition-colors"
+        className="w-full flex items-center justify-between text-white font-black px-6 py-4 rounded-xl transition-all hover:opacity-90 active:scale-[0.98]"
+        style={{ background: 'linear-gradient(135deg, #071e36 0%, #0d3460 100%)' }}
       >
         <span>Donate {displayAmount}</span>
         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

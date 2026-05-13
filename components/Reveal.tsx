@@ -11,6 +11,9 @@ const variants: Record<string, Variants> = {
   right: { hidden: { opacity: 0, x: -72, filter: 'blur(10px)' },  visible: { opacity: 1, x: 0, filter: 'blur(0px)' } },
   fade:  { hidden: { opacity: 0, filter: 'blur(8px)' },            visible: { opacity: 1, filter: 'blur(0px)' } },
   scale: { hidden: { opacity: 0, scale: 0.88, filter: 'blur(10px)' }, visible: { opacity: 1, scale: 1, filter: 'blur(0px)' } },
+  rise:  { hidden: { opacity: 0, y: 80, rotateX: 8, filter: 'blur(12px)' }, visible: { opacity: 1, y: 0, rotateX: 0, filter: 'blur(0px)' } },
+  slide: { hidden: { opacity: 0, x: -48 }, visible: { opacity: 1, x: 0 } },
+  clip:  { hidden: { clipPath: 'inset(0 0 100% 0)', opacity: 1 }, visible: { clipPath: 'inset(0 0 0% 0)', opacity: 1 } },
 }
 
 type Direction = keyof typeof variants
