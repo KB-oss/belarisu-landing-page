@@ -4,9 +4,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import GiveOnce from './GiveOnce';
+import CardForm from './CardForm';
 import MpesaForm from './MpesaForm';
 import DonationSuccess from './DonationSuccess';
-import CardForm from './CardForm';
 
 const PANEL_IMG = 'https://www.figma.com/api/mcp/asset/43c860bf-569c-4c85-8fc6-e1206952b560';
 
@@ -35,6 +35,7 @@ export default function DonationModal({ onClose }: DonationModalProps) {
   const [completedAmount, setCompletedAmount] = useState<number>(0);
   const [completedPhone, setCompletedPhone] = useState<string>('');
 
+  // Close on Escape
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose?.();
@@ -147,9 +148,13 @@ export default function DonationModal({ onClose }: DonationModalProps) {
           <div className="flex-1 flex flex-col bg-white overflow-hidden" style={{ maxHeight: '95dvh' }}>
             <AnimatePresence mode="wait">
               {state === 'amount' && (
-                <motion.div key="amount" className="flex flex-col flex-1 overflow-y-auto"
-                  initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.25, ease: 'easeOut' }}>
+
+                <motion.div key="amount" className="flex flex-col flex-1"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.28, ease: 'easeOut' }}
+                >
                   <GiveOnce
                     tab={tab}
                     setTab={setTab}
