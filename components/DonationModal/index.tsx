@@ -1,45 +1,91 @@
-'use client'
+// components/donation/DonationModal.tsx
+'use client';
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import GiveOnce from './GiveOnce'
-import CardForm from './CardForm'
-import MpesaForm from './MpesaForm'
-import DonationSuccess from './DonationSuccess'
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import GiveOnce from './GiveOnce';
+import CardForm from './CardForm';
+import MpesaForm from './MpesaForm';
+import DonationSuccess from './DonationSuccess';
 
-const PANEL_IMG = 'https://www.figma.com/api/mcp/asset/43c860bf-569c-4c85-8fc6-e1206952b560'
+const PANEL_IMG = 'https://www.figma.com/api/mcp/asset/43c860bf-569c-4c85-8fc6-e1206952b560';
 
 const FAQ_LINKS = [
   'Is my donation secure?',
   'Is this donation tax-deductible?',
   'Can I cancel my recurring donation?',
-]
+];
 
-type ModalState = 'amount' | 'card' | 'mpesa' | 'success'
-type TabType = 'once' | 'monthly'
-type PayMethod = 'card' | 'mpesa'
+type ModalState = 'amount' | 'card' | 'mpesa' | 'success';
+type TabType = 'once' | 'monthly';
+type PayMethod = 'card' | 'mpesa';
+type PaymentStatus = 'idle' | 'pending' | 'completed' | 'failed' | 'timeout';
+
 
 interface DonationModalProps {
-  onClose: () => void
+  onClose: () => void;
 }
 
 export default function DonationModal({ onClose }: DonationModalProps) {
-  const [state, setState] = useState<ModalState>('amount')
-  const [tab, setTab] = useState<TabType>('once')
-  const [amount, setAmount] = useState<number>(100)
-  const [payMethod, setPayMethod] = useState<PayMethod>('card')
+  const [state, setState] = useState<ModalState>('amount');
+  const [tab, setTab] = useState<TabType>('once');
+  const [amount, setAmount] = useState<number>(100);
+  const [payMethod, setPayMethod] = useState<PayMethod>('mpesa'); // Default to M-Pesa
+  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>('idle');
+  const [completedAmount, setCompletedAmount] = useState<number>(0);
+  const [completedPhone, setCompletedPhone] = useState<string>('');
 
   // Close on Escape
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose?.() }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [onClose])
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose?.();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
 
   const handleDonate = () => {
-    setState(payMethod === 'card' ? 'card' : 'mpesa')
-  }
-  const handleSubmit = () => setState('success')
+    if (payMethod === 'card') {
+      setState('card');
+    } else {
+      setState('mpesa');
+    }
+  };
+
+  const handleMpesaSubmit = (success: boolean, checkoutId?: string) => {
+    if (success) {
+      setState('success');
+      // Auto close after 5 seconds on success
+      setTimeout(() => {
+        onClose();
+      }, 5000);
+    } else {
+      setState('amount');
+    }
+  };
+
+  const handleMpesaStatusChange = (status: PaymentStatus, checkoutId?: string) => {
+    setPaymentStatus(status);
+
+    // If payment completed, we can auto-close after showing success
+    if (status === 'completed') {
+      setCompletedAmount(amount);
+      // Navigate to success screen after a brief delay
+      setTimeout(() => {
+        setState('success');
+      }, 1000);
+    } else if (status === 'failed' || status === 'timeout') {
+      // Stay in mpesa form to show error/try again
+      console.log('Payment failed');
+    }
+  };
+
+  const handleCardSubmit = () => {
+    setState('success');
+    setTimeout(() => {
+      onClose();
+    }, 5000);
+  };
 
   return (
     <motion.div
@@ -57,7 +103,7 @@ export default function DonationModal({ onClose }: DonationModalProps) {
         initial={{ opacity: 0, scale: 0.94, y: 24 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 16 }}
-        transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
+        transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         {/* Close button */}
         <button
@@ -93,34 +139,62 @@ export default function DonationModal({ onClose }: DonationModalProps) {
             <AnimatePresence mode="wait">
               {state === 'amount' && (
                 <motion.div key="amount" className="flex flex-col flex-1"
-                  initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.28, ease: 'easeOut' }}>
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.28, ease: 'easeOut' }}
+                >
                   <GiveOnce
-                    tab={tab} setTab={setTab}
-                    amount={amount} setAmount={setAmount}
-                    payMethod={payMethod} setPayMethod={setPayMethod}
+                    tab={tab}
+                    setTab={setTab}
+                    amount={amount}
+                    setAmount={setAmount}
+                    payMethod={payMethod}
+                    setPayMethod={setPayMethod}
                     onDonate={handleDonate}
                   />
                 </motion.div>
               )}
+
               {state === 'card' && (
                 <motion.div key="card" className="flex flex-col flex-1"
-                  initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.28, ease: 'easeOut' }}>
-                  <CardForm amount={amount} onBack={() => setState('amount')} onSubmit={handleSubmit} />
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.28, ease: 'easeOut' }}
+                >
+                  <CardForm
+                    amount={amount}
+                    onBack={() => setState('amount')}
+                    onSubmit={handleCardSubmit}
+                  />
                 </motion.div>
               )}
+
               {state === 'mpesa' && (
                 <motion.div key="mpesa" className="flex flex-col flex-1"
-                  initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.28, ease: 'easeOut' }}>
-                  <MpesaForm amount={amount} onBack={() => setState('amount')} onSubmit={handleSubmit} />
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.28, ease: 'easeOut' }}
+                >
+                  <MpesaForm
+                    amount={amount}
+                    onBack={() => setState('amount')}
+                    onSubmit={handleMpesaSubmit}
+                    onStatusUpdate={handleMpesaStatusChange}
+
+                  />
                 </motion.div>
               )}
+
               {state === 'success' && (
                 <motion.div key="success" className="flex flex-col flex-1"
-                  initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
-                  transition={{ duration: 0.35, ease: 'easeOut' }}>
+                  initial={{ opacity: 0, scale: 0.97 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                >
                   <DonationSuccess onClose={onClose} />
                 </motion.div>
               )}
@@ -138,5 +212,5 @@ export default function DonationModal({ onClose }: DonationModalProps) {
         </div>
       </motion.div>
     </motion.div>
-  )
+  );
 }

@@ -4,12 +4,12 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
 
     try {
-        const { amount, phoneNumber } = await req.json();
+        const { amount, phoneNumber, name } = await req.json();
 
         // Validate input
-        if (!amount || !phoneNumber) {
+        if (!amount || !phoneNumber || !name) {
             return NextResponse.json(
-                { error: 'Amount and phone number are required' },
+                { error: 'Amount, phone number amd name are required' },
                 { status: 400 }
             );
         }
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
         ).toString('base64');
 
         const tokenRes = await fetch(
-            'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials',
+            `${process.env.MPESA_API_URL}/oauth/v1/generate?grant_type=client_credentials`,
             {
                 method: 'GET',
                 headers: { Authorization: `Basic ${auth}` },
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
 
         // 3. Make STK Push request
         const stkRes = await fetch(
-            'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest',
+            `${process.env.MPESA_API_URL}/mpesa/stkpush/v1/processrequest`,
             {
                 method: 'POST',
                 headers: {
@@ -90,9 +90,11 @@ export async function POST(req: NextRequest) {
                 checkout_request_id: stkData.CheckoutRequestID,
                 phone_number: formattedPhone,
                 amount: Math.round(amount),
+                donor_name:name,
                 status: 'pending',
             });
             if (error) {
+                // throw error
                 console.log(error, 'supabase not updated !!')
             }
         }

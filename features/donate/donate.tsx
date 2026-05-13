@@ -58,7 +58,7 @@ export default function DonatePage() {
   } = useForm<CybersourceFormData>({
     resolver: zodResolver(cybersourceSchema),
     defaultValues: {
-      amount: 500,
+      amount: 0,
       cardNumber: '',
       expiryMonth: '',
       expiryYear: '',
