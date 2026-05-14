@@ -10,7 +10,7 @@ const PLAYFAIR = "'Playfair Display', Georgia, 'Times New Roman', serif"
 const WRAP = 'w-full max-w-[1366px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20'
 
 /* ─── Assets ─── */
-const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997447/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_t1zysd.webp'
+const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542419/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_copy_xfbrwj.webp'
 
 interface GalleryImage {
   src: string | string[]
@@ -362,7 +362,7 @@ export default function Gallery() {
                 />
 
                 <motion.img
-                  src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997446/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_1_caajti.webp"
+                  src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_1_copy_cpk19z.webp"
                   alt=""
                   className="absolute inset-0 w-full h-full object-cover"
                   animate={{
@@ -395,7 +395,7 @@ export default function Gallery() {
                   <div className="max-w-[460px] p-10 sm:p-12 lg:p-16">
                     <motion.p
                       className="font-black uppercase tracking-[3px] mb-4"
-                      style={{ fontSize: '8px', color: 'rgba(255,255,255,0.32)' }}
+                      style={{ fontSize: '10px', color: 'rgba(255,255,255,1)' }}
                       animate={{ opacity: isHovered ? 0.7 : 1 }}
                       transition={{ duration: 0.5 }}
                     >
@@ -411,8 +411,8 @@ export default function Gallery() {
                       </em>
                     </h2>
                     <motion.p
-                      className="text-[12px] leading-[1.7] mb-7 font-light"
-                      style={{ color: 'rgba(255,255,255,0.50)' }}
+                      className="text-[14px] leading-[1.7] mb-7 font-light"
+                      style={{ color: 'rgba(255,255,255,1)' }}
                       animate={{ opacity: isHovered ? 0.85 : 1 }}
                       transition={{ duration: 0.5 }}
                     >

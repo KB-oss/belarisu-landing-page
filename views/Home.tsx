@@ -415,7 +415,7 @@ export default function Home() {
                 className="font-black leading-[1.06] text-white mx-auto"
                 style={{ fontSize: 'clamp(2.4rem, 5.5vw, 5.2rem)', letterSpacing: '-2.5px', maxWidth: '820px' }}
               >
-                700 families.{' '}
+                Over 700 families.{' '}
                 <em style={{ fontFamily: PLAYFAIR, fontStyle: 'italic', color: '#ff7518' }}>
                   Not a single bill.
                 </em>
@@ -662,13 +662,13 @@ export default function Home() {
                 transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }} />
               <div className="relative z-10 flex items-center justify-end min-h-[440px]">
                 <div className="max-w-[460px] p-10 sm:p-12 lg:p-16">
-                  <motion.p className="font-black uppercase tracking-[3px] mb-4" style={{ fontSize: '8px', color: 'rgba(255,255,255,0.32)' }}
+                  <motion.p className="font-black uppercase tracking-[3px] mb-4" style={{ fontSize: '10px', color: 'rgba(255,255,255,1)' }}
                     animate={{ opacity: isHovered ? 0.7 : 1 }} transition={{ duration: 0.5 }}>Make a Difference</motion.p>
                   <h2 className="font-black text-white leading-[1.2] tracking-[-1px] mb-4" style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)' }}>
                     Give a Child Their{' '}
                     <em className="not-italic text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>First Smile</em>
                   </h2>
-                  <motion.p className="text-[12px] leading-[1.7] mb-7 font-light" style={{ color: 'rgba(255,255,255,0.50)' }}
+                  <motion.p className="text-[14px] leading-[1.7] mb-7 font-light" style={{ color: 'rgba(255,255,255,1)' }}
                     animate={{ opacity: isHovered ? 0.85 : 1 }} transition={{ duration: 0.5 }}>
                     Your generosity brings life-changing cleft care to those who need it most.
                   </motion.p>

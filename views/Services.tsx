@@ -407,7 +407,7 @@ export default function Services() {
               <div className="max-w-[460px] p-10 sm:p-12 xl:p-16 flex flex-col gap-4">
                 <motion.p
                   className="font-black uppercase tracking-[3px]"
-                  style={{ fontSize: '8px', color: 'rgba(255,255,255,0.32)' }}
+                  style={{ fontSize: '10px', color: 'rgba(255,255,255,1)' }}
                   animate={{ opacity: isHovered ? 0.7 : 1 }}
                   transition={{ duration: 0.5 }}
                 >
@@ -423,8 +423,8 @@ export default function Services() {
                   <em className="not-italic text-accent" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic' }}>First Smile</em>
                 </motion.h2>
                 <motion.p
-                  className="text-[12px] leading-[1.7] font-light"
-                  style={{ color: 'rgba(255,255,255,0.50)' }}
+                  className="text-[14px] leading-[1.7] font-light"
+                  style={{ color: 'rgba(255,255,255,1)' }}
                   animate={{ opacity: isHovered ? 0.85 : 1 }}
                   transition={{ duration: 0.5 }}
                 >

@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import { Loader2, Clock, CheckCircle, XCircle } from 'lucide-react';
 
-const MPESA_LOGO = 'https://www.figma.com/api/mcp/asset/06041337-1b05-4cfa-b47b-58e2f939e7a0';
+const MPESA_LOGO = './mpesaLogo.png';
 
 interface MpesaFormProps {
   amount: number;
@@ -235,7 +235,7 @@ export default function MpesaForm({ amount, onBack, onSubmit, onStatusUpdate }: 
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
         </svg>
         <span className="text-sm text-slate-500">Donating</span>
-        <span className="font-black ml-auto" style={{ color: '#071e36' }}>${amount} USD</span>
+        <span className="font-black ml-auto" style={{ color: '#071e36' }}>{amount} KES</span>
       </div>
 
       {/* Phone number */}

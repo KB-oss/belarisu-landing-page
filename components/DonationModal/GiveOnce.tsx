@@ -4,7 +4,7 @@
 import { useState } from "react";
 
 const PRESETS = [800, 450, 200, 100, 65, 25];
-const MPESA_LOGO = 'https://www.figma.com/api/mcp/asset/06041337-1b05-4cfa-b47b-58e2f939e7a0';
+const MPESA_LOGO = './mpesaLogo.png';
 
 type TabType = 'once' | 'monthly';
 type PayMethod = 'card' | 'mpesa';
@@ -86,7 +86,7 @@ export default function GiveOnce({
 
       {/* Custom amount */}
       <div className="flex items-center border border-[#ddd] rounded-xl px-4 py-3 gap-2">
-        <span className="text-xl font-semibold text-black">KES</span>
+        <span className="text-md font-semibold text-[#071e36]">KES</span>
         <input
           type="number"
           value={custom}
@@ -99,7 +99,7 @@ export default function GiveOnce({
           style={{ color: '#071e36' }}
           min="1"
         />
-        <span className="text-muted text-sm">KES ▾</span>
+        <span className="text-muted text-sm">KES</span>
       </div>
 
       {/* Payment method */}
@@ -122,7 +122,7 @@ export default function GiveOnce({
             payMethod === 'mpesa' ? 'border-[#39b54a] bg-[#efffe6]' : 'border-[#ddd]'
           }`}
         >
-          <img src={MPESA_LOGO} alt="M-Pesa" className="h-5 object-contain" />
+          <img src={MPESA_LOGO} alt="M-Pesa" className="w-25 h-10 object-contain" />
         </button>
       </div>
 

@@ -8,7 +8,7 @@ import CardForm from './CardForm';
 import MpesaForm from './MpesaForm';
 import DonationSuccess from './DonationSuccess';
 
-const PANEL_IMG = 'https://www.figma.com/api/mcp/asset/43c860bf-569c-4c85-8fc6-e1206952b560';
+const PANEL_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001854/Bancy_Muthoni_11mnths_Kiambu._1_zlonij.jpg';
 
 const FAQ_LINKS = [
   'Is my donation secure?',
@@ -56,9 +56,9 @@ export default function DonationModal({ onClose }: DonationModalProps) {
     if (success) {
       setState('success');
       // Auto close after 5 seconds on success
-      setTimeout(() => {
-        onClose();
-      }, 5000);
+      // setTimeout(() => {
+      //   onClose();
+      // }, 5000);
     } else {
       setState('amount');
     }
