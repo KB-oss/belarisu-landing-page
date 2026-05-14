@@ -2,7 +2,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Loader2, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { Loader2, Clock, CheckCircle, XCircle, ArrowLeft } from 'lucide-react';
+import { Card, CardContent } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from 'framer-motion';
+
+
+
 
 const MPESA_LOGO = './mpesaLogo.png';
 
@@ -28,17 +35,17 @@ export default function MpesaForm({ amount, onBack, onSubmit, onStatusUpdate }: 
     const interval = setInterval(async () => {
       const res = await fetch(`/api/mpesa/status?checkoutRequestId=${checkoutId}`);
       const data = await res.json();
-      
+
       if (data.donation && data.donation.status !== 'pending') {
         setStatus(data.donation.status);
         onStatusUpdate?.(data.donation.status, checkoutId);
-        
+
         if (data.donation.status === 'completed') {
           onSubmit(true, checkoutId);
         } else if (data.donation.status === 'failed' || data.donation.status === 'timeout') {
           onSubmit(false);
         }
-        
+
         clearInterval(interval);
       }
     }, 3000);
@@ -105,39 +112,181 @@ export default function MpesaForm({ amount, onBack, onSubmit, onStatusUpdate }: 
     }
     return cleaned;
   };
-
   if (status === 'pending') {
     return (
-      <div className="flex flex-col gap-5 p-8 flex-1">
+      <div className="flex flex-col gap-5 p-6 sm:p-8 flex-1 min-h-[500px]">
+        {/* Header */}
         <div className="flex items-center gap-3">
-          <button onClick={() => {
-            setStatus('idle');
-            setCheckoutId(null);
-          }} className="text-muted hover:text-navy transition-colors">
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <motion.button
+            whileHover={{ scale: 0.95 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => {
+              setStatus('idle');
+              setCheckoutId(null);
+            }}
+            className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-400 hover:text-navy transition-colors"
+            aria-label="Back"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
-          </button>
-          <p className="text-navy font-black text-2xl tracking-tight">M-Pesa Payment</p>
-        </div>
-
-        <div className="text-center space-y-4 py-8">
-          <div className="flex justify-center">
-            <div className="relative">
-              <div className="animate-ping absolute inset-0 bg-yellow-400 rounded-full opacity-75"></div>
-              <Clock className="h-16 w-16 text-yellow-600 relative" />
-            </div>
-          </div>
-          <h3 className="text-xl font-semibold">Waiting for Payment</h3>
-          <p className="text-gray-600">
-            Please check your phone and enter your M-Pesa PIN to complete the donation of <strong>KES {amount.toLocaleString()}</strong>
-          </p>
-          <div className="bg-yellow-50 p-4 rounded-lg">
-            <p className="text-sm text-yellow-800">
-              <strong>Note:</strong> In sandbox mode, you won't receive a real M-Pesa prompt. 
-              The transaction will auto-complete in a few seconds.
+          </motion.button>
+          <div>
+            <p className="font-normal text-[1rem] tracking-tight leading-tight" style={{ color: '#071e36' }}>
+              M-Pesa Payment
             </p>
           </div>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 flex flex-col justify-center text-center space-y-8 py-8">
+          {/* Animated Payment Loader */}
+          <div className="flex justify-center">
+            <div className="relative">
+              {/* Outer ring */}
+              <motion.div
+                className="absolute inset-0 rounded-full border-4 border-[#39b54a]/20"
+                initial={{ scale: 1 }}
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              />
+
+              {/* Animated spinning ring */}
+              <motion.div
+                className="absolute inset-0 rounded-full border-4 border-t-[#39b54a] border-r-[#39b54a] border-b-transparent border-l-transparent"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+              />
+
+              {/* Inner pulsing circle */}
+              <motion.div
+                className="relative w-16 h-16 bg-[#39b54a]/10 rounded-full flex items-center justify-center"
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <motion.svg
+                  className="w-6 h-6 text-[#39b54a]"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                >
+                  <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  <circle cx="12" cy="12" r="1" fill="currentColor" />
+                  <circle cx="12" cy="12" r="9" stroke="currentColor" />
+                </motion.svg>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Dynamic status text */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="space-y-3"
+          >
+            <div className="space-y-1">
+              <motion.h3
+                className="text-lg font-semibold"
+                style={{ color: '#071e36' }}
+                animate={{ opacity: [1, 0.7, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                Processing Donation
+              </motion.h3>
+              <motion.p
+                className="text-sm text-gray-500"
+                animate={{ opacity: [1, 0.5, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
+              >
+                Initiating M-Pesa transaction...
+              </motion.p>
+            </div>
+
+            {/* Progress steps */}
+            <div className="max-w-xs mx-auto mt-4">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full bg-[#39b54a] rounded-full"
+                    initial={{ width: 0 }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
+                  />
+                </div>
+                <motion.span
+                  className="text-xs text-gray-500 font-mono"
+                  animate={{ opacity: [1, 0.5, 1] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                >
+                  <motion.span
+                    animate={{ opacity: [1, 0, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    ●
+                  </motion.span>
+                </motion.span>
+              </div>
+
+              <div className="flex justify-between mt-2 text-xs text-gray-400">
+                <motion.span
+                  animate={{ color: ['#9ca3af', '#39b54a', '#9ca3af'] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: 0 }}
+                >
+                  Requesting
+                </motion.span>
+                <motion.span
+                  animate={{ color: ['#9ca3af', '#39b54a', '#9ca3af'] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+                >
+                  Processing
+                </motion.span>
+                <motion.span
+                  animate={{ color: ['#9ca3af', '#39b54a', '#9ca3af'] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: 2 }}
+                >
+                  Confirming
+                </motion.span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Animated instruction */}
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+          >
+            <Alert className="bg-yellow-50 border-yellow-200 max-w-sm mx-auto">
+         
+              
+                <AlertDescription className="text-xs text-yellow-800 font-medium">
+                  Check your phone
+                </AlertDescription>
+              <AlertDescription className="text-xs text-yellow-700">
+                Enter M-Pesa PIN to complete donation of <strong>KES {amount.toLocaleString()}</strong>
+              </AlertDescription>
+            </Alert>
+          </motion.div>
+
+          {/* Subtle hint */}
+          <motion.p
+            className="text-xs text-gray-400"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            Waiting for your confirmation
+            <motion.span
+              animate={{ opacity: [0, 1, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              ...
+            </motion.span>
+          </motion.p>
         </div>
       </div>
     );
@@ -164,23 +313,56 @@ export default function MpesaForm({ amount, onBack, onSubmit, onStatusUpdate }: 
 
   if (status === 'failed' || status === 'timeout') {
     return (
-      <div className="flex flex-col gap-5 p-8 flex-1">
-        <div className="text-center space-y-4 py-8">
-          <div className="flex justify-center">
-            <XCircle className="h-16 w-16 text-red-600" />
-          </div>
-          <h3 className="text-2xl font-bold text-red-700">
-            {status === 'timeout' ? 'Payment Timeout' : 'Payment Failed'}
-          </h3>
-          <p className="text-gray-600">
-            {error || 'The transaction could not be completed. Please try again.'}
-          </p>
+      <div className="flex flex-col gap-5 p-6 sm:p-8 flex-1 min-h-[500px]">
+        {/* Header */}
+        <div className="flex items-center gap-3">
           <button
             onClick={() => {
               setStatus('idle');
               setError(null);
             }}
-            className="mt-4 px-6 py-2 bg-navy text-white rounded-lg hover:bg-navy/90"
+            className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-400 hover:text-navy transition-all"
+            aria-label="Back"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <div>
+            <p className="font-black text-[10px] tracking-[3px] uppercase" style={{ color: 'rgba(57,181,74,0.8)' }}>
+              Secure Payment
+            </p>
+            <p className="font-black text-[1.3rem] tracking-tight leading-tight" style={{ color: '#071e36' }}>
+              M-Pesa Payment
+            </p>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 flex flex-col justify-center text-center space-y-6 py-8">
+          <div className="flex justify-center">
+            {status === 'timeout' ? (
+              <Clock className="h-16 w-16 text-orange-500" />
+            ) : (
+              <XCircle className="h-16 w-16 text-red-500" />
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-xl font-bold" style={{ color: status === 'timeout' ? '#f97316' : '#dc2626' }}>
+              {status === 'timeout' ? 'Payment Timeout' : 'Payment Failed'}
+            </h3>
+            <p className="text-sm text-gray-600">
+              {error || 'The transaction could not be completed. Please try again.'}
+            </p>
+          </div>
+
+          <button
+            onClick={() => {
+              setStatus('idle');
+              setError(null);
+            }}
+            className="px-6 py-2.5 bg-[#39b54a] text-white rounded-lg hover:bg-[#2d9b3c] transition-colors font-medium mx-auto"
           >
             Try Again
           </button>

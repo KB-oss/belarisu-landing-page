@@ -60,7 +60,7 @@ export default function DonationModal({ onClose }: DonationModalProps) {
       //   onClose();
       // }, 5000);
     } else {
-      setState('amount');
+      return
     }
   };
 
