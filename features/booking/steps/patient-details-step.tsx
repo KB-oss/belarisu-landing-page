@@ -132,8 +132,8 @@ export function PatientDetailsStep({ onNext, onBack }: PatientDetailsStepProps) 
                   selected ? 'ring-2 ring-[#ff7518]/20' : ''
                 }`}
                 style={{
-                  borderColor: selected ? '#071e36' : '#e0e0e0',
-                  background: selected ? '#071e36' : '#fff',
+                  borderColor: selected ? '#ff7518' : '#e0e0e0',
+                  background: selected ? '#ff7518' : '#fff',
                 }}
               >
                 <span className="font-bold text-[12px] sm:text-[14px]" style={{ color: selected ? '#fff' : '#171717' }}>

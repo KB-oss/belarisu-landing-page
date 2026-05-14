@@ -260,7 +260,7 @@ export function ConfirmationStep({ onBack }: ConfirmationStepProps) {
       <label className="flex items-start gap-2 sm:gap-3 cursor-pointer mt-2">
         <div
           className="mt-0.5 w-4 h-4 sm:w-5 sm:h-5 rounded-[4px] sm:rounded-[5px] border-2 flex items-center justify-center shrink-0 transition-all duration-200"
-          style={{ borderColor: terms ? '#071e36' : '#e0e0e0', background: terms ? '#071e36' : '#fff' }}
+          style={{ borderColor: terms ? '#ff7518' : '#e0e0e0', background: terms ? '#ff7518' : '#fff' }}
           onClick={() => setTerms(!terms)}
         >
           {terms && <CheckIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />}

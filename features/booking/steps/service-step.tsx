@@ -4,7 +4,7 @@ import React from 'react';
 import { useBookingStore } from '@/store/booking-store';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { CheckCircle2 } from 'lucide-react';
+import { Check } from 'lucide-react';
 import Link from 'next/link';
 
 const services = [
@@ -131,13 +131,13 @@ export function ServiceStep({ onNext }: ServiceStepProps) {
                 selected ? 'ring-2 ring-[#ff7518]/20' : ''
               }`}
               style={{
-                borderColor: selected ? '#071e36' : '#e0e0e0',
+                borderColor: selected ? '#ff7518' : '#e0e0e0',
                 background: selected ? 'rgba(7,30,54,0.04)' : '#fff',
               }}
             >
               {selected && (
-                <div className="absolute top-2 right-2 sm:top-3 sm:right-3 w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center" style={{ background: '#071e36' }}>
-                  <CheckCircle2 className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-white" />
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3 w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center" style={{ background: '#ff7518' }}>
+                  <Check className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-white" />
                 </div>
               )}
               <div

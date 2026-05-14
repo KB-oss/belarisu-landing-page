@@ -9,10 +9,33 @@ function Popover({ ...props }: PopoverPrimitive.Root.Props) {
   return <PopoverPrimitive.Root data-slot="popover" {...props} />
 }
 
-function PopoverTrigger({ ...props }: PopoverPrimitive.Trigger.Props) {
-  return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />
+type PopoverTriggerProps = PopoverPrimitive.Trigger.Props & {
+  /** Merge trigger behavior into a single child element (maps to Base UI `render`). */
+  asChild?: boolean
 }
 
+function PopoverTrigger({
+  asChild = false,
+  className,
+  children,
+  ...props
+}: PopoverTriggerProps) {
+  if (asChild) {
+    return (
+      <PopoverPrimitive.Trigger
+        data-slot="popover-trigger"
+        className={className}
+        render={React.Children.only(children) as React.ReactElement}
+        {...props}
+      />
+    )
+  }
+  return (
+    <PopoverPrimitive.Trigger data-slot="popover-trigger" className={className} {...props}>
+      {children}
+    </PopoverPrimitive.Trigger>
+  )
+}
 function PopoverContent({
   className,
   align = "center",

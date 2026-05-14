@@ -6,10 +6,17 @@ import { useBookingStore } from '@/store/booking-store';
 import { getDoctors, getAvailableSlots } from '@/app/actions/booking';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Clock, Stethoscope, Briefcase, Phone, CheckCircle2, ChevronDown } from 'lucide-react';
+import { Calendar } from '@/components/ui/calendar';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Clock, Stethoscope, Briefcase, Phone, CheckCircle2, CalendarIcon, CheckCircle, Check } from 'lucide-react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface DoctorSelectionStepProps {
   onNext: () => void;
@@ -23,8 +30,6 @@ const contactMethods = [
   { id: 'walk-in', title: 'Walk-in', icon: '🚶', description: 'Just come to the clinic' },
 ];
 
-const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
 const TIME_SLOTS = [
   '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM',
   '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'
@@ -35,23 +40,24 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
   const [doctors, setDoctors] = useState<any[]>([]);
   const [availableSlots, setAvailableSlots] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedDay, setSelectedDay] = useState<string>(
-    data.doctorSelection.selectedSlot?.day || ''
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+    data.doctorSelection.selectedSlot?.date || undefined
   );
   const [selectedTime, setSelectedTime] = useState<string>(
     data.doctorSelection.selectedSlot?.time || ''
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [calendarOpen, setCalendarOpen] = useState(false);
 
   useEffect(() => {
     loadDoctors();
   }, []);
 
   useEffect(() => {
-    if (data.doctorSelection.doctorId && selectedDay) {
+    if (data.doctorSelection.doctorId && selectedDate) {
       loadAvailableSlots();
     }
-  }, [data.doctorSelection.doctorId, selectedDay]);
+  }, [data.doctorSelection.doctorId, selectedDate]);
 
   const loadDoctors = async () => {
     setIsLoading(true);
@@ -67,21 +73,11 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
   };
 
   const loadAvailableSlots = async () => {
-    if (!data.doctorSelection.doctorId || !selectedDay) return;
+    if (!data.doctorSelection.doctorId || !selectedDate) return;
     setIsLoading(true);
     try {
-      // Create a date object from the selected day (using next occurrence of that day)
-      const today = new Date();
-      const dayIndex = DAYS.indexOf(selectedDay);
-      const currentDayIndex = today.getDay();
-      let daysToAdd = dayIndex - (currentDayIndex === 0 ? 7 : currentDayIndex);
-      if (daysToAdd <= 0) daysToAdd += 7;
-      const selectedDate = new Date(today);
-      selectedDate.setDate(today.getDate() + daysToAdd);
-      
       const slots = await getAvailableSlots(data.doctorSelection.doctorId, selectedDate);
       setAvailableSlots(slots);
-      // Reset selected time when new slots load
       setSelectedTime('');
     } catch (error) {
       console.error('Error loading slots:', error);
@@ -94,7 +90,7 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
   const validate = () => {
     const newErrors: Record<string, string> = {};
     if (!data.doctorSelection.doctorId) newErrors.doctor = 'Please select a doctor';
-    if (!selectedDay) newErrors.day = 'Please select a day';
+    if (!selectedDate) newErrors.date = 'Please select a date';
     if (!selectedTime) newErrors.time = 'Please select a time slot';
     if (!data.contactPreferences.contactMethod) newErrors.contact = 'Please select a contact method';
     setErrors(newErrors);
@@ -103,20 +99,11 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
 
   const handleNext = () => {
     if (validate()) {
-      // Create a date object from the selected day
-      const today = new Date();
-      const dayIndex = DAYS.indexOf(selectedDay);
-      const currentDayIndex = today.getDay();
-      let daysToAdd = dayIndex - (currentDayIndex === 0 ? 7 : currentDayIndex);
-      if (daysToAdd <= 0) daysToAdd += 7;
-      const selectedDate = new Date(today);
-      selectedDate.setDate(today.getDate() + daysToAdd);
-      
       updateDoctorSelection({
         selectedSlot: {
-          day: selectedDay,
+          day: selectedDate ? format(selectedDate, 'EEEE') : '',
           time: selectedTime,
-          date: selectedDate,
+          date: selectedDate!,
           doctorId: data.doctorSelection.doctorId!
         }
       });
@@ -127,11 +114,18 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
   const handleDoctorSelect = (doctorId: string) => {
     const doctor = doctors.find(d => d.id === doctorId);
     updateDoctorSelection({ doctorId, doctor: doctor || null });
-    setSelectedDay('');
+    setSelectedDate(undefined);
     setSelectedTime('');
     setAvailableSlots([]);
     updateDoctorSelection({ selectedSlot: null });
     setErrors(prev => ({ ...prev, doctor: '' }));
+  };
+
+  const handleDateSelect = (date: Date | undefined) => {
+    setSelectedDate(date);
+    setSelectedTime('');
+    setCalendarOpen(false);
+    setErrors(prev => ({ ...prev, date: '', time: '' }));
   };
 
   const handleSlotSelect = (slotTime: string) => {
@@ -140,10 +134,15 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
   };
 
   const selectedDoctor = doctors.find(d => d.id === data.doctorSelection.doctorId);
-  
+
   // Check if all required fields are filled
-  const isFormValid = !!data.doctorSelection.doctorId && !!selectedDay && 
+  const isFormValid = !!data.doctorSelection.doctorId && !!selectedDate && 
                       !!selectedTime && !!data.contactPreferences.contactMethod;
+
+  // Disable past dates
+  const disablePastDates = (date: Date) => {
+    return date < new Date(new Date().setHours(0, 0, 0, 0));
+  };
 
   return (
     <div className="flex flex-col gap-4 sm:gap-5 sm:px-0">
@@ -183,13 +182,13 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
                     selected ? 'ring-2 ring-[#ff7518]/20' : ''
                   }`}
                   style={{
-                    borderColor: selected ? '#071e36' : '#e0e0e0',
+                    borderColor: selected ? '#ff7518' : '#e0e0e0',
                     background: selected ? 'rgba(7,30,54,0.04)' : '#fff',
                   }}
                 >
                   {selected && (
-                    <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center" style={{ background: '#071e36' }}>
-                      <CheckCircle2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
+                    <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center" style={{ background: '#ff7518' }}>
+                      <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                     </div>
                   )}
                   <div className="flex items-start gap-2">
@@ -230,43 +229,51 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
         )}
       </div>
 
-      {/* Day Selection - Dropdown */}
+      {/* Date Selection - Calendar Popover */}
       {data.doctorSelection.doctorId && (
         <div className="flex flex-col gap-1.5">
           <label className="font-semibold text-[12px] sm:text-[13px]" style={{ color: '#26364c' }}>
-            Preferred Day <span style={{ color: '#ff7518' }}>*</span>
+            Select Date <span style={{ color: '#ff7518' }}>*</span>
           </label>
-          <div className="relative">
-            <select
-              value={selectedDay}
-              onChange={(e) => {
-                setSelectedDay(e.target.value);
-                setSelectedTime('');
-                setErrors(prev => ({ ...prev, day: '', time: '' }));
-              }}
-              className="w-full rounded-[8px] border px-3 py-2 text-[12px] sm:text-[13px] appearance-none bg-white"
-              style={{ borderColor: errors.day ? '#ef4444' : '#e0e0e0' }}
-            >
-              <option value="">Select a day</option>
-              {DAYS.map((day) => (
-                <option key={day} value={day}>{day}</option>
-              ))}
-            </select>
-            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-3.5 sm:h-3.5 pointer-events-none" style={{ color: '#62748e' }} />
-          </div>
-          {errors.day && <p className="text-[10px] sm:text-[11px]" style={{ color: '#ef4444' }}>{errors.day}</p>}
+          <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-full justify-start text-left font-normal rounded-[8px] border px-3 py-2 text-[12px] sm:text-[13px] h-auto",
+                  !selectedDate && "text-muted-foreground",
+                  errors.date && "border-red-500"
+                )}
+                style={{ borderColor: errors.date ? '#ef4444' : '#e0e0e0' }}
+              >
+                <CalendarIcon className="mr-2 h-3.5 w-3.5" style={{ color: '#ff7518' }} />
+                {selectedDate ? format(selectedDate, 'EEEE, MMMM d, yyyy') : <span style={{ color: '#62748e' }}>Pick a date</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={selectedDate}
+                onSelect={handleDateSelect}
+                disabled={disablePastDates}
+                initialFocus
+                className="rounded-md border"
+              />
+            </PopoverContent>
+          </Popover>
+          {errors.date && <p className="text-[10px] sm:text-[11px]" style={{ color: '#ef4444' }}>{errors.date}</p>}
         </div>
       )}
 
-      {/* Time Slots - Buttons (like original) */}
-      {data.doctorSelection.doctorId && selectedDay && (
+      {/* Time Slots */}
+      {data.doctorSelection.doctorId && selectedDate && (
         <div>
           <div className="flex items-center gap-2 mb-2 sm:mb-3">
             <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4" style={{ color: '#ff7518' }} />
             <h3 className="font-bold text-[12px] sm:text-[13px]" style={{ color: '#071e36' }}>Select Time</h3>
           </div>
           <p className="text-[11px] sm:text-[12px] mb-2 sm:mb-3" style={{ color: '#62748e' }}>
-            Available time slots for {selectedDay}
+            Available time slots for {format(selectedDate, 'EEEE, MMMM d')}
           </p>
           {errors.time && <p className="text-[11px] sm:text-[12px] mb-2" style={{ color: '#ef4444' }}>{errors.time}</p>}
 
@@ -285,8 +292,8 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
                   variant={selectedTime === slot.time ? "default" : "outline"}
                   className="w-full rounded-[8px] text-[11px] sm:text-[12px] font-semibold transition-all duration-200 h-8 sm:h-9"
                   style={{
-                    background: selectedTime === slot.time ? '#071e36' : '#fff',
-                    borderColor: selectedTime === slot.time ? '#071e36' : '#e0e0e0',
+                    background: selectedTime === slot.time ? '#ff7518' : '#fff',
+                    borderColor: selectedTime === slot.time ? '#ff7518' : '#e0e0e0',
                     color: selectedTime === slot.time ? '#fff' : '#62748e',
                   }}
                   onClick={() => handleSlotSelect(slot.time)}
@@ -298,8 +305,8 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
           ) : (
             <div className="text-center py-4 sm:py-6 border rounded-lg" style={{ borderColor: '#e0e0e0', background: '#f8fafc' }}>
               <Clock className="h-5 w-5 sm:h-6 sm:w-6 mx-auto mb-1.5 sm:mb-2" style={{ color: '#62748e' }} />
-              <p className="text-[11px] sm:text-[12px]" style={{ color: '#62748e' }}>No available slots for this day</p>
-              <p className="text-[10px] sm:text-[11px] mt-1" style={{ color: '#62748e' }}>Please select another day.</p>
+              <p className="text-[11px] sm:text-[12px]" style={{ color: '#62748e' }}>No available slots for this date</p>
+              <p className="text-[10px] sm:text-[11px] mt-1" style={{ color: '#62748e' }}>Please select another date.</p>
             </div>
           )}
         </div>
@@ -332,13 +339,13 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
                   selected ? 'ring-2 ring-[#ff7518]/20' : ''
                 }`}
                 style={{
-                  borderColor: selected ? '#071e36' : '#e0e0e0',
+                  borderColor: selected ? '#ff7518' : '#e0e0e0',
                   background: selected ? 'rgba(7,30,54,0.04)' : '#fff',
                 }}
               >
                 {selected && (
-                  <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center" style={{ background: '#071e36' }}>
-                    <CheckCircle2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
+                  <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center" style={{ background: '#ff7518' }}>
+                    <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                   </div>
                 )}
                 <div className="flex items-start gap-2">
