@@ -247,7 +247,7 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
                 style={{ borderColor: errors.date ? '#ef4444' : '#e0e0e0' }}
               >
                 <CalendarIcon className="mr-2 h-3.5 w-3.5" style={{ color: '#ff7518' }} />
-                {selectedDate ? format(selectedDate, 'EEEE, MMMM d, yyyy') : <span style={{ color: '#62748e' }}>Pick a date</span>}
+                {selectedDate ? format(selectedDate, 'EEEE, MMMM d, yyyy') : <span style={{ color: '#ff7518' }}>Pick a date</span>}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
@@ -257,7 +257,7 @@ export function DoctorSelectionStep({ onNext, onBack }: DoctorSelectionStepProps
                 onSelect={handleDateSelect}
                 disabled={disablePastDates}
                 initialFocus
-                className="rounded-md border"
+                className="rounded-md border "
               />
             </PopoverContent>
           </Popover>
