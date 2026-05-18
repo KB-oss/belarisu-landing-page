@@ -131,7 +131,7 @@ const TEAM: TeamMember[] = [
   {
     name: 'Martin W. Kamau',
     credentials: 'BDS, MDS (OMFS), FAOCMF',
-    role: 'Lead Surgeon',
+    role: 'Co-Founder and Lead Surgeon',
     dept: 'Clinical',
     img: IMG_CARE_2,
     bio: 'Martin W. Kamau is the co-founder and Lead Surgeon at BelaRisu Medical Centre, with over a decade of experience in Dental and Oral-Maxillofacial Surgery. His extensive field experience across the continent has been instrumental in shaping the Centre\'s establishment, its life-changing cleft care programs, and the development of the training hub that equips the next generation of surgical professionals. He has pioneered innovative cleft care initiatives by combining local expertise with global standards, and his visionary leadership in surgical care continues to drive BelaRisu\'s mission to deliver high-quality, equitable, and patient-centered care.',
@@ -139,7 +139,7 @@ const TEAM: TeamMember[] = [
   },
   {
     name: 'Abdulhakim Kimani',
-    role: 'Chief Operating Officer',
+    role: 'Co-Founder and Chief Operating Officer',
     dept: 'Leadership',
     img: IMG_CARE_3,
     bio: 'Abdulhakim Kimani is the visionary co-founder of BelaRisu Medical Centre, playing an instrumental role in establishing the Centre, shaping its mission, and stewarding it into the beacon of hope it is today. As Chief Operating Officer, he oversees day-to-day operations and drives interdisciplinary initiatives that strengthen patient-centered programs. An avid field team leader, he further advances the Centre\'s mission across the continent through its Foundation arm, bringing hands-on leadership to programs on the ground. Abdulhakim is also an accomplished humanitarian photographer, using visual storytelling to connect the wider public with the Centre and the children and families it serves.',
