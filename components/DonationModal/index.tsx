@@ -33,8 +33,6 @@ export default function DonationModal({ onClose }: DonationModalProps) {
   const [payMethod, setPayMethod] = useState<PayMethod>('mpesa'); // Default to M-Pesa
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>('idle');
   const [completedAmount, setCompletedAmount] = useState<number>(0);
-  const [completedPhone, setCompletedPhone] = useState<string>('');
-
   // Close on Escape
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
