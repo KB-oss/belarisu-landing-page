@@ -1,7 +1,6 @@
 'use client'
 
 import { createContext, useContext, useState } from 'react'
-
 export interface DonationContextValue {
   open: boolean
   openModal: () => void
