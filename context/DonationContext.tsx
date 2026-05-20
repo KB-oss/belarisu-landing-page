@@ -7,7 +7,6 @@ export interface DonationContextValue {
   openModal: () => void
   closeModal: () => void
 }
-
 const DonationContext = createContext<DonationContextValue | null>(null)
 
 export function DonationProvider({ children }: { children: React.ReactNode }) {
