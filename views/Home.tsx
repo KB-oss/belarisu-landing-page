@@ -16,8 +16,7 @@ const HERO_IMGS = [
   'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512757/Frame_49_wom4rs.png',
   'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512755/Frame_48_y96n0n.png'
 ]
-const BEFORE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002965/1H4A1675_rngiou.jpg'
-const AFTER_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778002968/1H4A2346_kosbyt.jpg'
+
 const DONATE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246041/0B2A0278_1_sy7sb7.webp'
 
 const PATIENT_GALLERY = [
