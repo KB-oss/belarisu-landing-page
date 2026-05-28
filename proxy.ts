@@ -3,15 +3,20 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export function proxy(request: NextRequest) {
     const response = NextResponse.next();
+    const pathname = request.nextUrl.pathname;
     
-    // Only apply CSP to page routes, not API routes
-    if (!request.nextUrl.pathname.startsWith('/api')) {
+    const shouldApplyCSP = 
+        !pathname.startsWith('/api') && 
+        !pathname.startsWith('/_next/static') &&
+        !pathname.includes('.');
+    
+    if (shouldApplyCSP) {
         const cspHeader = [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.cybersource.com",
-            "style-src 'self' 'unsafe-inline'",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.cybersource.com https://*.googleapis.com https://*.gstatic.com",
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+            "font-src 'self' data: https://fonts.gstatic.com",
             "img-src 'self' data: https:",
-            "font-src 'self' data:",
             "frame-src 'self' https://*.cybersource.com",
             "connect-src 'self' https://*.cybersource.com https://*.vercel.app",
             "frame-ancestors 'none'",
@@ -26,5 +31,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-    matcher: '/((?!_next/static|_next/image|favicon.ico|api).*)',
+    matcher: '/((?!_next/static|_next/image|favicon.ico).*)',
 };
