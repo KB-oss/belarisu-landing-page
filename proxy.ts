@@ -1,7 +1,7 @@
 // middleware.ts
 import { NextRequest, NextResponse } from 'next/server';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
     const response = NextResponse.next();
     
     // Only apply CSP to page routes, not API routes
