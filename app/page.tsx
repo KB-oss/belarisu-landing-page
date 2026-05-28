@@ -14,7 +14,6 @@ export const metadata: Metadata = {
     url: 'https://belarisumedical.org',
   },
 }
-
 const page = () => {
   return (
     <div><Home /></div>
