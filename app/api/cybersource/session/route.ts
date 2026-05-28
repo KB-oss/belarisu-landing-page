@@ -12,11 +12,11 @@ export async function POST(req: NextRequest) {
         const secretKey = process.env.CYBERSOURCE_SECRET_KEY!;
         const host = 'apitest.cybersource.com';
 
-        // const targetOrigin = process.env.NEXT_PUBLIC_APP_URL
+        const targetOrigin = process.env.NEXT_PUBLIC_CYBER_SOURCE_APP_URL
         const formattedAmount = amount.toFixed(2);
 
         const requestBody = {
-            targetOrigins: ['https://joaquin-frenular-daylily.ngrok-free.dev'],
+            targetOrigins: [targetOrigin],
             clientVersion: "1.0",
             allowedCardNetworks: ["VISA", "MASTERCARD"],
             allowedPaymentTypes: ["PANENTRY"],
