@@ -12,14 +12,15 @@ export async function POST(req: NextRequest) {
         const secretKey = process.env.CYBERSOURCE_SECRET_KEY!;
         const host = 'apitest.cybersource.com';
 
-        const targetOrigin = process.env.NEXT_PUBLIC_CYBER_SOURCE_APP_URL
+        const targetOrigin = process.env.NEXT_PUBLIC_CYBER_SOURCE_APP_URL;
         const formattedAmount = amount.toFixed(2);
 
+        // UPDATED REQUEST BODY - More complete structure
         const requestBody = {
             targetOrigins: [targetOrigin?.toString()],
             clientVersion: "1.0",
             allowedCardNetworks: ["VISA", "MASTERCARD"],
-            allowedPaymentTypes: ["PANENTRY"],
+            allowedPaymentTypes: ["PANENTRY", "CARD"],
             country: "US",
             locale: "en_US",
             captureMandate: {
@@ -27,7 +28,9 @@ export async function POST(req: NextRequest) {
                 requestEmail: true,
                 requestPhone: false,
                 requestShipping: false,
-                showAcceptedNetworkIcons: true
+                showAcceptedNetworkIcons: true,
+                showSameShippingAddressToggle: false,
+                showAcceptedNetworkIconsOnPaymentButton: true
             },
             data: {
                 orderInformation: {
@@ -35,6 +38,23 @@ export async function POST(req: NextRequest) {
                         totalAmount: formattedAmount,
                         currency: currency
                     }
+                },
+                buyerInformation: {
+                    email: "test@example.com",  // Add test email
+                    firstName: "Test",
+                    lastName: "User"
+                }
+            },
+            // Add these important fields
+            clientLibrary: "UnifiedCheckout",
+            components: {
+                orderSummary: {
+                    enabled: true,
+                    displayType: "DEFAULT"
+                },
+                payment: {
+                    enabled: true,
+                    displayType: "FORM"
                 }
             }
         };
@@ -60,20 +80,14 @@ export async function POST(req: NextRequest) {
         });
 
         if (response.status === 201 || response.status === 200) {
-            // Get the capture context JWT
             const captureContext = await response.text();
-
-            // Decode the JWT to extract clientLibrary and clientLibraryIntegrity
             const decoded = decodeJWT(captureContext);
 
             console.log('Decoded JWT payload:', JSON.stringify(decoded, null, 2));
 
-            // Extract clientLibrary and clientLibraryIntegrity from the decoded payload
-            // The structure may vary - check the logs to see where these values are
             let clientLibrary = '';
             let clientLibraryIntegrity = '';
 
-            // Try different possible paths in the decoded JWT
             if (decoded?.data?.clientLibrary) {
                 clientLibrary = decoded.data.clientLibrary;
                 clientLibraryIntegrity = decoded.data.clientLibraryIntegrity || '';
@@ -119,7 +133,6 @@ export async function POST(req: NextRequest) {
     }
 }
 
-// Helper function to decode JWT without verification
 function decodeJWT(token: string): any {
     try {
         const parts = token.split('.');
@@ -128,7 +141,6 @@ function decodeJWT(token: string): any {
             return null;
         }
 
-        // Decode the payload (second part)
         const base64Url = parts[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {

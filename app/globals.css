@@ -256,3 +256,17 @@
 .font-avenir-light {
   font-weight: 300;
 }
+
+/* Allow Cybersource iframe to expand to full height */
+.cybersource-payment-container iframe {
+  width: 100% !important;
+  min-height: 400px !important;
+  height: auto !important;
+  border: none !important;
+}
+
+/* Remove any height restrictions on the container */
+#cybersource-payment-container {
+  min-height: 450px;
+  height: auto !important;
+}
