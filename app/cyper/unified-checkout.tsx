@@ -41,8 +41,10 @@ export function UnifiedCheckout({
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [sdkLoaded, setSdkLoaded] = useState(false);
+    const [containerReady, setContainerReady] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const initializedRef = useRef(false);
+    const containerId = 'cybersource-payment-container'; // Use ID for more reliable mounting
 
     // Step 1: Load the SDK script
     useEffect(() => {
@@ -50,8 +52,7 @@ export function UnifiedCheckout({
 
         console.log('Loading SDK from:', clientLibrary);
         
-        // Check if SDK is already loaded
-        if (window.VAS?.UnifiedCheckout) {
+        if (window?.VAS?.UnifiedCheckout) {
             console.log('SDK already loaded');
             setSdkLoaded(true);
             return;
@@ -67,7 +68,6 @@ export function UnifiedCheckout({
         
         script.onload = () => {
             console.log('SDK script loaded successfully');
-            // Small delay to ensure SDK is fully initialized
             setTimeout(() => {
                 setSdkLoaded(true);
             }, 200);
@@ -83,50 +83,66 @@ export function UnifiedCheckout({
         document.head.appendChild(script);
         
         return () => {
-            // Cleanup
             if (script.parentNode) {
                 script.parentNode.removeChild(script);
             }
         };
     }, [clientLibrary, clientLibraryIntegrity]);
 
-    // Step 2: Initialize checkout once SDK is loaded
+    // Step 2: Mark container as ready after render
     useEffect(() => {
-        if (!sdkLoaded || !window.VAS?.UnifiedCheckout || initializedRef.current) return;
+        if (containerRef.current) {
+            console.log('Container element is ready');
+            setContainerReady(true);
+        }
+    }, []);
+
+    // Step 3: Initialize checkout once SDK is loaded AND container is ready
+    useEffect(() => {
+        if (!sdkLoaded || !containerReady || !window.VAS?.UnifiedCheckout || initializedRef.current) return;
         
         const initCheckout = async () => {
             try {
                 initializedRef.current = true;
                 console.log('Initializing Unified Checkout...');
                 console.log('Capture context length:', captureContext.length);
-         
+                
+                // Wait an additional moment for the container to be fully rendered
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                // Verify container exists in DOM
+                const container = document.getElementById(containerId);
+                if (!container) {
+                    throw new Error(`Container #${containerId} not found in DOM`);
+                }
+                
+                console.log('Container found in DOM:', container);
                 
                 // Initialize the SDK
-                const client = await window.VAS?.UnifiedCheckout(captureContext);
+                const client = await window?.VAS?.UnifiedCheckout(captureContext);
                 console.log('Client created successfully');
                 
                 // Create checkout with autoProcessing
                 const checkout = await client?.createCheckout({ autoProcessing: true });
                 console.log('Checkout created successfully');
                 
-                // Mount to container
-                if (containerRef.current) {
-                    console.log('Mounting to container...');
-                    const result = await checkout?.mount(containerRef.current);
-                    console.log('Mount result:', result);
-                    
-                    if (result?.transactionId) {
-                        console.log('Payment completed:', result.transactionId);
-                        onSuccess(result.transactionId);
-                    }
+                // Mount using string selector (more reliable than ref)
+                console.log('Mounting to container:', `#${containerId}`);
+                const result = await checkout?.mount(`#${containerId}`);
+                console.log('Mount result:', result);
+                
+                if (result?.transactionId) {
+                    console.log('Payment completed:', result.transactionId);
+                    onSuccess(result.transactionId);
                 }
                 
                 setIsLoading(false);
                 
             } catch (err) {
                 console.error('Checkout initialization error:', err);
-                setError(err instanceof Error ? err.message : 'Failed to initialize payment');
-                onError(err instanceof Error ? err.message : 'Failed to initialize payment');
+                const errorMessage = err instanceof Error ? err.message : 'Failed to initialize payment';
+                setError(errorMessage);
+                onError(errorMessage);
                 setIsLoading(false);
                 initializedRef.current = false;
             }
@@ -135,9 +151,11 @@ export function UnifiedCheckout({
         initCheckout();
         
         return () => {
-            // Cleanup if needed
+            if (initializedRef.current) {
+                console.log('Cleaning up checkout...');
+            }
         };
-    }, [sdkLoaded, captureContext, onSuccess, onError]);
+    }, [sdkLoaded, containerReady, captureContext, onSuccess, onError]);
 
     const handleCancel = () => {
         onCancel();
@@ -183,9 +201,10 @@ export function UnifiedCheckout({
                 </div>
             )}
             
-            {/* The SDK will render the payment UI inside this div */}
+            {/* Container with ID - MUST exist before mount() is called */}
             <div 
-                ref={containerRef} 
+                id={containerId}
+                ref={containerRef}
                 className="w-full"
                 style={{ minHeight: '400px', display: isLoading ? 'none' : 'block' }}
             />
