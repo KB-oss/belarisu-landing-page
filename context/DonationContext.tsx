@@ -1,13 +1,11 @@
 'use client'
 
 import { createContext, useContext, useState } from 'react'
-
 export interface DonationContextValue {
   open: boolean
   openModal: () => void
   closeModal: () => void
 }
-
 const DonationContext = createContext<DonationContextValue | null>(null)
 
 export function DonationProvider({ children }: { children: React.ReactNode }) {
