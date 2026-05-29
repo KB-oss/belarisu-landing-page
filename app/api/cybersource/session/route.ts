@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
             targetOrigins: [targetOrigin?.toString()],
             clientVersion: "1.0",
             allowedCardNetworks: ["VISA", "MASTERCARD"],
-            allowedPaymentTypes: ["PANENTRY", "TOKENIZEDCARD"],
+            allowedPaymentTypes: ["PANENTRY"],
             country: "US",
             locale: "en_US",
             captureMandate: {
