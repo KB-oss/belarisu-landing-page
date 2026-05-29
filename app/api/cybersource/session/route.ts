@@ -15,18 +15,42 @@ export async function POST(req: NextRequest) {
         const targetOrigin = process.env.NEXT_PUBLIC_CYBER_SOURCE_APP_URL
         const formattedAmount = amount.toFixed(2);
 
+        // const requestBody = {
+        //     targetOrigins: [targetOrigin?.toString()],
+        //     clientVersion: "1.0",
+        //     allowedCardNetworks: ["VISA", "MASTERCARD"],
+        //     allowedPaymentTypes: ["PANENTRY"],
+        //     country: "US",
+        //     locale: "en_US",
+        //     captureMandate: {
+        //         billingType: "FULL",
+        //         requestEmail: true,
+        //         requestPhone: false,
+        //         requestShipping: false,
+        //         showAcceptedNetworkIcons: true
+        //     },
+        //     data: {
+        //         orderInformation: {
+        //             amountDetails: {
+        //                 totalAmount: formattedAmount,
+        //                 currency: currency
+        //             }
+        //         }
+        //     }
+        // };
+
         const requestBody = {
             targetOrigins: [targetOrigin?.toString()],
             clientVersion: "1.0",
             allowedCardNetworks: ["VISA", "MASTERCARD"],
-            allowedPaymentTypes: ["PANENTRY"],
+            allowedPaymentTypes: ["PANENTRY", "TOKENIZEDCARD"],
             country: "US",
             locale: "en_US",
             captureMandate: {
                 billingType: "FULL",
                 requestEmail: true,
-                requestPhone: false,
-                requestShipping: false,
+                requestPhone: true,
+                requestShipping: true,
                 showAcceptedNetworkIcons: true
             },
             data: {
@@ -34,6 +58,26 @@ export async function POST(req: NextRequest) {
                     amountDetails: {
                         totalAmount: formattedAmount,
                         currency: currency
+                    },
+                    billTo: {
+                        firstName: "John",
+                        lastName: "Doe",
+                        email: "john.doe@example.com",
+                        phoneNumber: "4158880000",
+                        address1: "1 Market St",
+                        locality: "San Francisco",
+                        administrativeArea: "CA",
+                        postalCode: "94105",
+                        country: "US"
+                    },
+                    shipTo: {
+                        firstName: "John",
+                        lastName: "Doe",
+                        address1: "1 Market St",
+                        locality: "San Francisco",
+                        administrativeArea: "CA",
+                        postalCode: "94105",
+                        country: "US"
                     }
                 }
             }
