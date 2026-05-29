@@ -1,10 +1,11 @@
-// middleware.ts
+// proxy.ts - Place in project root (same level as package.json)
 import { NextRequest, NextResponse } from 'next/server';
 
 export function proxy(request: NextRequest) {
     const response = NextResponse.next();
     const pathname = request.nextUrl.pathname;
     
+    // Only apply CSP to page routes, not API routes or static files
     const shouldApplyCSP = 
         !pathname.startsWith('/api') && 
         !pathname.startsWith('/_next/static') &&
@@ -17,8 +18,8 @@ export function proxy(request: NextRequest) {
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
             "font-src 'self' data: https://fonts.gstatic.com",
             "img-src 'self' data: https:",
-            "frame-src 'self' https://*.cybersource.com",
-            "connect-src 'self' https://*.cybersource.com https://*.vercel.app",
+            "frame-src 'self' https://*.cybersource.com http://localhost:3000 https://belarisu-landing-page-liard.vercel.app",
+            "connect-src 'self' https://*.cybersource.com http://localhost:3000 https://belarisu-landing-page-liard.vercel.app",
             "frame-ancestors 'none'",
             "base-uri 'self'",
             "form-action 'self'"
@@ -31,5 +32,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-    matcher: '/((?!_next/static|_next/image|favicon.ico).*)',
+    matcher: '/((?!_next/static|_next/image|favicon.ico|api).*)',
 };
