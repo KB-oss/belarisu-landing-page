@@ -1,7 +1,9 @@
-// middleware.ts - Allow all HTTPS sites for styles
+// middleware.ts
 import { NextRequest, NextResponse } from 'next/server';
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
+    console.log('✅ MIDDLEWARE IS RUNNING for:', request.nextUrl.pathname);
+    
     const response = NextResponse.next();
     const pathname = request.nextUrl.pathname;
     
@@ -11,10 +13,16 @@ export function proxy(request: NextRequest) {
         ? 'https://belarisu-landing-page-liard.vercel.app'
         : 'http://localhost:3000';
     
+    console.log('Pathname:', pathname);
+    console.log('isProduction:', isProduction);
+    console.log('targetOrigin:', targetOrigin);
+    
     const shouldApplyCSP = 
         !pathname.startsWith('/api') && 
         !pathname.startsWith('/_next/static') &&
         !pathname.includes('.');
+    
+    console.log('shouldApplyCSP:', shouldApplyCSP);
     
     if (shouldApplyCSP) {
         const cspHeader = [
@@ -30,7 +38,10 @@ export function proxy(request: NextRequest) {
             "form-action 'self'"
         ].join('; ');
         
+        console.log('Setting CSP header:', cspHeader.substring(0, 100) + '...');
         response.headers.set('Content-Security-Policy', cspHeader);
+    } else {
+        console.log('NOT setting CSP header for this path');
     }
     
     return response;
