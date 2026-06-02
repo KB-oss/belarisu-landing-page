@@ -1,7 +1,7 @@
 // middleware.ts - Allow all HTTPS sites for styles
 import { NextRequest, NextResponse } from 'next/server';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
     const response = NextResponse.next();
     const pathname = request.nextUrl.pathname;
     
