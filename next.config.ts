@@ -17,11 +17,10 @@ const nextConfig = {
                 headers: [
                     {
                         key: 'Content-Security-Policy',
-                        value: "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; img-src * data: blob:; font-src * data:; frame-src *; connect-src *"
+                        value: "default-src 'self'; script-src 'self' https://api.cybersource.com https://flex.cybersource.com https://h.online-metrix.net https://centinelapi.cardinalcommerce.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; frame-src 'self' https://flex.cybersource.com https://h.online-metrix.net https://centinelapi.cardinalcommerce.com; connect-src 'self' https://api.cybersource.com https://flex.cybersource.com https://h.online-metrix.net https://centinelapi.cardinalcommerce.com; img-src 'self' data: https://h.online-metrix.net"
                     }
                 ]
             }
-
         ];
     },
 };
