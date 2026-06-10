@@ -13,7 +13,7 @@ const nextConfig = {
     async headers() {
         return [
             {
-                source: '/:path*',
+                source: '/cyper',
                 headers: [
                     {
                         key: 'Content-Security-Policy',
