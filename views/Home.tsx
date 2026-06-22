@@ -747,7 +747,8 @@ function TransformSection({ currentPatientIndex, setCurrentPatientIndex, current
               autoScroll={true}
               autoSlide={true}
               slideInterval={5000} 
-              interactionPauseDuration={3000}
+              resumeDelay={3000}
+              scrollDuration={5000}
               className="w-full h-full"
               showControls={true}
               scrollReveal={inView}

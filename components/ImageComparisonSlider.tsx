@@ -34,8 +34,8 @@ interface ImageComparisonSliderProps {
   autoSlide?: boolean
   /** Duration to show each image before sliding to next in milliseconds */
   slideInterval?: number
-  /** Duration to pause auto-slide after user interaction in milliseconds */
-  interactionPauseDuration?: number
+  /** Delay before auto-slide resumes after user interaction in milliseconds */
+  resumeDelay?: number
 }
 
 export default function ImageComparisonSlider({
@@ -54,27 +54,29 @@ export default function ImageComparisonSlider({
   scrollDuration = 5000,
   autoSlide = false,
   slideInterval = 5000,
-  interactionPauseDuration = 3000,
+  resumeDelay = 3000,
 }: ImageComparisonSliderProps) {
   const [internalIndex, setInternalIndex] = useState<number>(0)
   const [position, setPosition] = useState<number>(scrollReveal ? 100 : (autoAnimate ? 0 : 50))
   const [dragging, setDragging] = useState<boolean>(false)
   const hasRevealed = useRef<boolean>(false)
-  const [isPaused, setIsPaused] = useState<boolean>(false)
+  const [hasInteracted, setHasInteracted] = useState<boolean>(false)
+  const [scrollInteracted, setScrollInteracted] = useState<boolean>(false)
   const animationFrameRef = useRef<number | null>(null)
   const animationStartTimeRef = useRef<number | null>(null)
   const ref = useRef<HTMLDivElement>(null)
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null)
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const slideTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const pauseTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const resumeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const scrollResumeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const currentIndex = externalIndex !== undefined ? externalIndex : internalIndex
   const currentImage = images[currentIndex]
 
   // Start the continuous back-and-forth animation
   const startAutoAnimation = useCallback(() => {
-    if (!autoAnimate || dragging) return
+    if (!autoAnimate || hasInteracted || dragging) return
     
     // Cancel any existing animation
     if (animationFrameRef.current) {
@@ -85,7 +87,7 @@ export default function ImageComparisonSlider({
     animationStartTimeRef.current = null
     
     const animate = (timestamp: number) => {
-      if (!autoAnimate || dragging) {
+      if (!autoAnimate || hasInteracted || dragging) {
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current)
           animationFrameRef.current = null
@@ -126,7 +128,7 @@ export default function ImageComparisonSlider({
     }
     
     animationFrameRef.current = requestAnimationFrame(animate)
-  }, [autoAnimate, animationDuration, dragging])
+  }, [autoAnimate, animationDuration, hasInteracted, dragging])
   
   // Stop the auto animation
   const stopAutoAnimation = useCallback(() => {
@@ -139,7 +141,7 @@ export default function ImageComparisonSlider({
   
   // Reset animation for new image
   const resetAnimationForNewImage = useCallback(() => {
-    if (autoAnimate) {
+    if (autoAnimate && !hasInteracted) {
       // Reset position to 0
       setPosition(0)
       // Restart animation
@@ -149,11 +151,11 @@ export default function ImageComparisonSlider({
         startAutoAnimation()
       }, 50)
     }
-  }, [autoAnimate, stopAutoAnimation, startAutoAnimation])
+  }, [autoAnimate, hasInteracted, stopAutoAnimation, startAutoAnimation])
   
   // Start/stop animation based on props and interaction
   useEffect(() => {
-    if (autoAnimate && !dragging) {
+    if (autoAnimate && !hasInteracted && !dragging) {
       startAutoAnimation()
     } else {
       stopAutoAnimation()
@@ -162,7 +164,7 @@ export default function ImageComparisonSlider({
     return () => {
       stopAutoAnimation()
     }
-  }, [autoAnimate, dragging, startAutoAnimation, stopAutoAnimation])
+  }, [autoAnimate, hasInteracted, dragging, startAutoAnimation, stopAutoAnimation])
   
   // Reset animation when image changes
   useEffect(() => {
@@ -171,7 +173,7 @@ export default function ImageComparisonSlider({
 
   // Auto-scroll functionality
   const startAutoScroll = useCallback(() => {
-    if (!autoScroll || dragging) return
+    if (!autoScroll || scrollInteracted || dragging) return
     
     // Clear any existing timeout
     if (scrollTimeoutRef.current) {
@@ -185,7 +187,7 @@ export default function ImageComparisonSlider({
     const totalDuration = scrollDuration * 2 // Full cycle: reveal + hide
     
     const animateScroll = (timestamp: number) => {
-      if (!autoScroll || dragging) {
+      if (!autoScroll || scrollInteracted || dragging) {
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current)
           animationFrameRef.current = null
@@ -223,7 +225,7 @@ export default function ImageComparisonSlider({
     }
     
     animationFrameRef.current = requestAnimationFrame(animateScroll)
-  }, [autoScroll, scrollDuration, dragging])
+  }, [autoScroll, scrollDuration, scrollInteracted, dragging])
 
   const stopAutoScroll = useCallback(() => {
     if (animationFrameRef.current) {
@@ -237,9 +239,29 @@ export default function ImageComparisonSlider({
     animationStartTimeRef.current = null
   }, [])
 
+  // Resume auto-scroll after user interaction
+  const resumeAutoScroll = useCallback(() => {
+    if (!autoScroll) return
+    
+    // Clear any existing resume timeout
+    if (scrollResumeTimeoutRef.current) {
+      clearTimeout(scrollResumeTimeoutRef.current)
+      scrollResumeTimeoutRef.current = null
+    }
+    
+    // Set a timeout to resume auto-scroll
+    scrollResumeTimeoutRef.current = setTimeout(() => {
+      setScrollInteracted(false)
+      // Reset position for the new image
+      setPosition(0)
+      // Start auto-scroll again
+      startAutoScroll()
+    }, resumeDelay)
+  }, [autoScroll, resumeDelay, startAutoScroll])
+
   // Auto-slide functionality
   const startAutoSlide = useCallback(() => {
-    if (!autoSlide || dragging || images.length <= 1 || isPaused) return
+    if (!autoSlide || images.length <= 1) return
     
     // Clear any existing timeout
     if (slideTimeoutRef.current) {
@@ -249,7 +271,7 @@ export default function ImageComparisonSlider({
 
     // Set a timeout to go to the next image
     slideTimeoutRef.current = setTimeout(() => {
-      if (!autoSlide || dragging || isPaused) return
+      if (!autoSlide) return
       
       const nextIndex = (currentIndex + 1) % images.length
       if (onIndexChange) {
@@ -264,7 +286,7 @@ export default function ImageComparisonSlider({
       // Restart the slide timer
       startAutoSlide()
     }, slideInterval)
-  }, [autoSlide, slideInterval, dragging, isPaused, currentIndex, images.length, onIndexChange])
+  }, [autoSlide, slideInterval, currentIndex, images.length, onIndexChange])
 
   const stopAutoSlide = useCallback(() => {
     if (slideTimeoutRef.current) {
@@ -273,28 +295,25 @@ export default function ImageComparisonSlider({
     }
   }, [])
 
-  // Pause auto-slide temporarily after user interaction
-  const pauseAutoSlide = useCallback(() => {
+  // Resume auto-slide after user interaction
+  const resumeAutoSlide = useCallback(() => {
     if (!autoSlide) return
     
-    setIsPaused(true)
-    stopAutoSlide()
-    
-    // Clear any existing pause timeout
-    if (pauseTimeoutRef.current) {
-      clearTimeout(pauseTimeoutRef.current)
-      pauseTimeoutRef.current = null
+    // Clear any existing resume timeout
+    if (resumeTimeoutRef.current) {
+      clearTimeout(resumeTimeoutRef.current)
+      resumeTimeoutRef.current = null
     }
     
-    // Resume after the pause duration
-    pauseTimeoutRef.current = setTimeout(() => {
-      setIsPaused(false)
-      if (autoSlide && !dragging) {
-        startAutoSlide()
-      }
-      pauseTimeoutRef.current = null
-    }, interactionPauseDuration)
-  }, [autoSlide, stopAutoSlide, startAutoSlide, dragging, interactionPauseDuration])
+    // Set a timeout to resume auto-slide
+    resumeTimeoutRef.current = setTimeout(() => {
+      setHasInteracted(false)
+      // Reset position for the new image
+      setPosition(0)
+      // Start auto-slide again
+      startAutoSlide()
+    }, resumeDelay)
+  }, [autoSlide, resumeDelay, startAutoSlide])
 
   const move = useCallback(
     (clientX: number) => {
@@ -303,18 +322,27 @@ export default function ImageComparisonSlider({
       const pos = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100))
       setPosition(pos)
       
-      // Pause auto-slide on user interaction
-      if (autoSlide && !isPaused) {
-        pauseAutoSlide()
+      // For auto-scroll: mark as interacted and schedule resume
+      if (autoScroll && !scrollInteracted) {
+        setScrollInteracted(true)
+        stopAutoScroll()
+        resumeAutoScroll()
       }
       
-      // Stop auto-animation/scroll on user interaction
-      if ((autoAnimate || autoScroll) && !dragging) {
+      // For auto-slide: mark as interacted and schedule resume
+      if (autoSlide && !hasInteracted) {
+        setHasInteracted(true)
+        stopAutoSlide()
+        resumeAutoSlide()
+      }
+      
+      // For auto-animate
+      if (autoAnimate && !hasInteracted) {
+        setHasInteracted(true)
         stopAutoAnimation()
-        stopAutoScroll()
       }
     },
-    [dragging, autoSlide, isPaused, pauseAutoSlide, autoAnimate, autoScroll, stopAutoAnimation, stopAutoScroll],
+    [dragging, autoScroll, autoSlide, autoAnimate, scrollInteracted, hasInteracted, stopAutoScroll, resumeAutoScroll, stopAutoSlide, resumeAutoSlide, stopAutoAnimation],
   )
 
   const nextImage = useCallback(() => {
@@ -327,21 +355,29 @@ export default function ImageComparisonSlider({
     // Reset position for the new image
     setPosition(0)
     
-    // Pause auto-slide on user interaction
-    if (autoSlide) {
-      pauseAutoSlide()
+    // For auto-scroll: mark as interacted and schedule resume
+    if (autoScroll) {
+      setScrollInteracted(true)
+      stopAutoScroll()
+      resumeAutoScroll()
     }
     
-    // Restart auto-animation/scroll if needed
+    // For auto-slide: mark as interacted and schedule resume
+    if (autoSlide) {
+      setHasInteracted(true)
+      stopAutoSlide()
+      resumeAutoSlide()
+    }
+    
+    // Reset interaction state when manually changing images for auto-animate
     if (autoAnimate) {
+      setHasInteracted(false)
       stopAutoAnimation()
-      setTimeout(() => startAutoAnimation(), 50)
+      setTimeout(() => {
+        startAutoAnimation()
+      }, 100)
     }
-    if (autoScroll) {
-      stopAutoScroll()
-      setTimeout(() => startAutoScroll(), 50)
-    }
-  }, [currentIndex, images.length, onIndexChange, autoSlide, pauseAutoSlide, autoAnimate, autoScroll, stopAutoAnimation, startAutoAnimation, stopAutoScroll, startAutoScroll])
+  }, [currentIndex, images.length, onIndexChange, autoScroll, autoSlide, autoAnimate, stopAutoScroll, resumeAutoScroll, stopAutoSlide, resumeAutoSlide, stopAutoAnimation, startAutoAnimation])
 
   const previousImage = useCallback(() => {
     const prevIndex = (currentIndex - 1 + images.length) % images.length
@@ -353,21 +389,29 @@ export default function ImageComparisonSlider({
     // Reset position for the new image
     setPosition(0)
     
-    // Pause auto-slide on user interaction
-    if (autoSlide) {
-      pauseAutoSlide()
+    // For auto-scroll: mark as interacted and schedule resume
+    if (autoScroll) {
+      setScrollInteracted(true)
+      stopAutoScroll()
+      resumeAutoScroll()
     }
     
-    // Restart auto-animation/scroll if needed
+    // For auto-slide: mark as interacted and schedule resume
+    if (autoSlide) {
+      setHasInteracted(true)
+      stopAutoSlide()
+      resumeAutoSlide()
+    }
+    
+    // Reset interaction state when manually changing images for auto-animate
     if (autoAnimate) {
+      setHasInteracted(false)
       stopAutoAnimation()
-      setTimeout(() => startAutoAnimation(), 50)
+      setTimeout(() => {
+        startAutoAnimation()
+      }, 100)
     }
-    if (autoScroll) {
-      stopAutoScroll()
-      setTimeout(() => startAutoScroll(), 50)
-    }
-  }, [currentIndex, images.length, onIndexChange, autoSlide, pauseAutoSlide, autoAnimate, autoScroll, stopAutoAnimation, startAutoAnimation, stopAutoScroll, startAutoScroll])
+  }, [currentIndex, images.length, onIndexChange, autoScroll, autoSlide, autoAnimate, stopAutoScroll, resumeAutoScroll, stopAutoSlide, resumeAutoSlide, stopAutoAnimation, startAutoAnimation])
 
   useEffect(() => {
     if (autoPlayInterval > 0 && images.length > 1 && !autoAnimate && !autoScroll && !autoSlide) {
@@ -382,27 +426,22 @@ export default function ImageComparisonSlider({
     if (autoPlayRef.current) clearInterval(autoPlayRef.current)
     if (autoAnimate) stopAutoAnimation()
     if (autoScroll) stopAutoScroll()
-    if (autoSlide) {
-      stopAutoSlide()
-      // Don't pause auto-slide on hover, only on click/drag
-    }
+    if (autoSlide) stopAutoSlide()
   }, [autoAnimate, autoScroll, autoSlide, stopAutoAnimation, stopAutoScroll, stopAutoSlide])
 
   const resumeAutoplay = useCallback(() => {
-    if (autoPlayInterval > 0 && images.length > 1 && !autoAnimate && !autoScroll && !autoSlide) {
+    if (autoPlayInterval > 0 && images.length > 1 && !autoAnimate && !autoScroll && !autoSlide && !hasInteracted) {
       if (autoPlayRef.current) clearInterval(autoPlayRef.current)
       autoPlayRef.current = setInterval(nextImage, autoPlayInterval)
     }
-    if (autoAnimate && !dragging) {
+    if (autoAnimate && !hasInteracted && !dragging) {
       startAutoAnimation()
     }
-    if (autoScroll && !dragging) {
+    if (autoScroll && !scrollInteracted && !dragging) {
       startAutoScroll()
     }
-    if (autoSlide && !dragging && !isPaused) {
-      startAutoSlide()
-    }
-  }, [nextImage, autoPlayInterval, images.length, autoAnimate, autoScroll, autoSlide, dragging, isPaused, startAutoAnimation, startAutoScroll, startAutoSlide])
+    // Auto-slide is handled separately via resumeAutoSlide
+  }, [nextImage, autoPlayInterval, images.length, autoAnimate, autoScroll, autoSlide, hasInteracted, scrollInteracted, dragging, startAutoAnimation, startAutoScroll])
 
   useEffect(() => {
     const up = () => setDragging(false)
@@ -431,8 +470,11 @@ export default function ImageComparisonSlider({
       stopAutoAnimation()
       stopAutoScroll()
       stopAutoSlide()
-      if (pauseTimeoutRef.current) {
-        clearTimeout(pauseTimeoutRef.current)
+      if (resumeTimeoutRef.current) {
+        clearTimeout(resumeTimeoutRef.current)
+      }
+      if (scrollResumeTimeoutRef.current) {
+        clearTimeout(scrollResumeTimeoutRef.current)
       }
     }
   }, [stopAutoAnimation, stopAutoScroll, stopAutoSlide])
@@ -459,7 +501,7 @@ export default function ImageComparisonSlider({
 
   // Start auto-scroll when component mounts or props change
   useEffect(() => {
-    if (autoScroll && !dragging) {
+    if (autoScroll && !scrollInteracted && !dragging) {
       startAutoScroll()
     } else {
       stopAutoScroll()
@@ -468,11 +510,11 @@ export default function ImageComparisonSlider({
     return () => {
       stopAutoScroll()
     }
-  }, [autoScroll, dragging, startAutoScroll, stopAutoScroll])
+  }, [autoScroll, scrollInteracted, dragging, startAutoScroll, stopAutoScroll])
 
   // Start auto-slide when component mounts or props change
   useEffect(() => {
-    if (autoSlide && !dragging && !isPaused) {
+    if (autoSlide && !hasInteracted) {
       startAutoSlide()
     } else {
       stopAutoSlide()
@@ -481,7 +523,7 @@ export default function ImageComparisonSlider({
     return () => {
       stopAutoSlide()
     }
-  }, [autoSlide, dragging, isPaused, startAutoSlide, stopAutoSlide])
+  }, [autoSlide, hasInteracted, startAutoSlide, stopAutoSlide])
 
   if (!currentImage) return null
 
@@ -538,7 +580,7 @@ export default function ImageComparisonSlider({
               <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeDasharray="31.4 31.4" />
               <path d="M12 2 L12 6 M12 18 L12 22 M2 12 L6 12 M18 12 L22 12" stroke="currentColor" strokeWidth="2" />
             </svg>
-            {autoScroll ? 'Auto scrolling...' : autoSlide ? (isPaused ? 'Paused...' : 'Auto sliding...') : 'Auto comparing...'}
+            {autoScroll ? 'Auto scrolling...' : autoSlide ? 'Auto sliding...' : 'Auto comparing...'}
           </span>
         </div>
       )}
@@ -549,30 +591,48 @@ export default function ImageComparisonSlider({
         style={{ left: `${position}%` }}
         onMouseDown={() => {
           setDragging(true)
-          // Pause auto-slide on user interaction
-          if (autoSlide && !isPaused) {
-            pauseAutoSlide()
-          }
-          // Stop auto-animation/scroll on user interaction
-          if (autoAnimate) {
-            stopAutoAnimation()
-          }
-          if (autoScroll) {
+          
+          // For auto-scroll: mark as interacted and schedule resume
+          if (autoScroll && !scrollInteracted) {
+            setScrollInteracted(true)
             stopAutoScroll()
+            resumeAutoScroll()
+          }
+          
+          // For auto-slide: mark as interacted and schedule resume
+          if (autoSlide && !hasInteracted) {
+            setHasInteracted(true)
+            stopAutoSlide()
+            resumeAutoSlide()
+          }
+          
+          // For auto-animate
+          if (autoAnimate && !hasInteracted) {
+            setHasInteracted(true)
+            stopAutoAnimation()
           }
         }}
         onTouchStart={() => {
           setDragging(true)
-          // Pause auto-slide on user interaction
-          if (autoSlide && !isPaused) {
-            pauseAutoSlide()
-          }
-          // Stop auto-animation/scroll on user interaction
-          if (autoAnimate) {
-            stopAutoAnimation()
-          }
-          if (autoScroll) {
+          
+          // For auto-scroll: mark as interacted and schedule resume
+          if (autoScroll && !scrollInteracted) {
+            setScrollInteracted(true)
             stopAutoScroll()
+            resumeAutoScroll()
+          }
+          
+          // For auto-slide: mark as interacted and schedule resume
+          if (autoSlide && !hasInteracted) {
+            setHasInteracted(true)
+            stopAutoSlide()
+            resumeAutoSlide()
+          }
+          
+          // For auto-animate
+          if (autoAnimate && !hasInteracted) {
+            setHasInteracted(true)
+            stopAutoAnimation()
           }
         }}
       >
@@ -622,22 +682,29 @@ export default function ImageComparisonSlider({
                   } else {
                     setInternalIndex(idx)
                   }
-                  // Reset position for the new image
                   setPosition(0)
                   
-                  // Pause auto-slide on user interaction
-                  if (autoSlide) {
-                    pauseAutoSlide()
+                  // For auto-scroll: mark as interacted and schedule resume
+                  if (autoScroll) {
+                    setScrollInteracted(true)
+                    stopAutoScroll()
+                    resumeAutoScroll()
                   }
                   
-                  // Restart auto-animation/scroll if needed
-                  if (autoAnimate) {
-                    stopAutoAnimation()
-                    setTimeout(() => startAutoAnimation(), 50)
+                  // For auto-slide: mark as interacted and schedule resume
+                  if (autoSlide) {
+                    setHasInteracted(true)
+                    stopAutoSlide()
+                    resumeAutoSlide()
                   }
-                  if (autoScroll) {
-                    stopAutoScroll()
-                    setTimeout(() => startAutoScroll(), 50)
+                  
+                  // Reset interaction state when manually changing images for auto-animate
+                  if (autoAnimate) {
+                    setHasInteracted(false)
+                    stopAutoAnimation()
+                    setTimeout(() => {
+                      startAutoAnimation()
+                    }, 100)
                   }
                 }}
                 className={`transition-all rounded-full ${
