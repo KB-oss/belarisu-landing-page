@@ -21,62 +21,62 @@ const DONATE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_a
 
 const PATIENT_GALLERY = [
   {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_copy_lfxtir.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_1_copy_cwkfkx.webp',
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_before_aj2vth.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Abdirakib_Ismail_-_Cleft_Lip_and_Cleft_Palate_-_12_years_-_Garissa_pzbeeu.webp',
     patientName: 'Abdirakib Ismail',
     age: '12 years old',
     condition: 'Cleft Lip and Cleft Palate',
     location: 'Garissa'
   },
   {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Amari_Nderitu_Muriithi_-_Cleft_Lip_-_2_months_-_Kiambu_copy_yjikgu.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Amari_Nderitu_Muriithi_-_Cleft_Lip_-_2_months_-_Kiambu_1_copy_llmasr.webp',
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1781881280/Amari_Nderitu_Muriithi_-_Cleft_Lip_-_2_months_-_Kiambu_before_hu4vun.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1781881278/Amari_Nderitu_Muriithi_-_Cleft_Lip_-_2_months_-_Kiamb_j88rxp.webp',
     patientName: 'Amari Nderitu Muriithi',
     age: '2 months old',
     condition: 'Cleft Lip',
     location: 'Kiambu'
   },
   {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542419/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_copy_xfbrwj.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_1_copy_cpk19z.webp',
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_before_n2erco.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_yycvtw.webp',
     patientName: 'Amelia Chreseria Njeri',
     age: '4 years old',
     condition: 'Cleft Lip and Cleft Palate',
     location: 'Ruiru'
   },
   {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542419/Artboard_2_usn13i.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542419/appointment_xpl7gq.webp',
-    patientName: 'Brighton Chacha Marwa',
-    age: '4 years old',
-    condition: 'Cleft Lip',
-    location: 'Nairobi'
-  },
-  {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542420/Bancy_Muthoni_-_Cleft_Lip_and_Cleft_Palate_-_11_months_-_Kiambu_copy_rsinmw.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542425/Bancy_Muthoni_-_Cleft_Lip_and_Cleft_Palate_-_11_months_-_Kiambu_1_copy_ja41vf.webp',
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1781881279/Bancy_Muthoni_-_Cleft_Lip_and_Cleft_Palate_-_11_months_-_Kiambu_before_dwvr37.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1781881281/Bancy_Muthoni_-_Cleft_Lip_and_Cleft_Palate_-_11_months_-_Kiambu_xx5p94.webp',
     patientName: 'Bancy Muthoni',
     age: '11 months old',
     condition: 'Cleft Lip and Cleft Palate',
     location: 'Kiambu'
   },
   {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542420/Cleopatra_Njeri_Njunge_-_Cleft_Lip_and_Cleft_Palate_-_1_year_-_Kiambu_copy_mqiyc0.webp',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542423/Cleopatra_Njeri_Njunge_-_Cleft_Lip_and_Cleft_Palate_-_1_year_-_Kiambu_1_copy_ucdtme.webp',
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Cleopatra_Njeri_Njunge_-_Cleft_Lip_and_Cleft_Palate_-_1_year_-_Kiambu_before_iinmsk.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Cleopatra_Njeri_Njunge_-_Cleft_Lip_and_Cleft_Palate_-_1_year_-_Kiambu_c5pbcy.webp',
     patientName: 'Cleopatra Njeri Njunge',
     age: '1 year old',
     condition: 'Cleft Lip and Cleft Palate',
     location: 'Kiambu'
   },
   {
-    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Mateo_Ndungu_Kimiri_-_Cleft_Lip_and_Cleft_Palate_-_1_year_8_months_-_Juja_copy_hur0cf.jpg',
-    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542420/Lucrecia_Reina_Khalumba_-_Cleft_Lip_-_4_years_-_Nairobi_copy_h8wmxb.webp',
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Lucrecia_Reina_Khalumba_-_Cleft_Lip_-_4_years_-_Nairobi_before_vhnryy.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Lucrecia_Reina_Khalumba_-_Cleft_Lip_-_4_years_-_Nairobi_llzgai.webp',
     patientName: 'Lucrecia Reina Khalumba',
     age: '4 years old',
     condition: 'Cleft Lip',
     location: 'Nairobi'
   },
-]
+  {
+    before: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Mateo_Ndungu_Kimiri_-_Cleft_Lip_and_Cleft_Palate_-_1_year_8_months_-_Juja_before_jtalas.webp',
+    after: 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Mateo_Ndungu_Kimiri_-_Cleft_Lip_and_Cleft_Palate_-_1_year_8_months_-_Juja_ioo5u2.webp',
+    patientName: 'Mateo Ndungu Kimiri',
+    age: '1 year 8 months old',
+    condition: 'Cleft Lip and Cleft Palate',
+    location: 'Juja'
+  }
+];
 
 interface ServiceItem {
   title: string
@@ -743,9 +743,13 @@ function TransformSection({ currentPatientIndex, setCurrentPatientIndex, current
               images={PATIENT_GALLERY}
               currentIndex={currentPatientIndex}
               onIndexChange={setCurrentPatientIndex}
-              autoPlayInterval={40000}
+              autoPlayInterval={5000}
+              autoScroll={true}
+              autoSlide={true}
+              slideInterval={5000} 
+              interactionPauseDuration={3000}
               className="w-full h-full"
-              showControls={false}
+              showControls={true}
               scrollReveal={inView}
             />
           </div>
