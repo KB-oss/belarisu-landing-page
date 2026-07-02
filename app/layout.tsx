@@ -76,7 +76,6 @@ export const metadata: Metadata = {
     canonical: BASE_URL,
   },
 }
-
 const orgJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'MedicalOrganization',
