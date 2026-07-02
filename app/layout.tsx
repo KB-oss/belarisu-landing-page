@@ -2,7 +2,7 @@ import ClientShell from '@/components/ClientShell'
 import './globals.css'
 import type { Metadata } from 'next'
 
-const BASE_URL = 'https://belarisumedical.org'
+const BASE_URL = 'https://www.belarisumedicalcentre.org'
 const OG_IMAGE = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246041/0B2A0278_1_sy7sb7.webp'
 
 export const metadata: Metadata = {
@@ -14,6 +14,16 @@ export const metadata: Metadata = {
   description:
     'Bela Risu Medical Centre provides free, comprehensive cleft lip and cleft palate care — surgery, nutrition, speech therapy, dental & psychosocial support — for children and families across Africa.',
   keywords: [
+    'belarisu medical centre',
+    'belarisu medical',
+    'belarisu',
+    'BMC medical centre',
+    'Bela Risu Medical Centre',
+    'Bela Risu',    
+    'belarisumedical.org',
+    'Bela Risu Medical Centre Nairobi',
+    'BMC Nairobi',
+    'Bela Risu cleft care',
     'cleft lip surgery Kenya',
     'cleft palate treatment Africa',
     'free cleft surgery Nairobi',
@@ -73,7 +83,7 @@ const orgJsonLd = {
   name: 'Bela Risu Medical Centre',
   alternateName: 'BMC',
   url: BASE_URL,
-  logo: `${BASE_URL}/BMCLogo.svg`,
+  logo: `${BASE_URL}/logo.svg`,
   image: OG_IMAGE,
   description:
     'Bela Risu Medical Centre provides free, comprehensive cleft lip and cleft palate care — surgery, nutrition, speech therapy, dental & psychosocial support — for children and families across Africa.',
