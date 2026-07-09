@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     'BMC medical centre',
     'Bela Risu Medical Centre',
     'Bela Risu',    
-    'belarisumedical.org',
+    'belarisumedicalcentre.org',
     'Bela Risu Medical Centre Nairobi',
     'BMC Nairobi',
     'Bela Risu cleft care',
@@ -86,7 +86,7 @@ const orgJsonLd = {
   image: OG_IMAGE,
   description:
     'Bela Risu Medical Centre provides free, comprehensive cleft lip and cleft palate care — surgery, nutrition, speech therapy, dental & psychosocial support — for children and families across Africa.',
-  email: 'info@belarisumedical.org',
+  email: 'info@belarisumedicalcentre.org',
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'KE',
