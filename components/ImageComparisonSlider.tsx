@@ -536,11 +536,11 @@ export default function ImageComparisonSlider({
       onMouseLeave={resumeAutoplay}
     >
       {/* BASE LAYER: BEFORE image */}
-      <img 
-        src={currentImage.before} 
-        alt={altBefore} 
-        className="h-full w-full object-cover bg-[#071e36]" 
-        draggable={false} 
+      <img
+        src={currentImage.before}
+        alt={`${currentImage.patientName}, ${currentImage.condition} — before free cleft surgery at Bela Risu Medical Centre${currentImage.location ? `, ${currentImage.location}` : ''}`}
+        className="h-full w-full object-cover bg-[#071e36]"
+        draggable={false}
       />
       
       {/* BEFORE badge */}
@@ -553,11 +553,11 @@ export default function ImageComparisonSlider({
         className="absolute inset-0 overflow-hidden"
         style={{ clipPath: `inset(0 0 0 ${position}%)` }}
       >
-        <img 
-          src={currentImage.after} 
-          alt={altAfter} 
-          className="h-full w-full object-cover bg-[#071e36]" 
-          draggable={false} 
+        <img
+          src={currentImage.after}
+          alt={`${currentImage.patientName}, ${currentImage.condition} — after free cleft surgery at Bela Risu Medical Centre${currentImage.location ? `, ${currentImage.location}` : ''}`}
+          className="h-full w-full object-cover bg-[#071e36]"
+          draggable={false}
         />
         
         {/* AFTER badge */}

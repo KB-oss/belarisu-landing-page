@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     'belarisu',
     'BMC medical centre',
     'BelaRisu Medical Centre',
-    'BelaRisu',    
+    'BelaRisu',
     'belarisumedicalcentre.org',
     'BelaRisu Medical Centre Nairobi',
     'BMC Nairobi',
