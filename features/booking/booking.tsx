@@ -165,7 +165,7 @@ export default function BookingPage() {
                   <div className="mt-8 grid grid-cols-2 gap-2">
                     {['Surgery', 'ENT Care', 'Orthodontics', 'Speech Therapy', 'Nutritional Support', 'Psychosocial Care'].map((service) => (
                       <div key={service} className="flex items-center gap-2 py-1.5">
-                        <CircleCheckIcon className="w-4 h-4 shrink-0" />
+                        <CircleCheckIcon className="w-4 h-4 shrink-0 text-accent-dark" />
                         <span className="text-[13px]" style={{ color: 'rgba(255,255,255,0.75)' }}>{service}</span>
                       </div>
                     ))}
