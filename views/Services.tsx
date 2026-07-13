@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Reveal from '../components/Reveal'
 import { useDonation } from '../context/DonationContext'
 import { Heart } from 'lucide-react'
+import { useIsMobile } from '@/hooks/use-is-mobile'
 
 /* ─── Design tokens ─── */
 const PLAYFAIR = "'Playfair Display', Georgia, 'Times New Roman', serif"
@@ -18,6 +19,9 @@ const IMG_NUTRITION = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/
 const IMG_PSYCHO = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000764/pshyocology_gsvwmr.png'
 const IMG_ENT = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778000766/ENT_zwe3nh.png'
 const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246026/Kaylan_Amani_Mumo_2yrs11mnths_1_xcadvp.webp'
+const IMG_DONATE_BG_HOVER = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246026/Kaylan_Amani_Mumo_2yrs11mnths_1_1_xddvuk.webp'
+const IMG_DONATE_BG_MOBILE = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1783886280/auhucpk93ofes59lzc88_uhrjrv.webp'
+const IMG_DONATE_BG_MOBILE_HOVER = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1783886279/et4h2vvjl6saxhvztwi8_oysbsr.webp'
 
 /* ─── Types ─── */
 interface SubItem {
@@ -251,6 +255,9 @@ export default function Services() {
   const [activeId, setActiveId] = useState<string>('surgery')
   const observerRef = useRef<IntersectionObserver | null>(null)
   const [isHovered, setIsHovered] = useState(false);
+  const isMobile = useIsMobile(425)
+  const DONATE_IMGS = isMobile ? IMG_DONATE_BG_MOBILE : IMG_DONATE_BG
+  const DONATE_IMGS_HOVER = isMobile ? IMG_DONATE_BG_MOBILE_HOVER : IMG_DONATE_BG_HOVER
 
 
   /* Intersection observer — highlight active sidebar item */
@@ -365,7 +372,7 @@ export default function Services() {
           >
             {/* Default Image */}
             <motion.img
-              src={IMG_DONATE_BG}
+              src={DONATE_IMGS}
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
               animate={{ opacity: isHovered ? 0 : 1 }}
@@ -374,7 +381,7 @@ export default function Services() {
 
             {/* Hover Image */}
             <motion.img
-              src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246026/Kaylan_Amani_Mumo_2yrs11mnths_1_1_xddvuk.webp"
+              src={DONATE_IMGS_HOVER}
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
               animate={{

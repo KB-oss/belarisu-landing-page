@@ -7,9 +7,10 @@ import Reveal from '../components/Reveal'
 import ImageComparisonSlider from '../components/ImageComparisonSlider'
 import { useDonation } from '../context/DonationContext'
 import { Heart } from 'lucide-react'
+import { useIsMobile } from '@/hooks/use-is-mobile'
 
 /* ─── Assets ─── */
-const HERO_IMGS = [
+const HERO_IMGS_DESKTOP = [
   'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512766/Frame_52_eiru04.png',
   'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512764/Frame_51_rklxyx.png',
   'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512762/Frame_50_gsozrp.png',
@@ -17,7 +18,20 @@ const HERO_IMGS = [
   'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778512755/Frame_48_y96n0n.png'
 ]
 
-const DONATE_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246041/0B2A0278_1_sy7sb7.webp'
+const HERO_IMGS_MOBILE = [
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1783888998/Hero_image_1_lle5h9.webp',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1783888995/Hero_image_2_ul3n4o.webp',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1783888994/Hero_Image_3_eualqv.webp',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1783888993/Hero_image_4_i8ev3w.webp',
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1783888992/Hero_image_5_dktbbr.webp'
+]
+
+const DONATE_IMG_DESKTOP = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246041/0B2A0278_1_sy7sb7.webp'
+const DONATE_IMG_MOBILE = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1783886278/md9e01byyg0uticfz0nk_gh7p8q.webp'
+const DONATE_IMG_DESKTOP_HOVER = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246029/0B2A0279_1_drz6kf.webp'
+const DONATE_IMG_MOBILE_HOVER = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1783886284/dchripd1r18oh9ugpjfe_mmtqdp.webp'
+
+
 
 const PATIENT_GALLERY = [
   {
@@ -230,6 +244,11 @@ const heroWord: Variants = {
 
 /* ═══════════════════════════════════════════════════════ */
 export default function Home() {
+  const isMobile = useIsMobile(425) // 768px is the standard mobile breakpoint
+  // 👇 USE THE APPROPRIATE IMAGE ARRAY BASED ON SCREEN SIZE
+  const HERO_IMGS = isMobile ? HERO_IMGS_MOBILE : HERO_IMGS_DESKTOP
+  const DONATE_IMGS = isMobile ? DONATE_IMG_MOBILE : DONATE_IMG_DESKTOP
+  const DONATE_IMGS_HOVER = isMobile ? DONATE_IMG_MOBILE_HOVER : DONATE_IMG_DESKTOP_HOVER
   const [heroIdx, setHeroIdx] = useHeroSlider(HERO_IMGS, 5000)
   const { openModal } = useDonation()
   const [activeService, setActiveService] = useState<number>(0)
@@ -649,9 +668,9 @@ export default function Home() {
           <div className={WRAP}>
             <div className="relative overflow-hidden rounded-[24px] sm:rounded-[28px]" style={{ minHeight: '440px' }}
               onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-              <motion.img src={DONATE_IMG} alt="" className="absolute inset-0 w-full h-full object-cover"
+              <motion.img src={DONATE_IMGS} alt="" className="absolute inset-0 w-full h-full object-cover"
                 animate={{ opacity: isHovered ? 0 : 1 }} transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }} />
-              <motion.img src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246029/0B2A0279_1_drz6kf.webp" alt=""
+              <motion.img src={DONATE_IMGS_HOVER} alt=""
                 className="absolute inset-0 w-full h-full object-cover"
                 animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1 : 1.02 }}
                 transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], opacity: { duration: 0.7 }, scale: { duration: 0.9, ease: [0.32, 0, 0.67, 0] } }} />
@@ -746,7 +765,7 @@ function TransformSection({ currentPatientIndex, setCurrentPatientIndex, current
               autoPlayInterval={5000}
               autoScroll={true}
               autoSlide={true}
-              slideInterval={5000} 
+              slideInterval={5000}
               resumeDelay={3000}
               scrollDuration={5000}
               className="w-full h-full"

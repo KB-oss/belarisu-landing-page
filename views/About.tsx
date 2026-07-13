@@ -14,6 +14,7 @@ import {
   Award,
   Quote
 } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-is-mobile'
 
 /* ─── Design tokens ─── */
 const PLAYFAIR = "'Playfair Display', Georgia, 'Times New Roman', serif"
@@ -29,7 +30,11 @@ const IMG_CARE_B = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_a
 const IMG_CARE_C = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777997868/Care_That_grows_with_you_3_ufwofk.jpg'
 const IMG_SPLIT_L = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999411/IMG_0011_raryur.jpg'
 const IMG_SPLIT_R = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1777999418/1H4A5074_eymfxz.jpg'
-const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246027/Brighton_Chacha_Marwa_4yrs_1_z0tcog.webp'
+const DONATE_IMG_DESKTOP = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246027/Brighton_Chacha_Marwa_4yrs_1_z0tcog.webp'
+const DONATE_IMG_DESKTOP_HOVER = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246028/Brighton_Chacha_Marwa_4yrs._1_apmux6.webp'
+const DONATE_IMG_MOBILE = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1783886277/x0if6pujpuuns9xozafr_mgrz57.webp'
+const DONATE_IMG_MOBILE_HOVER = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1783886289/gjljrcyxblexcge7a3uk_qbxd3f.webp'
+
 const IMG_QUOTE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778182124/every_smile_1_p8yhro.jpg'
 const IMG_CARE_1 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778001798/ChatGPT_Image_May_5_2026_08_22_15_PM_hvd3dp.png'
 const IMG_CARE_2 = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778538133/ChatGPT_Image_May_12_2026_01_17_08_AM_hipp6k.png'
@@ -227,8 +232,11 @@ function SocialLink({ href, label, children }: SocialLinkProps) {
 /* ═══════════════════════════════════════ */
 export default function About() {
   const { openModal } = useDonation()
+  const isMobile = useIsMobile(425) // 768px is the standard mobile breakpoint
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null)
   const [isHovered, setIsHovered] = useState(false);
+  const DONATE_IMGS = isMobile ? DONATE_IMG_MOBILE : DONATE_IMG_DESKTOP
+  const DONATE_IMGS_HOVER = isMobile ? DONATE_IMG_MOBILE_HOVER : DONATE_IMG_DESKTOP_HOVER
 
   /* Lightbox: lock scroll + close on Escape */
   useEffect(() => {
@@ -512,7 +520,7 @@ export default function About() {
           >
             {/* Default Image */}
             <motion.img
-              src={IMG_DONATE_BG}
+              src={DONATE_IMGS}
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
               animate={{ opacity: isHovered ? 0 : 1 }}
@@ -521,7 +529,7 @@ export default function About() {
 
             {/* Hover Image */}
             <motion.img
-              src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246028/Brighton_Chacha_Marwa_4yrs._1_apmux6.webp"
+              src={DONATE_IMGS_HOVER}
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
               animate={{

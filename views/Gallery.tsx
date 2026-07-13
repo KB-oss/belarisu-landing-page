@@ -4,13 +4,17 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Reveal from '../components/Reveal'
 import { useDonation } from '../context/DonationContext'
 import { Heart } from 'lucide-react'
+import { useIsMobile } from '@/hooks/use-is-mobile'
 
 /* ─── Design tokens ─── */
 const PLAYFAIR = "'Playfair Display', Georgia, 'Times New Roman', serif"
 const WRAP = 'w-full max-w-[1366px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20'
 
 /* ─── Assets ─── */
-const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542419/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_copy_xfbrwj.webp'
+const IMG_DONATE_BG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1778246026/Kaylan_Amani_Mumo_2yrs11mnths_1_xcadvp.webp'
+const IMG_DONATE_BG_HOVER = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1778246026/Kaylan_Amani_Mumo_2yrs11mnths_1_1_xddvuk.webp'
+const IMG_DONATE_BG_MOBILE = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1783886280/auhucpk93ofes59lzc88_uhrjrv.webp'
+const IMG_DONATE_BG_MOBILE_HOVER = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1783886279/et4h2vvjl6saxhvztwi8_oysbsr.webp'
 
 interface GalleryImage {
   src: string | string[]
@@ -188,6 +192,10 @@ export default function Gallery() {
   const { openModal } = useDonation()
   const [isHovered, setIsHovered] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const isMobile = useIsMobile(425)
+  const DONATE_IMGS = isMobile ? IMG_DONATE_BG_MOBILE : IMG_DONATE_BG
+  const DONATE_IMGS_HOVER = isMobile ? IMG_DONATE_BG_MOBILE_HOVER : IMG_DONATE_BG_HOVER
+
 
 
   // Image loading error handling
@@ -329,7 +337,7 @@ export default function Gallery() {
                     {name && <p className="text-white font-black text-[15px] leading-snug tracking-tight mb-3">{name}</p>}
                     <span className="inline-flex items-center gap-1.5 text-accent text-[11px] font-black uppercase tracking-wider">
                       Read Story
-                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                     </span>
                   </div>
                 </motion.div>
@@ -354,7 +362,7 @@ export default function Gallery() {
               >
                 {/* Both images rendered simultaneously for smoother crossfade */}
                 <motion.img
-                  src={IMG_DONATE_BG}
+                  src={DONATE_IMGS}
                   alt=""
                   className="absolute inset-0 w-full h-full object-cover"
                   animate={{ opacity: isHovered ? 0 : 1 }}
@@ -362,7 +370,7 @@ export default function Gallery() {
                 />
 
                 <motion.img
-                  src="https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778542418/Amelia_Chreseria_Njeri_-_Cleft_Lip_and_Cleft_Palate_-_4_years_-_Ruiru_1_copy_cpk19z.webp"
+                  src={DONATE_IMGS_HOVER}
                   alt=""
                   className="absolute inset-0 w-full h-full object-cover"
                   animate={{
