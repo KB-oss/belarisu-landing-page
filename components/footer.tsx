@@ -259,7 +259,7 @@ export default function Footer() {
             <p className="text-white/45 text-[12px] text-center sm:text-right">
               A{' '}
               <a href="https://www.belarisufoundation.org" target="_blank" rel="noopener noreferrer" className="text-accent font-bold hover:text-accent-dark transition-colors">
-                Bela Risu Foundation
+                BelaRisu Foundation
               </a>{' '}
               Initiative
             </p>

@@ -172,7 +172,7 @@ const TEAM: TeamMember[] = [
     role: 'Program Manager',
     dept: 'Operations',
     img: IMG_STORY_L,
-    bio: 'Since the very first day Bela Risu Medical Center opened its doors, Lynnah has been one of the welcoming faces at the heart of our patient journey. Beginning her career with us as an Administrative Associate and now serving as Program Manager, she has played a central role in coordinating the many moving parts that ensure patients and families are supported through their journey with us.',
+    bio: 'Since the very first day BelaRisu Medical Center opened its doors, Lynnah has been one of the welcoming faces at the heart of our patient journey. Beginning her career with us as an Administrative Associate and now serving as Program Manager, she has played a central role in coordinating the many moving parts that ensure patients and families are supported through their journey with us.',
     social: { linkedin: null, twitter: null, instagram: null },
   },
 ]
@@ -323,7 +323,7 @@ export default function About() {
               <div className="space-y-4 leading-[1.85]" style={{ fontSize: '16px', color: '#696969' }}>
                 <p>Just as smiles grow with us through life, so too does our journey with every patient we serve.</p>
                 <p>
-                  BelaRisu Medical Centre (BMC) was established in <strong style={{ color: '#071e36' }}>2022</strong> as the flagship institution of Bela Risu Foundation, with a mission to ensure that children and adults born with cleft lip and cleft palate can access the holistic care they need to live healthy, confident lives.
+                  BelaRisu Medical Centre (BMC) was established in <strong style={{ color: '#071e36' }}>2022</strong> as the flagship institution of BelaRisu Foundation, with a mission to ensure that children and adults born with cleft lip and cleft palate can access the holistic care they need to live healthy, confident lives.
                 </p>
                 <p>
                   At BMC, we provide free, multidisciplinary cleft care, bringing together highly specialized services under one roof. Our approach recognizes that treating cleft conditions requires far more than surgery alone. Patients and families receive coordinated care from a team of surgeons, orthodontists, speech therapists, psychologists, and nutrition specialists to support healing, development, and long-term wellbeing.

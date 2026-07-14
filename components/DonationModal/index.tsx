@@ -127,7 +127,7 @@ export default function DonationModal({ onClose }: DonationModalProps) {
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-1 h-8 rounded-full bg-accent" />
                 <p className="font-black text-[10px] tracking-[3px] uppercase" style={{ color: 'rgba(255,117,24,0.85)' }}>
-                  Bela Risu Foundation
+                  BelaRisu Foundation
                 </p>
               </div>
               <p

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     'Your donation funds free cleft surgeries and comprehensive care for children across Africa. Every gift gives a child their first smile, their first word, their first chance to belong.',
   alternates: { canonical: 'https://www.belarisumedicalcentre.org/donate' },
   openGraph: {
-    title: 'Donate | Give a Child Their First Smile — Bela Risu Medical Centre',
+    title: 'Donate | Give a Child Their First Smile — BelaRisu Medical Centre',
     description:
       'Fund free cleft lip and palate surgery for a child in need. Every donation makes life-changing care possible for families across Africa.',
     url: 'https://www.belarisumedicalcentre.org/donate',

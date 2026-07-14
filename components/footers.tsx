@@ -170,7 +170,7 @@ export function Footers() {
           <span>A</span>
           <span>
             <Link href="/foundation" className="font-medium text-primary-orange transition-colors">
-              Bela Risu Foundation
+              BelaRisu Foundation
             </Link>
             {" "}Initiative
           </span>
