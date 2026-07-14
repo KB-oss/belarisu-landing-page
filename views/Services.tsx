@@ -410,7 +410,7 @@ export default function Services() {
               transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
             />
 
-            <div className="relative z-10 flex items-center justify-end min-h-[523px]">
+            <div className="relative z-10 sm:flex items-center justify-end min-h-[523px]">
               <div className="max-w-[460px] p-10 sm:p-12 xl:p-16 flex flex-col gap-4">
                 <motion.p
                   className="font-black uppercase tracking-[3px]"

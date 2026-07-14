@@ -677,8 +677,8 @@ export default function Home() {
               <motion.div className="absolute inset-0"
                 style={{ background: 'linear-gradient(to right, rgba(7,30,54,0.02) 0%, rgba(7,30,54,0.35) 45%, rgba(7,30,54,0.65) 100%)' }}
                 animate={{ background: isHovered ? 'linear-gradient(to right, rgba(7,30,54,0.06) 0%, rgba(7,30,54,0.45) 45%, rgba(7,30,54,0.75) 100%)' : 'linear-gradient(to right, rgba(7,30,54,0.02) 0%, rgba(7,30,54,0.35) 45%, rgba(7,30,54,0.65) 100%)' }}
-                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }} />
-              <div className="relative z-10 flex items-center justify-end min-h-[440px]">
+                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] } } />
+              <div className="relative z-10 sm:flex items-center justify-end min-h-[440px]">
                 <div className="max-w-[460px] p-10 sm:p-12 lg:p-16">
                   <motion.p className="font-black uppercase tracking-[3px] mb-4" style={{ fontSize: '10px', color: 'rgba(255,255,255,1)' }}
                     animate={{ opacity: isHovered ? 0.7 : 1 }} transition={{ duration: 0.5 }}>Make a Difference</motion.p>

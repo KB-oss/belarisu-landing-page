@@ -399,7 +399,7 @@ export default function Gallery() {
                   transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
                 />
 
-                <div className="relative z-10 flex items-center justify-end min-h-[440px]">
+                <div className="relative z-10 sm:flex items-center justify-end min-h-[440px]">
                   <div className="max-w-[460px] p-10 sm:p-12 lg:p-16">
                     <motion.p
                       className="font-black uppercase tracking-[3px] mb-4"
