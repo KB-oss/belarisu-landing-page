@@ -1,6 +1,8 @@
 import ClientShell from '@/components/ClientShell'
 import './globals.css'
 import type { Metadata } from 'next'
+import { headers } from 'next/headers';
+
 
 const BASE_URL = 'https://www.belarisumedicalcentre.org'
 const OG_IMAGE = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246041/0B2A0278_1_sy7sb7.webp'
@@ -19,7 +21,7 @@ export const metadata: Metadata = {
     'belarisu',
     'BMC medical centre',
     'BelaRisu Medical Centre',
-    'BelaRisu',    
+    'BelaRisu',
     'belarisumedicalcentre.org',
     'BelaRisu Medical Centre Nairobi',
     'BMC Nairobi',
@@ -110,7 +112,9 @@ const orgJsonLd = {
   ],
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async  function RootLayout({ children }: { children: React.ReactNode }) {
+      const nonce = (await headers()).get('x-nonce') || '';
+
   return (
     <html lang="en">
       <head>
@@ -118,6 +122,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
+        <meta property="csp-nonce" content={nonce} />
+
       </head>
       <body>
         <ClientShell>{children}</ClientShell>

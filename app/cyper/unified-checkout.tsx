@@ -47,47 +47,102 @@ export function UnifiedCheckout({
     const containerId = 'cybersource-payment-container'; // Use ID for more reliable mounting
 
     // Step 1: Load the SDK script
+    // useEffect(() => {
+    //     if (!clientLibrary || initializedRef.current) return;
+
+    //     console.log('Loading SDK from:', clientLibrary);
+        
+    //     if (window?.VAS?.UnifiedCheckout) {
+    //         console.log('SDK already loaded');
+    //         setSdkLoaded(true);
+    //         return;
+    //     }
+
+    //     const script = document.createElement('script');
+    //     script.src = clientLibrary;
+    //     if (clientLibraryIntegrity) {
+    //         script.integrity = clientLibraryIntegrity;
+    //         script.crossOrigin = 'anonymous';
+    //     }
+    //     script.async = true;
+        
+    //     script.onload = () => {
+    //         console.log('SDK script loaded successfully');
+    //         setTimeout(() => {
+    //             setSdkLoaded(true);
+    //         }, 200);
+    //     };
+        
+    //     script.onerror = (err) => {
+    //         console.error('Failed to load SDK:', err);
+    //         setError('Failed to load payment system. Please refresh and try again.');
+    //         setIsLoading(false);
+    //         onError('SDK load failed');
+    //     };
+        
+    //     document.head.appendChild(script);
+        
+    //     return () => {
+    //         if (script.parentNode) {
+    //             script.parentNode.removeChild(script);
+    //         }
+    //     };
+    // }, [clientLibrary, clientLibraryIntegrity]);
     useEffect(() => {
-        if (!clientLibrary || initializedRef.current) return;
+    if (!clientLibrary || initializedRef.current) return;
 
-        console.log('Loading SDK from:', clientLibrary);
-        
-        if (window?.VAS?.UnifiedCheckout) {
-            console.log('SDK already loaded');
+    // Get nonce from meta tag
+    const getNonce = () => {
+        const meta = document.querySelector('meta[property="csp-nonce"]');
+        return meta ? meta.getAttribute('content') : null;
+    };
+    
+    const nonce = getNonce();
+
+    console.log('Loading SDK from:', clientLibrary);
+    
+    if (window?.VAS?.UnifiedCheckout) {
+        console.log('SDK already loaded');
+        setSdkLoaded(true);
+        return;
+    }
+
+    const script = document.createElement('script');
+    script.src = clientLibrary;
+    if (clientLibraryIntegrity) {
+        script.integrity = clientLibraryIntegrity;
+        script.crossOrigin = 'anonymous';
+    }
+    
+    // ✅ ADD THIS: Set nonce on the script tag
+    if (nonce) {
+        script.nonce = nonce;
+    }
+    
+    script.async = true;
+    
+    script.onload = () => {
+        console.log('SDK script loaded successfully');
+        setTimeout(() => {
             setSdkLoaded(true);
-            return;
+        }, 200);
+    };
+    
+    script.onerror = (err) => {
+        console.error('Failed to load SDK:', err);
+        setError('Failed to load payment system. Please refresh and try again.');
+        setIsLoading(false);
+        onError('SDK load failed');
+    };
+    
+    document.head.appendChild(script);
+    
+    return () => {
+        if (script.parentNode) {
+            script.parentNode.removeChild(script);
         }
-
-        const script = document.createElement('script');
-        script.src = clientLibrary;
-        if (clientLibraryIntegrity) {
-            script.integrity = clientLibraryIntegrity;
-            script.crossOrigin = 'anonymous';
-        }
-        script.async = true;
-        
-        script.onload = () => {
-            console.log('SDK script loaded successfully');
-            setTimeout(() => {
-                setSdkLoaded(true);
-            }, 200);
-        };
-        
-        script.onerror = (err) => {
-            console.error('Failed to load SDK:', err);
-            setError('Failed to load payment system. Please refresh and try again.');
-            setIsLoading(false);
-            onError('SDK load failed');
-        };
-        
-        document.head.appendChild(script);
-        
-        return () => {
-            if (script.parentNode) {
-                script.parentNode.removeChild(script);
-            }
-        };
-    }, [clientLibrary, clientLibraryIntegrity]);
+    };
+}, [clientLibrary, clientLibraryIntegrity]);
 
     // Step 2: Mark container as ready after render
     useEffect(() => {
