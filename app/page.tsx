@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Free Cleft Lip & Palate Surgery in Nairobi, Kenya',
   description:
-    'BelaRisu Medical Centre is a comprehensive cleft care centre in Nairobi, Kenya, offering free cleft lip and palate surgery, nutrition support, speech therapy, dental care, and psychosocial counseling for children and families across Africa.',
+    'BelaRisu Medical Centre is a comprehensive cleft care centre in Nairobi, Kenya, providing cleft lip and palate surgery, nutrition support, speech therapy, dental care, and psychosocial counseling for children and families across Africa.',
   alternates: { canonical: 'https://www.belarisumedicalcentre.org' },
   openGraph: {
     title: 'Free Cleft Lip & Palate Surgery in Nairobi, Kenya | BelaRisu Medical Centre',
