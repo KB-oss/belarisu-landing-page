@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Free Cleft Lip & Palate Surgery in Nairobi, Kenya | BelaRisu Medical Centre',
     description:
-      'Free, comprehensive cleft care in Nairobi — surgery, nutrition, speech therapy, dental & psychosocial support — for children and families across Africa.',
+      'A comprehensive cleft care centre in Nairobi — surgery, nutrition, speech therapy, dental & psychosocial support — for children and families across Africa.',
     url: 'https://www.belarisumedicalcentre.org',
   },
 }
