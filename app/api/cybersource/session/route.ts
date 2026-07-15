@@ -6,7 +6,6 @@ const { createHeaders } = require('cybersource-auth');
 export async function POST(req: NextRequest) {
     try {
         const { amount, currency = 'USD' } = await req.json();
-
         const merchantId = process.env.CYBERSOURCE_MERCHANT_ID!;
         const apiKey = process.env.CYBERSOURCE_API_KEY!;
         const secretKey = process.env.CYBERSOURCE_SECRET_KEY!;
