@@ -9,7 +9,8 @@ export function proxy(request: NextRequest) {
     // Only apply CSP to the checkout page
     if (pathname === '/cyper') {
         // Generate a new nonce for each request
-        const nonce = crypto.randomBytes(16).toString('base64');
+        // const nonce = crypto.randomBytes(16).toString('base64');
+        const nonce = '12345';
         
         const cspHeader = [
             "default-src 'self'",
