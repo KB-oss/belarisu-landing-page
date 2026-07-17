@@ -308,7 +308,7 @@ export default function Gallery() {
                 >
                   <img
                     src={imgSrc}
-                    alt={`${tag} patient story ${i + 1}`}
+                    alt={name ? `${name} — ${tag.toLowerCase()} patient story, free cleft care at Bela Risu Medical Centre` : `${tag} patient story ${i + 1} — free cleft care at Bela Risu Medical Centre`}
                     className="w-full h-full object-cover group-hover:scale-[1.06] transition-transform duration-700 ease-out"
                     loading="lazy"
                     onError={() => handleImageError(Array.isArray(src) ? src[0] : src)}
@@ -472,7 +472,7 @@ export default function Gallery() {
                   <motion.img
                     key={Array.isArray(lightbox) ? currentImageIndex : 0}
                     src={Array.isArray(lightbox) ? getImageSrc(lightbox[currentImageIndex]) : getImageSrc(lightbox)}
-                    alt="Patient photo"
+                    alt={description?.title ? `${description.title} — patient story, Bela Risu Medical Centre` : 'Patient photo, Bela Risu Medical Centre'}
                     className="w-full h-full object-cover"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
