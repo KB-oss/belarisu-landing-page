@@ -10,7 +10,7 @@ export function proxy(request: NextRequest) {
     if (pathname === '/cyper') {
         // Generate a new nonce for each request
         // const nonce = crypto.randomBytes(16).toString('base64');
-        const nonce = '12345';
+        // const nonce = '12345';
 
         const cspHeader = [
             "default-src 'self'",
@@ -24,7 +24,7 @@ export function proxy(request: NextRequest) {
         response.headers.set('Content-Security-Policy', cspHeader);
 
         // Store nonce in response headers so it can be used in the page
-        response.headers.set('x-nonce', nonce);
+        // response.headers.set('x-nonce', nonce);
     }
 
     return response;
