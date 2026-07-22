@@ -14,7 +14,7 @@ export function proxy(request: NextRequest) {
 
         const cspHeader = [
             "default-src 'self'",
-            `script-src 'self' 'nonce-${nonce}' https://setup.cybersource.com https://testflex.cybersource.com https://*.cybersource.com https://*.online-metrix.net https://*.cardinalcommerce.com https://*.googleapis.com https://*.gstatic.com`,
+            `script-src 'self'  https://setup.cybersource.com https://testflex.cybersource.com https://*.cybersource.com https://*.online-metrix.net https://*.cardinalcommerce.com https://*.googleapis.com https://*.gstatic.com`,
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.cybersource.com",
             "font-src 'self' data: https://fonts.gstatic.com https://*.cybersource.com",
             "frame-src 'self' https://*.cybersource.com https://*.online-metrix.net https://*.cardinalcommerce.com",

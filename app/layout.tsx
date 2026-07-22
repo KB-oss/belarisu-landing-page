@@ -113,7 +113,7 @@ const orgJsonLd = {
 }
 
 export default async  function RootLayout({ children }: { children: React.ReactNode }) {
-      const nonce = (await headers()).get('x-nonce') || '';
+      // const nonce = (await headers()).get('x-nonce') || '';
 
   return (
     <html lang="en">
@@ -122,7 +122,6 @@ export default async  function RootLayout({ children }: { children: React.ReactN
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
-        <meta property="csp-nonce" content={nonce} />
 
       </head>
       <body>
