@@ -51,7 +51,7 @@ export function UnifiedCheckout({
     //     if (!clientLibrary || initializedRef.current) return;
 
     //     console.log('Loading SDK from:', clientLibrary);
-        
+
     //     if (window?.VAS?.UnifiedCheckout) {
     //         console.log('SDK already loaded');
     //         setSdkLoaded(true);
@@ -65,23 +65,23 @@ export function UnifiedCheckout({
     //         script.crossOrigin = 'anonymous';
     //     }
     //     script.async = true;
-        
+
     //     script.onload = () => {
     //         console.log('SDK script loaded successfully');
     //         setTimeout(() => {
     //             setSdkLoaded(true);
     //         }, 200);
     //     };
-        
+
     //     script.onerror = (err) => {
     //         console.error('Failed to load SDK:', err);
     //         setError('Failed to load payment system. Please refresh and try again.');
     //         setIsLoading(false);
     //         onError('SDK load failed');
     //     };
-        
+
     //     document.head.appendChild(script);
-        
+
     //     return () => {
     //         if (script.parentNode) {
     //             script.parentNode.removeChild(script);
@@ -89,59 +89,60 @@ export function UnifiedCheckout({
     //     };
     // }, [clientLibrary, clientLibraryIntegrity]);
     useEffect(() => {
-    if (!clientLibrary || initializedRef.current) return;
+        if (!clientLibrary || initializedRef.current) return;
 
-    // Get nonce from meta tag
-    const getNonce = () => {
-        const meta = document.querySelector('meta[property="csp-nonce"]');
-        return meta ? meta.getAttribute('content') : null;
-    };
-    
-    const nonce = getNonce();
+        // Get nonce from meta tag
+        const getNonce = () => {
+            const meta = document.querySelector('meta[property="csp-nonce"]');
+            return meta ? meta.getAttribute('content') : null;
+        };
 
-    console.log('Loading SDK from:', clientLibrary);
-    
-    if (window?.VAS?.UnifiedCheckout) {
-        console.log('SDK already loaded');
-        setSdkLoaded(true);
-        return;
-    }
+        const nonce = getNonce();
 
-    const script = document.createElement('script');
-    script.src = clientLibrary;
-    if (clientLibraryIntegrity) {
-        script.integrity = clientLibraryIntegrity;
-        script.crossOrigin = 'anonymous';
-    }
-    
-    if (nonce) {
-        script.nonce = nonce;
-    }
-    
-    script.async = true;
-    
-    script.onload = () => {
-        console.log('SDK script loaded successfully');
-        setTimeout(() => {
+        console.log('Loading SDK from:', clientLibrary);
+
+        if (window?.VAS?.UnifiedCheckout) {
+            console.log('SDK already loaded');
             setSdkLoaded(true);
-        }, 200);
-    };
-    
-    script.onerror = (err) => {
-        console.error('Failed to load SDK:', err);
-        setError('Failed to load payment system. Please refresh and try again.');
-        setIsLoading(false);
-        onError('SDK load failed');
-    };
-    
-    document.head.appendChild(script);
-    
-    return () => {
-        if (script.parentNode) {
-            script.parentNode.removeChild(script);
+            return;
         }
-    };
-}, [clientLibrary, clientLibraryIntegrity]);
+
+        const script = document.createElement('script');
+        script.src = clientLibrary;
+        if (clientLibraryIntegrity) {
+            script.integrity = clientLibraryIntegrity;
+            script.crossOrigin = 'anonymous';
+        }
+
+        if (nonce) {
+            script.nonce = nonce;
+            console.log('✅ Nonce added to script tag:', nonce);
+        }
+
+        script.async = true;
+
+        script.onload = () => {
+            console.log('SDK script loaded successfully');
+            setTimeout(() => {
+                setSdkLoaded(true);
+            }, 200);
+        };
+
+        script.onerror = (err) => {
+            console.error('Failed to load SDK:', err);
+            setError('Failed to load payment system. Please refresh and try again.');
+            setIsLoading(false);
+            onError('SDK load failed');
+        };
+
+        document.head.appendChild(script);
+
+        return () => {
+            if (script.parentNode) {
+                script.parentNode.removeChild(script);
+            }
+        };
+    }, [clientLibrary, clientLibraryIntegrity]);
 
     // Step 2: Mark container as ready after render
     useEffect(() => {
@@ -154,44 +155,44 @@ export function UnifiedCheckout({
     // Step 3: Initialize checkout once SDK is loaded AND container is ready
     useEffect(() => {
         if (!sdkLoaded || !containerReady || !window.VAS?.UnifiedCheckout || initializedRef.current) return;
-        
+
         const initCheckout = async () => {
             try {
                 initializedRef.current = true;
                 console.log('Initializing Unified Checkout...');
                 console.log('Capture context length:', captureContext.length);
-                
+
                 // Wait an additional moment for the container to be fully rendered
                 await new Promise(resolve => setTimeout(resolve, 100));
-                
+
                 // Verify container exists in DOM
                 const container = document.getElementById(containerId);
                 if (!container) {
                     throw new Error(`Container #${containerId} not found in DOM`);
                 }
-                
+
                 console.log('Container found in DOM:', container);
-                
+
                 // Initialize the SDK
                 const client = await window?.VAS?.UnifiedCheckout(captureContext);
                 console.log('Client created successfully');
-                
+
                 // Create checkout with autoProcessing
                 const checkout = await client?.createCheckout({ autoProcessing: true });
                 console.log('Checkout created successfully');
-                
+
                 // Mount using string selector (more reliable than ref)
                 console.log('Mounting to container:', `#${containerId}`);
                 const result = await checkout?.mount(`#${containerId}`);
                 console.log('Mount result:', result);
-                
+
                 if (result?.transactionId) {
                     console.log('Payment completed:', result.transactionId);
                     onSuccess(result.transactionId);
                 }
-                
+
                 setIsLoading(false);
-                
+
             } catch (err) {
                 console.error('Checkout initialization error:', err);
                 const errorMessage = err instanceof Error ? err.message : 'Failed to initialize payment';
@@ -201,9 +202,9 @@ export function UnifiedCheckout({
                 initializedRef.current = false;
             }
         };
-        
+
         initCheckout();
-        
+
         return () => {
             if (initializedRef.current) {
                 console.log('Cleaning up checkout...');
@@ -247,16 +248,16 @@ export function UnifiedCheckout({
                     Cancel
                 </button>
             </div>
-            
+
             {isLoading && (
                 <div className="flex items-center justify-center py-12">
                     <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
                     <span className="ml-2 text-gray-500">Loading secure payment form...</span>
                 </div>
             )}
-            
+
             {/* Container with ID - MUST exist before mount() is called */}
-            <div 
+            <div
                 id={containerId}
                 ref={containerRef}
                 className="w-full"
