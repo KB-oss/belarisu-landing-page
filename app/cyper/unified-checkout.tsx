@@ -114,7 +114,6 @@ export function UnifiedCheckout({
         script.crossOrigin = 'anonymous';
     }
     
-    // ✅ ADD THIS: Set nonce on the script tag
     if (nonce) {
         script.nonce = nonce;
     }
