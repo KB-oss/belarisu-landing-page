@@ -122,7 +122,6 @@ export default async  function RootLayout({ children }: { children: React.ReactN
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
-        <meta property="csp-nonce" content={nonce} />
 
       </head>
       <body>
