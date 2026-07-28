@@ -666,7 +666,7 @@ export default function Home() {
       <Reveal direction="up">
         <section className="py-8 sm:py-10 lg:py-14">
           <div className={WRAP}>
-            <div className="relative overflow-hidden rounded-[24px] sm:rounded-[28px]" style={{ minHeight: '440px' }}
+            <div className="relative overflow-hidden rounded-[24px] sm:rounded-[28px]" style={{ minHeight: isMobile ? '500px' : '440px' }}
               onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
               <motion.img src={DONATE_IMGS} alt="" className="absolute inset-0 w-full h-full object-cover"
                 animate={{ opacity: isHovered ? 0 : 1 }} transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }} />
@@ -677,7 +677,7 @@ export default function Home() {
               <motion.div className="absolute inset-0"
                 style={{ background: 'linear-gradient(to right, rgba(7,30,54,0.02) 0%, rgba(7,30,54,0.35) 45%, rgba(7,30,54,0.65) 100%)' }}
                 animate={{ background: isHovered ? 'linear-gradient(to right, rgba(7,30,54,0.06) 0%, rgba(7,30,54,0.45) 45%, rgba(7,30,54,0.75) 100%)' : 'linear-gradient(to right, rgba(7,30,54,0.02) 0%, rgba(7,30,54,0.35) 45%, rgba(7,30,54,0.65) 100%)' }}
-                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] } } />
+                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }} />
               <div className="relative z-10 sm:flex items-center justify-end min-h-[440px]">
                 <div className="max-w-[460px] p-10 sm:p-12 lg:p-16">
                   <motion.p className="font-black uppercase tracking-[3px] mb-4" style={{ fontSize: '10px', color: 'rgba(255,255,255,1)' }}
