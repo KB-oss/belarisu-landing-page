@@ -112,18 +112,18 @@ const orgJsonLd = {
   ],
 }
 
-export default async  function RootLayout({ children }: { children: React.ReactNode }) {
-      const nonce = (await headers()).get('x-nonce') || '';
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const nonce = (await headers()).get('x-nonce') || '';
 
   return (
     <html lang="en">
-      <head>
+      {/* <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
 
-      </head>
+      </head> */}
       <body>
         <ClientShell>{children}</ClientShell>
       </body>
