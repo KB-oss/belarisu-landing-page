@@ -10,18 +10,18 @@ export function proxy(request: NextRequest) {
         // 'strict-dynamic' lets the nonce-trusted CyberSource SDK inject its own child scripts.
         // 'unsafe-eval' is only needed in dev for React's error overlays.
         // We include Google domains for analytics, fonts, and scripts on other pages.
-        `script-src 'self' 'unsafe-inline' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''} https://setup.cybersource.com https://testflex.cybersource.com https://*.cybersource.com https://*.online-metrix.net https://*.cardinalcommerce.com https://*.googleapis.com https://*.gstatic.com`,
+        `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''} https://setup.cybersource.com https://testflex.cybersource.com https://*.cybersource.com https://*.online-metrix.net https://*.cardinalcommerce.com https://*.googleapis.com https://*.gstatic.com`,
         // 'unsafe-inline' required for CyberSource Unified Checkout which applies inline styles
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.cybersource.com",
-        "font-src 'self' 'unsafe-inline' data: https://fonts.gstatic.com https://*.cybersource.com",
+        "font-src 'self' data: https://fonts.gstatic.com https://*.cybersource.com",
         // Allow CyberSource iframe and device fingerprint iframes
-        "frame-src 'self' 'unsafe-inline' https://*.cybersource.com https://*.online-metrix.net https://*.cardinalcommerce.com https://testflex.cybersource.com https://setup.cybersource.com",
+        "frame-src 'self' https://*.cybersource.com https://*.online-metrix.net https://*.cardinalcommerce.com https://testflex.cybersource.com https://setup.cybersource.com",
         // Allow XHR/fetch to CyberSource APIs
-        "connect-src 'self' 'unsafe-inline' https://*.cybersource.com https://*.online-metrix.net https://*.cardinalcommerce.com https://testflex.cybersource.com https://setup.cybersource.com",
+        "connect-src 'self' https://*.cybersource.com https://*.online-metrix.net https://*.cardinalcommerce.com https://testflex.cybersource.com https://setup.cybersource.com",
         // Allow images, including Cloudinary images used across the site
-        "img-src 'self' 'unsafe-inline' data: blob: https://*.cybersource.com https://*.online-metrix.net https://res.cloudinary.com",
+        "img-src 'self' data: blob: https://*.cybersource.com https://*.online-metrix.net https://res.cloudinary.com",
         // CyberSource SDK uses web workers in blob URL environments
-        "child-src 'self' 'unsafe-inline' blob: https://*.cybersource.com",
+        "child-src 'self' blob: https://*.cybersource.com",
         "object-src 'none'",
         "base-uri 'self'",
     ].join('; ');

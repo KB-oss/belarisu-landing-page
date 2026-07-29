@@ -117,13 +117,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="en">
-      {/* <head>
+      <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
 
-      </head> */}
+      </head>
       <body>
         <ClientShell>{children}</ClientShell>
       </body>
