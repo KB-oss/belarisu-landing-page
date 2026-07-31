@@ -260,8 +260,7 @@ export function UnifiedCheckout({
             <div
                 id={containerId}
                 ref={containerRef}
-                className="w-full"
-                style={{ minHeight: '400px', display: isLoading ? 'none' : 'block' }}
+                className="w-full min-h-[400px]"
             />
         </div>
     );
