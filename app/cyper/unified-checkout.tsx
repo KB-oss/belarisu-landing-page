@@ -136,6 +136,7 @@ export function UnifiedCheckout({
         };
 
         document.head.appendChild(script);
+        setIsLoading(false);
 
         return () => {
             if (script.parentNode) {
