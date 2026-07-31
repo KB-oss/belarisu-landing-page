@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 const page = () => {
   return (
-    <div><DonatePage /></div>
+    <div></div>
   )
 }
 
