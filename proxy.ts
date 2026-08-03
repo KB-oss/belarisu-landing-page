@@ -17,7 +17,7 @@ export function proxy(request: NextRequest) {
         // Allow CyberSource iframe and device fingerprint iframes
         "frame-src 'self' https://*.cybersource.com https://*.online-metrix.net https://*.cardinalcommerce.com https://testflex.cybersource.com https://setup.cybersource.com",
         // Allow XHR/fetch to CyberSource APIs
-        "connect-src 'self' https://*.cybersource.com https://*.online-metrix.net https://*.cardinalcommerce.com https://testflex.cybersource.com https://setup.cybersource.com",
+        "connect-src 'self' 'unsafe-inline' https://*.cybersource.com https://*.online-metrix.net https://*.cardinalcommerce.com https://testflex.cybersource.com https://setup.cybersource.com",
         // Allow images, including Cloudinary images used across the site
         "img-src 'self' data: blob: https://*.cybersource.com https://*.online-metrix.net https://res.cloudinary.com",
         // CyberSource SDK uses web workers in blob URL environments
