@@ -179,9 +179,13 @@ export function UnifiedCheckout({
                 const client = await window?.VAS?.UnifiedCheckout(captureContext);
                 console.log('Client created successfully');
 
+
                 // Create checkout with autoProcessing
                 const checkout = await client?.createCheckout({ autoProcessing: true });
                 console.log('Checkout created successfully');
+
+                setIsLoading(false);
+
 
                 // Mount using string selector (more reliable than ref)
                 console.log('Mounting to container:', `#${containerId}`);
@@ -191,12 +195,36 @@ export function UnifiedCheckout({
                 const decodedResult = decodeJWT(result || "");
                 console.log('Decoded result:', decodedResult);
 
-                if (decodedResult?.transactionId) {
-                    console.log('Payment completed:', decodedResult.transactionId);
-                    onSuccess(decodedResult.transactionId);
+                if (result && typeof result === 'string') {
+                    console.log('Raw result is a JWT. Decoding...');
+
+                    const decodedResult = decodeJWT(result);
+                    console.log('Decoded result:', decodedResult);
+
+                    // Extract transaction ID from the decoded payload
+                    // Based on your data structure
+                    const transactionId = decodedResult?.id ||
+                        decodedResult?.details?.processorInformation?.transactionId ||
+                        decodedResult?.details?.reconciliationId;
+
+                    const status = decodedResult?.status || decodedResult?.outcome;
+
+                    if (transactionId && (status === 'AUTHORIZED' || status === 'CAPTURED')) {
+                        console.log('✅ Payment successful! Transaction ID:', transactionId);
+                        onSuccess(transactionId);
+                    } else if (status === 'DECLINED' || status === 'ERROR') {
+                        console.log('❌ Payment failed with status:', status);
+                        onError(`Payment ${status.toLowerCase()}`);
+                    } else if (transactionId) {
+                        // If we have a transaction ID but status is unknown, still consider it success
+                        console.log('✅ Payment processed. Transaction ID:', transactionId);
+                        onSuccess(transactionId);
+                    } else {
+                        console.log('⚠️ No transaction ID found in decoded JWT');
+                        onError('Payment processed but no transaction ID received');
+                    }
                 }
 
-                setIsLoading(false);
 
             } catch (err) {
                 console.error('Checkout initialization error:', err);
