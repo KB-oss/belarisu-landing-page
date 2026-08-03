@@ -1,54 +1,107 @@
 // app/donate/page.tsx
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2, CreditCard, Lock } from 'lucide-react';
 import { UnifiedCheckout } from './unified-checkout';
+import { createClient } from '@/lib/supabase/client';
 
-type PaymentStep = 'form' | 'loading' | 'checkout' | 'success' | 'failed';
+type PaymentStep = 'form' | 'loading' | 'checkout' | 'processing' | 'success' | 'failed';  // ✅ Added 'processing'
 
 export default function DonatePage() {
     const [amount, setAmount] = useState('25');
     const [loading, setLoading] = useState(false);
+    const supabase = createClient();
     const [error, setError] = useState('');
     const [step, setStep] = useState<PaymentStep>('form');
     const [captureContext, setCaptureContext] = useState('');
     const [clientLibrary, setClientLibrary] = useState('');
     const [clientLibraryIntegrity, setClientLibraryIntegrity] = useState('');
     const [donationAmount, setDonationAmount] = useState(0);
+    const [transactionId, setTransactionId] = useState('');
+
+    // 🔥 SUBSCRIBE to Realtime changes
+    useEffect(() => {
+        if (!transactionId || step !== 'processing') return;
+
+        const channelName = `payment-updates-${transactionId}`;
+
+        console.log(`📡 Subscribing to channel: ${channelName}`);
+
+        const subscription = supabase
+            .channel(channelName)
+            .on(
+                'postgres_changes',
+                {
+                    event: 'UPDATE',
+                    schema: 'public',
+                    table: 'cybersource_transactions',
+                    filter: `transaction_id=eq.${transactionId}`,
+                },
+                (payload) => {
+                    console.log('🔔 Payment update received:', payload);
+
+                    // ✅ Check the actual status from the payload
+                    const newStatus = payload.new.status;
+
+                    if (newStatus === 'completed' || newStatus === 'authorized') {
+                        console.log('✅ Payment completed!');
+                        setStep('success');
+                    } else if (newStatus === 'failed' || newStatus === 'declined') {
+                        console.log('❌ Payment failed');
+                        setError('Payment was declined');
+                        setStep('failed');
+                    }
+                }
+            )
+            .subscribe((status) => {
+                // ✅ This 'status' is the SUBSCRIPTION connection status, NOT the payment status
+                console.log(`📡 Subscription connection status:`, status);
+            });
+
+        return () => {
+            console.log(`🧹 Unsubscribing from: ${channelName}`);
+            supabase.removeChannel(subscription);
+        };
+    }, [transactionId, step]);
 
     const handleInitiatePayment = async () => {
         setLoading(true);
         setError('');
         setStep('loading');
-        
+
         const numAmount = parseFloat(amount);
         setDonationAmount(numAmount);
-        
+
         try {
             const res = await fetch('/api/cybersource/session', {
                 method: 'POST',
-                headers: { 
+                headers: {
                     'Content-Type': 'application/json',
-                 },
-                
-                body: JSON.stringify({ amount: numAmount })
+                },
+                body: JSON.stringify({
+                    amount: numAmount,
+                    donorEmail: 'test@example.com',
+                    donorName: 'Test User',
+                    donorPhone: '1234567890'
+                })
             });
-            
+
             const data = await res.json();
-            
+
             if (!res.ok || !data.success) {
                 throw new Error(data.error || 'Failed to initiate payment');
             }
-            
+
             setCaptureContext(data.captureContext);
             setClientLibrary(data.clientLibrary);
             setClientLibraryIntegrity(data.clientLibraryIntegrity);
+            setTransactionId(data.transactionId);  // ✅ Store transaction ID
             setStep('checkout');
-            
+
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Payment initiation failed');
             setStep('form');
@@ -57,9 +110,11 @@ export default function DonatePage() {
         }
     };
 
-    const handlePaymentSuccess = (transactionId: string) => {
-        console.log('Payment successful! Transaction ID:', transactionId);
-        setStep('success');
+    const handlePaymentSuccess = (transId: string) => {
+        console.log('✅ Payment successful! Transaction ID:', transId);
+        setTransactionId(transId);
+        setStep('processing');  // ✅ Go to processing, NOT success
+        // The realtime subscription will update to 'success' when webhook updates DB
     };
 
     const handlePaymentError = (errorMsg: string) => {
@@ -70,13 +125,38 @@ export default function DonatePage() {
     const handleCancel = () => {
         setStep('form');
         setError('');
+        setTransactionId('');
     };
 
     const resetForm = () => {
         setStep('form');
         setError('');
         setAmount('25');
+        setTransactionId('');
     };
+
+    // ✅ Add processing state
+    if (step === 'processing') {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+                <Card className="w-full max-w-md">
+                    <CardHeader>
+                        <CardTitle className="text-center text-blue-600">Processing Payment</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-center space-y-4">
+                        <div className="flex justify-center">
+                            <Loader2 className="h-12 w-12 animate-spin text-blue-600" />
+                        </div>
+                        <p>Please wait while we confirm your donation...</p>
+                        <p className="text-sm text-gray-500">Transaction ID: {transactionId}</p>
+                        <Button variant="outline" onClick={handleCancel} className="w-full">
+                            Cancel
+                        </Button>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
 
     if (step === 'success') {
         return (
@@ -87,6 +167,7 @@ export default function DonatePage() {
                     </CardHeader>
                     <CardContent className="text-center space-y-4">
                         <p>Thank you for your donation of <strong>${donationAmount.toFixed(2)}</strong></p>
+                        <p className="text-sm text-gray-500">Transaction ID: {transactionId}</p>
                         <Button onClick={resetForm} className="w-full">Make Another Donation</Button>
                     </CardContent>
                 </Card>
@@ -159,8 +240,8 @@ export default function DonatePage() {
                         </div>
                     )}
 
-                    <Button 
-                        onClick={handleInitiatePayment} 
+                    <Button
+                        onClick={handleInitiatePayment}
                         disabled={loading}
                         className="w-full bg-blue-600 hover:bg-blue-700"
                         size="lg"
