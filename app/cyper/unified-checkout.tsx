@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { decodeJWT } from '@/util/jwt-helper';
 
 interface UnifiedCheckoutProps {
     amount: number;
@@ -19,7 +20,7 @@ declare global {
         VAS?: {
             UnifiedCheckout: (sessionJWT: string) => Promise<{
                 createCheckout: (options?: { autoProcessing?: boolean }) => Promise<{
-                    mount: (selector: string | HTMLElement) => Promise<{ transactionId?: string }>;
+                    mount: (selector: string | HTMLElement) => Promise<string>;
                     unmount: () => void;
                     destroy: () => void;
                 }>;
@@ -187,9 +188,12 @@ export function UnifiedCheckout({
                 const result = await checkout?.mount(`#${containerId}`);
                 console.log('Mount result:', result);
 
-                if (result?.transactionId) {
-                    console.log('Payment completed:', result.transactionId);
-                    onSuccess(result.transactionId);
+                const decodedResult = decodeJWT(result || "");
+                console.log('Decoded result:', decodedResult);
+
+                if (decodedResult?.transactionId) {
+                    console.log('Payment completed:', decodedResult.transactionId);
+                    onSuccess(decodedResult.transactionId);
                 }
 
                 setIsLoading(false);
