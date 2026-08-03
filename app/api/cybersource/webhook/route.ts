@@ -186,7 +186,14 @@ export async function POST(req: NextRequest) {
             console.error('📦 Payload at time of error:', JSON.stringify(payload, null, 2));
         }
         // Always return 200 to prevent retries
-        return NextResponse.json({ received: true }, { status: 200 });
+        return NextResponse.json(
+            {
+                received: false,
+                error: error instanceof Error ? error.message : 'Internal server error',
+                details: error instanceof Error ? error.stack : undefined
+            },
+            { status: 500 }
+        );
     }
 }
 
