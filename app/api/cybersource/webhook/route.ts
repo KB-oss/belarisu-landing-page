@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import crypto from 'crypto';
+import { log } from 'console';
 
 // Helper to verify webhook signature (optional but recommended)
 function verifySignature(payload: string, signature: string, secret: string): boolean {
@@ -19,9 +20,11 @@ function verifySignature(payload: string, signature: string, secret: string): bo
 }
 
 export async function POST(req: NextRequest) {
+    const payload = await req.json();
+    console.log('this is the payload : ', payload)
     try {
         // 📨 1. Receive the webhook payload
-        const payload = await req.json();
+        // const payload = await req.json();
         console.log('📨 Webhook received:', JSON.stringify(payload, null, 2));
 
         // 🔐 2. Verify signature (if you have a webhook secret configured)
