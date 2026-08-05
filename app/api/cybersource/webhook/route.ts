@@ -2,205 +2,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import crypto from 'crypto';
-import { log } from 'console';
 
-// Helper to verify webhook signature (optional but recommended)
-function verifySignature(payload: string, signature: string, secret: string): boolean {
-    try {
-        const hmac = crypto.createHmac('sha256', secret);
-        const expectedSignature = hmac.update(payload).digest('hex');
-        return crypto.timingSafeEqual(
-            Buffer.from(signature),
-            Buffer.from(expectedSignature)
-        );
-    } catch (error) {
-        console.error('Signature verification error:', error);
-        return false;
-    }
-}
-
-export async function POST(req: NextRequest) {
-    const startTime = Date.now();
-    let payload: any;
-
-    try {
-        // 📨 1. Receive the webhook payload
-        payload = await req.json();
-
-        // 🔥 LOGGING - Webhook received
-        console.error('🚀 WEBHOOK HIT at', new Date().toISOString());
-        console.error('📨 Webhook received:', JSON.stringify(payload, null, 2));
-        console.error('📋 Headers:', JSON.stringify(Object.fromEntries(req.headers), null, 2));
-
-        // 🔐 2. Verify signature (if you have a webhook secret configured)
-        const signature = req.headers.get('x-webhook-signature') || req.headers.get('signature');
-
-        // Optional: Uncomment to enable signature verification
-        // const webhookSecret = process.env.CYBERSOURCE_WEBHOOK_SECRET!;
-        // if (signature && !verifySignature(JSON.stringify(payload), signature, webhookSecret)) {
-        //     console.error('❌ Invalid webhook signature');
-        //     return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
-        // }
-
-        // 🔍 3. Extract transaction details from the webhook
-        const transactionId = extractTransactionId(payload);
-        const status = extractStatus(payload);
-        const amount = extractAmount(payload);
-        const currency = extractCurrency(payload);
-        const paymentMethod = extractPaymentMethod(payload);
-        const lastFour = extractLastFour(payload);
-        const cardType = extractCardType(payload);
-        const customerEmail = extractCustomerEmail(payload);
-        const customerName = extractCustomerName(payload);
-        const customerPhone = extractCustomerPhone(payload);
-        const errorCode = extractErrorCode(payload);
-        const errorMessage = extractErrorMessage(payload);
-
-        // 🔥 LOGGING - Extracted data
-        console.error('🔍 Extracted from webhook:');
-        console.error(`   Transaction ID: ${transactionId || 'NOT FOUND'}`);
-        console.error(`   Status: ${status}`);
-        console.error(`   Amount: ${amount || 'NOT FOUND'}`);
-        console.error(`   Currency: ${currency || 'NOT FOUND'}`);
-        console.error(`   Payment Method: ${paymentMethod || 'NOT FOUND'}`);
-        console.error(`   Last Four: ${lastFour || 'NOT FOUND'}`);
-        console.error(`   Card Type: ${cardType || 'NOT FOUND'}`);
-        console.error(`   Customer Email: ${customerEmail || 'NOT FOUND'}`);
-        console.error(`   Customer Name: ${customerName || 'NOT FOUND'}`);
-        console.error(`   Error Code: ${errorCode || 'NONE'}`);
-        console.error(`   Error Message: ${errorMessage || 'NONE'}`);
-
-        if (!transactionId) {
-            console.error('❌ No transaction ID found in webhook payload');
-            return NextResponse.json({ error: 'No transaction ID' }, { status: 400 });
-        }
-
-        console.error(`🔍 Processing webhook for transaction: ${transactionId}`);
-        console.error(`📊 Status: ${status}`);
-
-        // 💾 4. Update transaction in Supabase
-        const supabase = createAdminClient();
-
-        // First, check if the transaction exists
-        console.error('📤 Checking if transaction exists in database...');
-        const { data: existing, error: findError } = await supabase
-            .from('cybersource_transactions')
-            .select('id, status')
-            .eq('transaction_id', transactionId)
-            .single();
-
-        if (findError && findError.code !== 'PGRST116') { // PGRST116 = not found
-            console.error('❌ Database lookup error:', findError);
-            return NextResponse.json({ error: 'Database error' }, { status: 500 });
-        }
-
-        console.error(`📊 Transaction exists: ${!!existing}`);
-        if (existing) {
-            console.error(`   Current status: ${existing.status}`);
-        }
-
-        // Map Cybersource status to your database status
-        const dbStatus = mapStatus(status);
-
-        let updateData: any = {
-            status: dbStatus,
-            cybersource_response: payload,
-            updated_at: new Date().toISOString()
-        };
-
-        // Add additional fields if available
-        if (amount) updateData.amount = parseFloat(amount);
-        if (currency) updateData.currency = currency;
-        if (paymentMethod) updateData.payment_method = paymentMethod;
-        if (lastFour) updateData.last_four = lastFour;
-        if (cardType) updateData.card_type = cardType;
-        if (customerEmail) updateData.customer_email = customerEmail;
-        if (customerName) updateData.customer_name = customerName;
-        if (customerPhone) updateData.customer_phone = customerPhone;
-        if (errorCode) updateData.error_code = errorCode;
-        if (errorMessage) updateData.error_message = errorMessage;
-
-        let result;
-
-        if (existing) {
-            // Update existing transaction
-            console.error(`📝 Updating existing transaction: ${transactionId}`);
-            const { data, error } = await supabase
-                .from('cybersource_transactions')
-                .update(updateData)
-                .eq('transaction_id', transactionId)
-                .select();
-
-            if (error) {
-                console.error('❌ Database update error:', error);
-                return NextResponse.json({ error: 'Database error' }, { status: 500 });
-            }
-            result = data;
-            console.error(`✅ Transaction ${transactionId} updated successfully`);
-        } else {
-            // Create new transaction if it doesn't exist (fallback)
-            console.error(`📝 Creating new transaction: ${transactionId}`);
-            const { data, error } = await supabase
-                .from('cybersource_transactions')
-                .insert({
-                    transaction_id: transactionId,
-                    amount: amount ? parseFloat(amount) : 0,
-                    currency: currency || 'USD',
-                    status: dbStatus,
-                    payment_method: paymentMethod,
-                    last_four: lastFour,
-                    card_type: cardType,
-                    customer_name: customerName,
-                    customer_email: customerEmail,
-                    customer_phone: customerPhone,
-                    error_code: errorCode,
-                    error_message: errorMessage,
-                    cybersource_response: payload
-                })
-                .select();
-
-            if (error) {
-                console.error('❌ Database insert error:', error);
-                return NextResponse.json({ error: 'Database error' }, { status: 500 });
-            }
-            result = data;
-            console.error(`✅ New transaction ${transactionId} created successfully`);
-        }
-
-        const duration = Date.now() - startTime;
-        console.error(`✅ Transaction ${transactionId} updated to status: ${dbStatus}`);
-        console.error(`⏱️ Request completed in ${duration}ms`);
-
-        // ✅ 5. Return 200 OK to acknowledge receipt
-        return NextResponse.json({
-            received: true,
-            transactionId: transactionId,
-            status: dbStatus
-        }, { status: 200 });
-
-    } catch (error) {
-        const duration = Date.now() - startTime;
-        console.error('❌ Webhook error:', error);
-        console.error(`⏱️ Error occurred after ${duration}ms`);
-        if (payload) {
-            console.error('📦 Payload at time of error:', JSON.stringify(payload, null, 2));
-        }
-        // Always return 200 to prevent retries
-        return NextResponse.json(
-            {
-                received: false,
-                error: error instanceof Error ? error.message : 'Internal server error',
-                details: error instanceof Error ? error.stack : undefined
-            },
-            { status: 500 }
-        );
-    }
-}
-
-// 🔍 Helper functions to extract data from webhook payload
-// These will need to be adjusted based on the actual Cybersource webhook structure
+// ============================================================
+// 🔍 HELPER FUNCTIONS - Extract data from Cybersource payload
+// ============================================================
 
 function extractTransactionId(payload: any): string | null {
+    if (!payload) return null;
     return payload?.id ||
         payload?.transactionId ||
         payload?.details?.processorInformation?.transactionId ||
@@ -209,6 +17,7 @@ function extractTransactionId(payload: any): string | null {
 }
 
 function extractStatus(payload: any): string {
+    if (!payload) return 'UNKNOWN';
     return payload?.status ||
         payload?.outcome ||
         payload?.result ||
@@ -285,7 +94,10 @@ function extractErrorMessage(payload: any): string | null {
         null;
 }
 
-// 🗺️ Map Cybersource status to database status
+// ============================================================
+// 🗺️ MAP STATUS - Cybersource status → Database status
+// ============================================================
+
 function mapStatus(status: string): string {
     const statusMap: Record<string, string> = {
         'AUTHORIZED': 'completed',
@@ -299,6 +111,271 @@ function mapStatus(status: string): string {
         'REFUNDED': 'refunded',
         'FRAUD_REVIEW': 'fraud_review'
     };
-
     return statusMap[status?.toUpperCase()] || 'pending';
+}
+
+// ============================================================
+// 🔐 DIGITAL SIGNATURE VERIFICATION
+// ============================================================
+
+function verifyDigitalSignature(
+    payload: string,
+    signatureHeader: string | null,
+    keyId: string,
+    secret: string
+): boolean {
+    if (!signatureHeader) {
+        console.error('❌ No signature header found');
+        return false;
+    }
+
+    try {
+        // Parse the signature header: "keyId=xxx, algorithm=xxx, signature=xxx"
+        const parts = signatureHeader.split(',');
+        const keyIdPart = parts.find(p => p.trim().startsWith('keyId='));
+        const sigPart = parts.find(p => p.trim().startsWith('signature='));
+
+        if (!keyIdPart || !sigPart) {
+            console.error('❌ Missing keyId or signature in header');
+            return false;
+        }
+
+        const receivedKeyId = keyIdPart.trim().replace('keyId=', '');
+        const receivedSignature = sigPart.trim().replace('signature=', '');
+
+        // Verify the key ID matches
+        if (receivedKeyId !== keyId) {
+            console.error(`❌ Key ID mismatch: received ${receivedKeyId}, expected ${keyId}`);
+            return false;
+        }
+
+        // Create HMAC SHA256 with the shared secret
+        const hmac = crypto.createHmac('sha256', Buffer.from(secret, 'base64'));
+        const expectedSignature = hmac.update(payload).digest('base64');
+
+        // Compare signatures (timing-safe)
+        const expectedBuffer = Buffer.from(expectedSignature);
+        const signatureBuffer = Buffer.from(receivedSignature);
+
+        if (expectedBuffer.length !== signatureBuffer.length) {
+            console.error('❌ Signature length mismatch');
+            return false;
+        }
+
+        const isValid = crypto.timingSafeEqual(expectedBuffer, signatureBuffer);
+
+        if (isValid) {
+            console.log('✅ Webhook signature verified successfully');
+        } else {
+            console.error('❌ Invalid webhook signature');
+        }
+
+        return isValid;
+    } catch (error) {
+        console.error('❌ Signature verification error:', error);
+        return false;
+    }
+}
+
+// ============================================================
+// 📡 MAIN WEBHOOK HANDLER
+// ============================================================
+
+export async function POST(req: NextRequest) {
+    const startTime = Date.now();
+    let rawBody = '';
+    let payload: any;
+
+    try {
+        // 📨 1. Get the raw body
+        rawBody = await req.text();
+        console.log('📨 Webhook received, length:', rawBody.length);
+
+        // ✅ 2. Check if body is empty
+        if (!rawBody || rawBody.length === 0) {
+            console.log('⚠️ Empty webhook body - likely a ping or health check');
+            return NextResponse.json({
+                received: true,
+                message: 'Empty body received'
+            }, { status: 200 });
+        }
+
+        // ✅ 3. Try to parse JSON
+        try {
+            payload = JSON.parse(rawBody);
+        } catch (parseError) {
+            console.error('❌ Failed to parse JSON:', parseError);
+            console.log('📨 Raw body that failed:', rawBody.substring(0, 200));
+            return NextResponse.json({
+                received: true,
+                message: 'Non-JSON body received'
+            }, { status: 200 });
+        }
+
+        console.log('📨 Webhook payload:', JSON.stringify(payload, null, 2));
+
+        // 🔐 4. Verify the digital signature
+        const webhookKeyId = process.env.CYBERSOURCE_WEBHOOK_KEY_ID;
+        const webhookSecret = process.env.CYBERSOURCE_WEBHOOK_SECRET;
+        const signatureHeader = req.headers.get('v-c-signature');
+
+        if (webhookKeyId && webhookSecret) {
+            if (!verifyDigitalSignature(rawBody, signatureHeader, webhookKeyId, webhookSecret)) {
+                console.error('❌ Invalid signature - rejecting webhook');
+                return NextResponse.json({
+                    error: 'Invalid signature'
+                }, { status: 401 });
+            }
+        } else {
+            console.log('⚠️ Webhook signature verification skipped (no secret configured)');
+            console.log('   Set CYBERSOURCE_WEBHOOK_KEY_ID and CYBERSOURCE_WEBHOOK_SECRET to enable');
+        }
+
+        // 🔍 5. Extract transaction details
+        const transactionId = extractTransactionId(payload);
+        const status = extractStatus(payload);
+        const amount = extractAmount(payload);
+        const currency = extractCurrency(payload);
+        const paymentMethod = extractPaymentMethod(payload);
+        const lastFour = extractLastFour(payload);
+        const cardType = extractCardType(payload);
+        const customerEmail = extractCustomerEmail(payload);
+        const customerName = extractCustomerName(payload);
+        const customerPhone = extractCustomerPhone(payload);
+        const errorCode = extractErrorCode(payload);
+        const errorMessage = extractErrorMessage(payload);
+
+        // 📊 Log extracted data
+        console.log('🔍 Extracted from webhook:');
+        console.log(`   Transaction ID: ${transactionId || 'NOT FOUND'}`);
+        console.log(`   Status: ${status}`);
+        console.log(`   Amount: ${amount || 'NOT FOUND'}`);
+        console.log(`   Currency: ${currency || 'NOT FOUND'}`);
+        console.log(`   Customer: ${customerEmail || 'NOT FOUND'}`);
+
+        // ✅ 6. Validate required fields
+        if (!transactionId) {
+            console.error('❌ No transaction ID found in webhook payload');
+            return NextResponse.json({
+                received: true,
+                message: 'No transaction ID found'
+            }, { status: 200 });
+        }
+
+        if (!status || status === 'UNKNOWN') {
+            console.error('❌ No valid status found in webhook payload');
+            return NextResponse.json({
+                received: true,
+                message: 'No valid status found'
+            }, { status: 200 });
+        }
+
+        // 💾 7. Update transaction in Supabase
+        const supabase = createAdminClient();
+        const dbStatus = mapStatus(status);
+
+        // Build update data
+        const updateData: any = {
+            status: dbStatus,
+            cybersource_response: payload,
+            updated_at: new Date().toISOString()
+        };
+
+        // Add optional fields if available
+        if (amount) updateData.amount = parseFloat(amount);
+        if (currency) updateData.currency = currency;
+        if (paymentMethod) updateData.payment_method = paymentMethod;
+        if (lastFour) updateData.last_four = lastFour;
+        if (cardType) updateData.card_type = cardType;
+        if (customerEmail) updateData.customer_email = customerEmail;
+        if (customerName) updateData.customer_name = customerName;
+        if (customerPhone) updateData.customer_phone = customerPhone;
+        if (errorCode) updateData.error_code = errorCode;
+        if (errorMessage) updateData.error_message = errorMessage;
+
+        // Check if transaction exists
+        const { data: existing, error: findError } = await supabase
+            .from('cybersource_transactions')
+            .select('id, status')
+            .eq('transaction_id', transactionId)
+            .single();
+
+        if (findError && findError.code !== 'PGRST116') {
+            console.error('❌ Database lookup error:', findError);
+            return NextResponse.json({
+                received: true,
+                message: 'Database lookup error'
+            }, { status: 200 });
+        }
+
+        if (existing) {
+            // Update existing transaction
+            console.log(`📝 Updating existing transaction: ${transactionId}`);
+            const { error } = await supabase
+                .from('cybersource_transactions')
+                .update(updateData)
+                .eq('transaction_id', transactionId);
+
+            if (error) {
+                console.error('❌ Database update error:', error);
+                return NextResponse.json({
+                    received: true,
+                    message: 'Database update error'
+                }, { status: 200 });
+            }
+            console.log(`✅ Transaction ${transactionId} updated to status: ${dbStatus}`);
+        } else {
+            // Create new transaction (fallback)
+            console.log(`📝 Creating new transaction: ${transactionId}`);
+            const { error } = await supabase
+                .from('cybersource_transactions')
+                .insert({
+                    transaction_id: transactionId,
+                    amount: amount ? parseFloat(amount) : 0,
+                    currency: currency || 'USD',
+                    status: dbStatus,
+                    payment_method: paymentMethod,
+                    last_four: lastFour,
+                    card_type: cardType,
+                    customer_name: customerName,
+                    customer_email: customerEmail,
+                    customer_phone: customerPhone,
+                    error_code: errorCode,
+                    error_message: errorMessage,
+                    cybersource_response: payload
+                });
+
+            if (error) {
+                console.error('❌ Database insert error:', error);
+                return NextResponse.json({
+                    received: true,
+                    message: 'Database insert error'
+                }, { status: 200 });
+            }
+            console.log(`✅ New transaction ${transactionId} created with status: ${dbStatus}`);
+        }
+
+        const duration = Date.now() - startTime;
+        console.log(`⏱️ Webhook processed in ${duration}ms`);
+
+        // ✅ 8. Return success
+        return NextResponse.json({
+            received: true,
+            transactionId: transactionId,
+            status: dbStatus
+        }, { status: 200 });
+
+    } catch (error) {
+        const duration = Date.now() - startTime;
+        console.error('❌ Webhook error:', error);
+        console.error(`⏱️ Error occurred after ${duration}ms`);
+        if (payload) {
+            console.error('📦 Payload at time of error:', JSON.stringify(payload, null, 2));
+        }
+        // Always return 200 to prevent retries
+        return NextResponse.json({
+            received: true,
+            error: error instanceof Error ? error.message : 'Internal error'
+        }, { status: 200 });
+    }
 }
