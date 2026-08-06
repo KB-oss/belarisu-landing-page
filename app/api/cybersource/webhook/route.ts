@@ -173,6 +173,20 @@ function verifyDigitalSignature(
     }
 }
 
+export async function GET(req: NextRequest) {
+    const { searchParams } = new URL(req.url);
+    const healthCheck = searchParams.get('healthCheck');
+
+    console.log('🩺 Health check received:', healthCheck);
+
+    // Return 200 OK for health checks
+    return NextResponse.json({
+        status: 'ok',
+        message: 'Webhook is healthy',
+        timestamp: new Date().toISOString()
+    }, { status: 200 });
+}
+
 // ============================================================
 // 📡 MAIN WEBHOOK HANDLER WITH FULL REQUEST LOGGING
 // ============================================================
