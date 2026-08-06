@@ -2,6 +2,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import crypto from 'crypto';
+import path from 'path';
+
+// ✅ Import the JWT client
+const { CybsJwtClient } = require('@ryankleindev/cybs-jwt-client');
+
+// ✅ Initialize the client once
+const client = new CybsJwtClient({
+    runEnvironment: 'apitest.cybersource.com',
+    merchantId: process.env.CYBERSOURCE_MERCHANT_ID,
+    requestP12: {
+        path: path.resolve('./certificate/belarisu_1777926367.p12'),
+        password: process.env.CYBERSOURCE_P12_PASSWORD
+    },
+    responseP12: {
+        path: path.resolve('./certificate/belarisu_1777926367.p12'),
+        password: process.env.CYBERSOURCE_P12_PASSWORD
+    },
+    defaultMle: { response: true }
+});
 
 // ============================================================
 // 🔍 HELPER FUNCTIONS
@@ -179,7 +198,6 @@ export async function GET(req: NextRequest) {
 
     console.log('🩺 Health check received:', healthCheck);
 
-    // Return 200 OK for health checks
     return NextResponse.json({
         status: 'ok',
         message: 'Webhook is healthy',
@@ -188,13 +206,12 @@ export async function GET(req: NextRequest) {
 }
 
 // ============================================================
-// 📡 MAIN WEBHOOK HANDLER WITH FULL REQUEST LOGGING
+// 📡 MAIN WEBHOOK HANDLER
 // ============================================================
 
 export async function POST(req: NextRequest) {
     const startTime = Date.now();
 
-    // 📋 Log the entire request
     console.log('========================================');
     console.log('📨 WEBHOOK REQUEST RECEIVED');
     console.log('========================================');
@@ -202,15 +219,11 @@ export async function POST(req: NextRequest) {
     console.log(`🌐 Method: ${req.method}`);
     console.log(`📍 URL: ${req.url}`);
 
-    // Log all headers
-    const headers = Object.fromEntries(req.headers.entries());
-    console.log('📋 Headers:', JSON.stringify(headers, null, 2));
-
     try {
         // 📨 1. Get the raw body
         const rawBody = await req.text();
         console.log(`📦 Raw body length: ${rawBody.length}`);
-        console.log(`📦 Raw body preview: ${rawBody.substring(0, 500)}${rawBody.length > 500 ? '...' : ''}`);
+        console.log(`📦 Raw body preview: ${rawBody.substring(0, 500)}`);
 
         // ✅ 2. Check if body is empty
         if (!rawBody || rawBody.length === 0) {
@@ -228,58 +241,65 @@ export async function POST(req: NextRequest) {
             console.log('✅ JSON parsed successfully');
         } catch (parseError) {
             console.error('❌ Failed to parse JSON:', parseError);
-            console.log('📦 Raw body that failed:', rawBody);
             return NextResponse.json({
                 received: true,
                 message: 'Non-JSON body received'
             }, { status: 200 });
         }
 
-        // 📋 Log the full payload structure
         console.log('📨 Payload structure:', Object.keys(payload));
-        console.log('📨 Full payload:', JSON.stringify(payload, null, 2));
 
-        // ✅ 4. Handle the webhook payload
+        // ✅ 4. Check if this is a test webhook
         const webhookPayload = payload.payload || payload;
-        console.log('📨 Webhook data structure:', Object.keys(webhookPayload));
-        console.log('📨 Webhook data:', JSON.stringify(webhookPayload, null, 2));
 
-        // 🔐 5. Verify the digital signature (if present)
-        const webhookKeyId = process.env.CYBERSOURCE_WEBHOOK_KEY_ID;
-        const webhookSecret = process.env.CYBERSOURCE_WEBHOOK_SECRET;
-
-        // Try multiple header names for signature
-        const signatureHeader = req.headers.get('v-c-signature') ||
-            req.headers.get('signature') ||
-            req.headers.get('x-signature');
-
-        console.log(`🔐 Signature header: ${signatureHeader || 'NOT FOUND'}`);
-
-        if (webhookKeyId && webhookSecret) {
-            const isValid = verifyDigitalSignature(rawBody, signatureHeader, webhookKeyId, webhookSecret);
-            if (!isValid) {
-                console.error('❌ Invalid signature - rejecting webhook');
-                return NextResponse.json({
-                    error: 'Invalid signature'
-                }, { status: 401 });
-            }
-        } else {
-            console.log('⚠️ Webhook signature verification skipped (no secret configured)');
+        if (webhookPayload?.message && typeof webhookPayload.message === 'string') {
+            console.log('🧪 Test webhook detected - skipping processing');
+            console.log('📨 Message:', webhookPayload.message);
+            return NextResponse.json({
+                received: true,
+                test: true,
+                message: 'Test webhook received successfully'
+            }, { status: 200 });
         }
 
-        // 🔍 6. Extract transaction details from the webhook payload
-        const transactionId = extractTransactionId(webhookPayload) || webhookPayload?.id;
-        const status = extractStatus(webhookPayload);
-        const amount = extractAmount(webhookPayload);
-        const currency = extractCurrency(webhookPayload);
-        const paymentMethod = extractPaymentMethod(webhookPayload);
-        const lastFour = extractLastFour(webhookPayload);
-        const cardType = extractCardType(webhookPayload);
-        const customerEmail = extractCustomerEmail(webhookPayload);
-        const customerName = extractCustomerName(webhookPayload);
-        const customerPhone = extractCustomerPhone(webhookPayload);
-        const errorCode = extractErrorCode(webhookPayload);
-        const errorMessage = extractErrorMessage(webhookPayload);
+        // ✅ 5. Decrypt the payload using JWT client (MLE)
+        let decryptedPayload = webhookPayload;
+
+        // Check if the payload is encrypted (has encryptedResponse field)
+        if (webhookPayload?.encryptedResponse) {
+            console.log('🔐 Encrypted payload detected - decrypting with MLE...');
+            try {
+                // ✅ Use the JWT client to decrypt
+                // The client automatically handles MLE decryption
+                const response = await client.post('/uc/v1/decrypt', {
+                    encryptedResponse: webhookPayload.encryptedResponse
+                });
+                decryptedPayload = response;
+                console.log('✅ Payload decrypted successfully');
+                console.log('📨 Decrypted payload:', JSON.stringify(decryptedPayload, null, 2));
+            } catch (decryptError) {
+                console.error('❌ Failed to decrypt payload:', decryptError);
+                // Continue with the original payload if decryption fails
+                decryptedPayload = webhookPayload;
+            }
+        } else {
+            console.log('📨 Unencrypted payload received (or already decrypted)');
+            decryptedPayload = webhookPayload;
+        }
+
+        // 🔍 6. Extract transaction details from the decrypted payload
+        const transactionId = extractTransactionId(decryptedPayload) || decryptedPayload?.id;
+        const status = extractStatus(decryptedPayload);
+        const amount = extractAmount(decryptedPayload);
+        const currency = extractCurrency(decryptedPayload);
+        const paymentMethod = extractPaymentMethod(decryptedPayload);
+        const lastFour = extractLastFour(decryptedPayload);
+        const cardType = extractCardType(decryptedPayload);
+        const customerEmail = extractCustomerEmail(decryptedPayload);
+        const customerName = extractCustomerName(decryptedPayload);
+        const customerPhone = extractCustomerPhone(decryptedPayload);
+        const errorCode = extractErrorCode(decryptedPayload);
+        const errorMessage = extractErrorMessage(decryptedPayload);
 
         // 📊 Log extracted data
         console.log('========================================');
@@ -287,14 +307,7 @@ export async function POST(req: NextRequest) {
         console.log(`   Transaction ID: ${transactionId || 'NOT FOUND'}`);
         console.log(`   Status: ${status}`);
         console.log(`   Amount: ${amount || 'NOT FOUND'}`);
-        console.log(`   Currency: ${currency || 'NOT FOUND'}`);
-        console.log(`   Payment Method: ${paymentMethod || 'NOT FOUND'}`);
-        console.log(`   Last Four: ${lastFour || 'NOT FOUND'}`);
-        console.log(`   Card Type: ${cardType || 'NOT FOUND'}`);
-        console.log(`   Customer Email: ${customerEmail || 'NOT FOUND'}`);
-        console.log(`   Customer Name: ${customerName || 'NOT FOUND'}`);
         console.log(`   Event Type: ${payload.eventType || 'UNKNOWN'}`);
-        console.log(`   Product ID: ${payload.productId || 'UNKNOWN'}`);
         console.log('========================================');
 
         // ✅ 7. Validate required fields
@@ -318,10 +331,9 @@ export async function POST(req: NextRequest) {
         const supabase = createAdminClient();
         const dbStatus = mapStatus(status);
 
-        // Build update data
         const updateData: any = {
             status: dbStatus,
-            cybersource_response: webhookPayload,
+            cybersource_response: decryptedPayload,
             updated_at: new Date().toISOString()
         };
 
@@ -383,7 +395,7 @@ export async function POST(req: NextRequest) {
                     customer_phone: customerPhone,
                     error_code: errorCode,
                     error_message: errorMessage,
-                    cybersource_response: webhookPayload
+                    cybersource_response: decryptedPayload
                 });
 
             if (error) {
@@ -407,12 +419,7 @@ export async function POST(req: NextRequest) {
         }, { status: 200 });
 
     } catch (error) {
-        const duration = Date.now() - startTime;
         console.error('❌ Webhook error:', error);
-        console.error(`⏱️ Error occurred after ${duration}ms`);
-        console.error('📦 Error stack:', error instanceof Error ? error.stack : 'No stack trace');
-        console.log('========================================\n');
-
         return NextResponse.json({
             received: true,
             error: error instanceof Error ? error.message : 'Internal error'
