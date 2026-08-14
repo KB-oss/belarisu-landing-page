@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import { compactDecrypt } from 'jose';
 import fs from 'fs';
 import path from 'path';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -209,7 +210,12 @@ export async function GET() {
             message: 'Webhook is healthy',
             timestamp: new Date().toISOString(),
         },
-        { status: 200 }
+        {
+            status: 200,
+            headers: {
+                'ngrok-skip-browser-warning': 'true',
+            },
+        }
     );
 }
 
@@ -314,6 +320,18 @@ export async function POST(req: NextRequest) {
         });
     }
 
+function normalizeStatus(rawStatus: string | null): string {
+    if (!rawStatus) return 'pending';
+    const s = rawStatus.toUpperCase();
+    if (['AUTHORIZED', 'CAPTURED', 'SUCCESS', 'COMPLETED', 'ACCEPTED', 'DECISION_ACCEPT', 'TRANSACTION_APPROVED'].includes(s)) {
+        return 'completed';
+    }
+    if (['DECLINED', 'REJECTED', 'FAILED', 'ERROR', 'DECISION_REJECT', 'TRANSACTION_DECLINED'].includes(s)) {
+        return 'failed';
+    }
+    return rawStatus.toLowerCase();
+}
+
     const orderInformation = getRecordProperty(decryptedPayload, 'orderInformation');
     const details = getRecordProperty(decryptedPayload, 'details');
     const processorInformation = getRecordProperty(details, 'processorInformation');
@@ -330,6 +348,34 @@ export async function POST(req: NextRequest) {
         status,
         durationMs: Date.now() - startedAt,
     });
+
+    if (transactionId) {
+        const normalizedStatus = normalizeStatus(status);
+        try {
+            const supabase = createAdminClient();
+            const { error: dbError } = await supabase
+                .from('cybersource_transactions')
+                .upsert(
+                    {
+                        transaction_id: transactionId,
+                        status: normalizedStatus,
+                        error_code: normalizedStatus === 'failed' ? status : null,
+                        error_message: normalizedStatus === 'failed' ? `CyberSource status: ${status}` : null,
+                        cybersource_response: decryptedPayload || outer,
+                        updated_at: new Date().toISOString(),
+                    },
+                    { onConflict: 'transaction_id' }
+                );
+
+            if (dbError) {
+                logWebhookError('Failed to update Supabase transaction', dbError);
+            } else {
+                logWebhook('Successfully updated Supabase transaction', { transactionId, normalizedStatus });
+            }
+        } catch (dbErr) {
+            logWebhookError('Supabase client error', dbErr);
+        }
+    }
 
     const responseBody = { received: true, transactionId: transactionId || null, status: status || null };
     logWebhook('response sent', { requestId, statusCode: 200, body: responseBody });
