@@ -45,9 +45,6 @@ export async function POST(req: NextRequest) {
             allowedPaymentTypes: ["PANENTRY"],
             country: "US",
             locale: "en_US",
-            clientReferenceInformation: {
-                code: `txn_${Date.now()}_${Math.floor(Math.random() * 1000)}`
-            },
             captureMandate: {
                 billingType: "FULL",
                 requestEmail: true,
@@ -56,6 +53,9 @@ export async function POST(req: NextRequest) {
                 showAcceptedNetworkIcons: true
             },
             data: {
+                clientReferenceInformation: {
+                    code: `txn_${Date.now()}_${Math.floor(Math.random() * 1000)}`
+                },
                 orderInformation: {
                     amountDetails: {
                         totalAmount: formattedAmount,
