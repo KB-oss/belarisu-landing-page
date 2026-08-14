@@ -53,9 +53,6 @@ export async function POST(req: NextRequest) {
                 showAcceptedNetworkIcons: true
             },
             data: {
-                clientReferenceInformation: {
-                    code: `txn_${Date.now()}_${Math.floor(Math.random() * 1000)}`
-                },
                 orderInformation: {
                     amountDetails: {
                         totalAmount: formattedAmount,
