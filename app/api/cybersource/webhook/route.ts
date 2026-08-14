@@ -1,183 +1,338 @@
 // app/api/cybersource/webhook/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
+import { compactDecrypt } from 'jose';
+import fs from 'fs';
+import path from 'path';
 
-// ============================================================
-// 🔐 DIGITAL SIGNATURE VERIFICATION
-// ============================================================
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
+type JsonRecord = Record<string, unknown>;
+
+function logWebhook(label: string, value?: unknown) {
+    if (value === undefined) {
+        console.log(`[CyberSource Webhook] ${label}`);
+        return;
+    }
+
+    console.log(`[CyberSource Webhook] ${label}:`, value);
+}
+
+function logWebhookError(label: string, error: unknown) {
+    console.error(`[CyberSource Webhook] ${label}:`, error);
+    if (error instanceof Error && error.stack) {
+        console.error(`[CyberSource Webhook] ${label} stack:`, error.stack);
+    }
+}
+
+function mask(value: string | null | undefined): string | null {
+    if (!value) return null;
+    if (value.length <= 12) return `${value.slice(0, 2)}...${value.slice(-2)}`;
+    return `${value.slice(0, 6)}...${value.slice(-6)}`;
+}
+
+function headersForLogs(headers: Headers): Record<string, string> {
+    const sensitiveHeaderNames = new Set([
+        'authorization',
+        'cookie',
+        'set-cookie',
+        'v-c-signature',
+        'signature',
+        'x-signature',
+    ]);
+
+    return Object.fromEntries(
+        [...headers.entries()].map(([key, value]) => [
+            key,
+            sensitiveHeaderNames.has(key.toLowerCase()) ? mask(value) || '[redacted]' : value,
+        ])
+    );
+}
+
+function jsonForLogs(value: unknown): string {
+    try {
+        return JSON.stringify(value, null, 2);
+    } catch {
+        return '[unserializable value]';
+    }
+}
+
+function payloadPreview(value: string, maxChars = 2000): string {
+    return value.length > maxChars ? `${value.slice(0, maxChars)}...[truncated ${value.length - maxChars} chars]` : value;
+}
+
+function asRecord(value: unknown): JsonRecord | null {
+    return value && typeof value === 'object' && !Array.isArray(value) ? value as JsonRecord : null;
+}
+
+function getRecordProperty(value: unknown, key: string): JsonRecord | null {
+    return asRecord(asRecord(value)?.[key]);
+}
+
+function getStringProperty(value: unknown, key: string): string | null {
+    const property = asRecord(value)?.[key];
+    return typeof property === 'string' ? property : null;
+}
 
 function verifyDigitalSignature(
-    payload: string,
+    rawBody: string,
     signatureHeader: string | null,
-    keyId: string,
-    secret: string
+    expectedKeyId: string | undefined,
+    secretBase64: string | undefined
 ): boolean {
+    if (!expectedKeyId || !secretBase64) {
+        logWebhookError('Missing digital signature env vars', {
+            hasWebhookKeyId: Boolean(expectedKeyId),
+            hasWebhookSecret: Boolean(secretBase64),
+        });
+        return false;
+    }
+
     if (!signatureHeader) {
-        console.log('⚠️ No signature header found');
+        logWebhook('No v-c-signature header found');
         return false;
     }
 
     try {
-        // Parse the signature header
-        const parts = signatureHeader.split(',');
-        const keyIdPart = parts.find(p => p.trim().startsWith('keyId='));
-        const sigPart = parts.find(p => p.trim().startsWith('signature='));
+        const cleaned = signatureHeader.replace(/^v-c-signature:\s*/i, '').trim();
+        logWebhook('v-c-signature header received', {
+            length: cleaned.length,
+            preview: mask(cleaned),
+        });
 
-        if (!keyIdPart || !sigPart) {
-            console.log('⚠️ Missing keyId or signature in header');
-            return false;
-        }
-
-        const receivedKeyId = keyIdPart.trim().replace('keyId=', '');
-        const receivedSignature = sigPart.trim().replace('signature=', '');
-
-        console.log(`🔑 Received Key ID: ${receivedKeyId}`);
-        console.log(`🔑 Expected Key ID: ${keyId}`);
-
-        if (receivedKeyId !== keyId) {
-            console.error(`❌ Key ID mismatch`);
-            return false;
-        }
-
-        // Create HMAC SHA256 with the shared secret
-        const hmac = crypto.createHmac('sha256', Buffer.from(secret, 'base64'));
-        const expectedSignature = hmac.update(payload).digest('base64');
-
-        const isValid = crypto.timingSafeEqual(
-            Buffer.from(receivedSignature),
-            Buffer.from(expectedSignature)
+        const parts = Object.fromEntries(
+            cleaned.split(';').map((part) => {
+                const idx = part.indexOf('=');
+                return [part.slice(0, idx).trim(), part.slice(idx + 1).trim()];
+            })
         );
 
-        if (isValid) {
-            console.log('✅ Digital signature verified successfully');
-        } else {
-            console.error('❌ Invalid digital signature');
+        const { t: timestamp, keyId: receivedKeyId, sig: receivedSignature } = parts;
+        logWebhook('parsed signature header', {
+            timestamp,
+            receivedKeyId,
+            expectedKeyId,
+            receivedSignatureLength: receivedSignature?.length || 0,
+            receivedSignaturePreview: mask(receivedSignature),
+        });
+
+        if (!timestamp || !receivedKeyId || !receivedSignature) {
+            logWebhook('Missing t / keyId / sig in v-c-signature header', parts);
+            return false;
         }
 
+        if (receivedKeyId !== expectedKeyId) {
+            logWebhookError('Webhook key ID mismatch', { receivedKeyId, expectedKeyId });
+            return false;
+        }
+
+        const messageToSign = `${timestamp}.${rawBody}`;
+        const expectedSignature = crypto
+            .createHmac('sha256', Buffer.from(secretBase64, 'base64'))
+            .update(messageToSign)
+            .digest('base64');
+
+        const receivedBuf = Buffer.from(receivedSignature, 'base64');
+        const expectedBuf = Buffer.from(expectedSignature, 'base64');
+        logWebhook('signature comparison details', {
+            rawBodyLength: rawBody.length,
+            messageToSignLength: messageToSign.length,
+            receivedBytes: receivedBuf.length,
+            expectedBytes: expectedBuf.length,
+            expectedSignaturePreview: mask(expectedSignature),
+        });
+
+        if (receivedBuf.length !== expectedBuf.length) {
+            logWebhookError('Webhook signature length mismatch', {
+                receivedBytes: receivedBuf.length,
+                expectedBytes: expectedBuf.length,
+            });
+            return false;
+        }
+
+        const isValid = crypto.timingSafeEqual(receivedBuf, expectedBuf);
+        logWebhook(isValid ? 'Digital signature verified' : 'Invalid digital signature');
         return isValid;
     } catch (error) {
-        console.error('❌ Signature verification error:', error);
+        logWebhookError('Signature verification error', error);
         return false;
     }
 }
 
-// ============================================================
-// 🩺 HEALTH CHECK (GET)
-// ============================================================
+async function decryptPayload(encryptedPayload: string): Promise<unknown> {
+    const privateKeyPath = path.join(process.cwd(), 'secrets', 'request_private.pem');
+    const privateKeyPem = process.env.CYBERSOURCE_MLE_PRIVATE_KEY
+        ? process.env.CYBERSOURCE_MLE_PRIVATE_KEY.replace(/\\n/g, '\n')
+        : fs.existsSync(privateKeyPath)
+            ? fs.readFileSync(privateKeyPath, 'utf8')
+            : null;
 
-export async function GET(req: NextRequest) {
-    const { searchParams } = new URL(req.url);
-    const healthCheck = searchParams.get('healthCheck');
+    if (!privateKeyPem) {
+        throw new Error('Missing CYBERSOURCE_MLE_PRIVATE_KEY or secrets/request_private.pem');
+    }
 
-    console.log('🩺 Health check received:', healthCheck);
-    console.log('📋 Headers:', Object.fromEntries(req.headers.entries()));
+    logWebhook('MLE private key source', {
+        fromEnv: Boolean(process.env.CYBERSOURCE_MLE_PRIVATE_KEY),
+        fromFile: !process.env.CYBERSOURCE_MLE_PRIVATE_KEY && fs.existsSync(privateKeyPath),
+        keyLength: privateKeyPem.length,
+        keyPreview: mask(privateKeyPem.replace(/\s+/g, '')),
+    });
 
-    return NextResponse.json({
-        status: 'ok',
-        message: 'Webhook is healthy',
-        timestamp: new Date().toISOString()
-    }, { status: 200 });
+    const privateKey = crypto.createPrivateKey(privateKeyPem);
+    const jwe = encryptedPayload.replace(/^\{[^}]*\}/, '');
+    const jweParts = jwe.split('.');
+    logWebhook('encrypted payload details', {
+        originalLength: encryptedPayload.length,
+        jweLength: jwe.length,
+        jwePartCount: jweParts.length,
+        jwePartLengths: jweParts.map((part) => part.length),
+        jwePreview: mask(jwe),
+    });
+
+    const { plaintext } = await compactDecrypt(jwe, privateKey);
+    logWebhook('MLE decrypt succeeded', {
+        plaintextBytes: plaintext.byteLength,
+    });
+
+    return JSON.parse(Buffer.from(plaintext).toString('utf8'));
 }
 
-// ============================================================
-// 📡 WEBHOOK HANDLER (POST) - SIMPLIFIED FOR TESTING
-// ============================================================
+export async function GET() {
+    logWebhook('GET health check received', {
+        timestamp: new Date().toISOString(),
+    });
+
+    return NextResponse.json(
+        {
+            status: 'ok',
+            message: 'Webhook is healthy',
+            timestamp: new Date().toISOString(),
+        },
+        { status: 200 }
+    );
+}
 
 export async function POST(req: NextRequest) {
-    console.log('========================================');
-    console.log('🚀 WEBHOOK POST RECEIVED!');
-    console.log('========================================');
-    console.log(`⏰ Time: ${new Date().toISOString()}`);
-    console.log(`📍 URL: ${req.url}`);
+    const startedAt = Date.now();
+    const requestId = crypto.randomUUID();
 
-    // 📋 Log all headers
-    const headers = Object.fromEntries(req.headers.entries());
-    console.log('📋 All Headers:', JSON.stringify(headers, null, 2));
+    logWebhook('POST received', {
+        requestId,
+        timestamp: new Date().toISOString(),
+        method: req.method,
+        url: req.url,
+        headers: headersForLogs(req.headers),
+        env: {
+            hasWebhookKeyId: Boolean(process.env.CYBERSOURCE_WEBHOOK_KEY_ID),
+            webhookKeyId: process.env.CYBERSOURCE_WEBHOOK_KEY_ID || null,
+            hasWebhookSecret: Boolean(process.env.CYBERSOURCE_WEBHOOK_SECRET),
+            webhookSecretLength: process.env.CYBERSOURCE_WEBHOOK_SECRET?.length || 0,
+            hasMlePrivateKey: Boolean(process.env.CYBERSOURCE_MLE_PRIVATE_KEY),
+            mlePrivateKeyLength: process.env.CYBERSOURCE_MLE_PRIVATE_KEY?.length || 0,
+        },
+    });
 
-    try {
-        // 📨 Get the raw body
-        const rawBody = await req.text();
-        console.log(`📦 Raw body length: ${rawBody.length}`);
-        console.log(`📦 Raw body: ${rawBody}`);
+    const rawBody = await req.text();
+    logWebhook('raw body received', {
+        requestId,
+        length: rawBody.length,
+        preview: payloadPreview(rawBody),
+    });
 
-        // ✅ Check if body is empty
-        if (!rawBody || rawBody.length === 0) {
-            console.log('⚠️ Empty webhook body');
-            return NextResponse.json({ received: true }, { status: 200 });
-        }
-
-        // 🔐 Verify digital signature
-        const signatureHeader = req.headers.get('v-c-signature') ||
-            req.headers.get('signature') ||
-            req.headers.get('x-signature');
-
-        const webhookKeyId = process.env.CYBERSOURCE_WEBHOOK_KEY_ID;
-        const webhookSecret = process.env.CYBERSOURCE_WEBHOOK_SECRET;
-
-        console.log('🔐 Signature header:', signatureHeader || 'NOT FOUND');
-        console.log('🔑 Webhook Key ID from env:', webhookKeyId ? 'SET' : 'NOT SET');
-        console.log('🔑 Webhook Secret from env:', webhookSecret ? 'SET' : 'NOT SET');
-
-        if (webhookKeyId && webhookSecret && signatureHeader) {
-            const isValid = verifyDigitalSignature(rawBody, signatureHeader, webhookKeyId, webhookSecret);
-            console.log(`✅ Signature valid: ${isValid}`);
-        } else {
-            console.log('⚠️ Signature verification skipped - missing env or header');
-        }
-
-        // 📨 Parse JSON
-        let payload;
-        try {
-            payload = JSON.parse(rawBody);
-            console.log('✅ JSON parsed successfully');
-            console.log('📨 Payload:', JSON.stringify(payload, null, 2));
-        } catch (parseError) {
-            console.error('❌ Failed to parse JSON:', parseError);
-            return NextResponse.json({ received: true }, { status: 200 });
-        }
-
-        // ✅ Check if this is a test webhook
-        const webhookPayload = payload.payload || payload;
-
-        if (webhookPayload?.message && typeof webhookPayload.message === 'string') {
-            console.log('🧪 TEST WEBHOOK DETECTED');
-            console.log('📨 Message:', webhookPayload.message);
-            return NextResponse.json({
-                received: true,
-                test: true,
-                message: 'Test webhook received'
-            }, { status: 200 });
-        }
-
-        // 🔍 Extract transaction ID
-        const transactionId = webhookPayload?.id ||
-            webhookPayload?.transactionId ||
-            webhookPayload?.details?.processorInformation?.transactionId;
-
-        const status = webhookPayload?.status || webhookPayload?.outcome;
-
-        console.log('========================================');
-        console.log('🔍 EXTRACTED DATA:');
-        console.log(`   Transaction ID: ${transactionId || 'NOT FOUND'}`);
-        console.log(`   Status: ${status || 'NOT FOUND'}`);
-        console.log(`   Amount: ${webhookPayload?.amount || webhookPayload?.details?.orderInformation?.amountDetails?.totalAmount || 'NOT FOUND'}`);
-        console.log(`   Event Type: ${payload.eventType || 'UNKNOWN'}`);
-        console.log('========================================');
-
-        // ✅ Return success - always return 200
-        return NextResponse.json({
-            received: true,
-            transactionId: transactionId || null,
-            status: status || null
-        }, { status: 200 });
-
-    } catch (error) {
-        console.error('❌ Webhook error:', error);
-        console.error('❌ Error stack:', error instanceof Error ? error.stack : 'No stack');
-        // Always return 200 to prevent retries
-        return NextResponse.json({
-            received: true,
-            error: error instanceof Error ? error.message : 'Internal error'
-        }, { status: 200 });
+    if (!rawBody) {
+        logWebhook('empty body response', { requestId, durationMs: Date.now() - startedAt });
+        return NextResponse.json({ received: true }, { status: 200 });
     }
+
+    const isValid = verifyDigitalSignature(
+        rawBody,
+        req.headers.get('v-c-signature'),
+        process.env.CYBERSOURCE_WEBHOOK_KEY_ID,
+        process.env.CYBERSOURCE_WEBHOOK_SECRET
+    );
+
+    if (!isValid) {
+        logWebhookError('Signature failed verification. Inspect before trusting payload.', { requestId });
+    }
+
+    let outer: unknown;
+    try {
+        outer = JSON.parse(rawBody);
+        logWebhook('outer JSON parsed', {
+            requestId,
+            type: Array.isArray(outer) ? 'array' : typeof outer,
+            keys: Object.keys(asRecord(outer) || {}),
+            json: jsonForLogs(outer),
+        });
+    } catch (error) {
+        logWebhookError('Failed to parse outer webhook JSON', error);
+        return NextResponse.json({ received: true }, { status: 200 });
+    }
+
+    const outerRecord = asRecord(outer);
+    const payload = outerRecord?.payload;
+    const testMessage = getStringProperty(payload, 'message');
+    logWebhook('payload inspection', {
+        requestId,
+        eventType: outerRecord?.eventType,
+        payloadType: Array.isArray(payload) ? 'array' : typeof payload,
+        payloadKeys: Object.keys(asRecord(payload) || {}),
+        isEncryptedStringPayload: typeof payload === 'string',
+        encryptedPayloadPreview: typeof payload === 'string' ? mask(payload) : null,
+        encryptedPayloadLength: typeof payload === 'string' ? payload.length : 0,
+        hasTestMessage: Boolean(testMessage),
+    });
+
+    if (testMessage) {
+        logWebhook('CyberSource test webhook', { requestId, testMessage });
+        return NextResponse.json({ received: true, test: true }, { status: 200 });
+    }
+
+    let decryptedPayload: unknown = null;
+    if (typeof payload === 'string') {
+        try {
+            logWebhook('starting MLE decrypt', { requestId });
+            decryptedPayload = await decryptPayload(payload);
+            logWebhook('decrypted payload JSON', {
+                requestId,
+                type: Array.isArray(decryptedPayload) ? 'array' : typeof decryptedPayload,
+                keys: Object.keys(asRecord(decryptedPayload) || {}),
+                json: jsonForLogs(decryptedPayload),
+            });
+        } catch (error) {
+            logWebhookError('MLE decryption failed', error);
+            return NextResponse.json({ received: true, decryptionError: true }, { status: 200 });
+        }
+    } else {
+        decryptedPayload = payload ?? outer;
+        logWebhook('using unencrypted payload', {
+            requestId,
+            type: Array.isArray(decryptedPayload) ? 'array' : typeof decryptedPayload,
+            keys: Object.keys(asRecord(decryptedPayload) || {}),
+            json: jsonForLogs(decryptedPayload),
+        });
+    }
+
+    const orderInformation = getRecordProperty(decryptedPayload, 'orderInformation');
+    const details = getRecordProperty(decryptedPayload, 'details');
+    const processorInformation = getRecordProperty(details, 'processorInformation');
+    const transactionId =
+        getStringProperty(decryptedPayload, 'id') ||
+        getStringProperty(orderInformation, 'transactionId') ||
+        getStringProperty(processorInformation, 'transactionId');
+    const status = getStringProperty(decryptedPayload, 'status') || getStringProperty(decryptedPayload, 'outcome');
+
+    logWebhook('extracted result', {
+        requestId,
+        eventType: outerRecord?.eventType,
+        transactionId,
+        status,
+        durationMs: Date.now() - startedAt,
+    });
+
+    const responseBody = { received: true, transactionId: transactionId || null, status: status || null };
+    logWebhook('response sent', { requestId, statusCode: 200, body: responseBody });
+
+    return NextResponse.json(responseBody, { status: 200 });
 }
