@@ -702,6 +702,43 @@ export default function Home() {
         </section>
       </Reveal>
 
+      {/* ══════════════════════════════════
+          SWING FOR SMILES — GOLF TOURNAMENT
+      ══════════════════════════════════ */}
+      <Reveal direction="up">
+        <section className="pb-8 sm:pb-10 lg:pb-14">
+          <div className={WRAP}>
+            <div className="relative overflow-hidden rounded-[24px] sm:rounded-[28px] p-10 sm:p-12 lg:p-16" style={{ background: 'linear-gradient(150deg, #071e36, #04101f)' }}>
+              <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 60% at 85% 0%, rgba(255,117,24,0.12) 0%, transparent 65%)' }} />
+              <div className="relative max-w-[640px]">
+                <p className="font-black uppercase tracking-[3px] mb-4" style={{ fontSize: '10px', color: 'rgba(255,117,24,0.85)' }}>
+                  Upcoming Event · Swing For Smiles
+                </p>
+                <h2 className="font-black text-white leading-[1.05] tracking-tight mb-4" style={{ fontSize: 'clamp(1.8rem, 3.6vw, 3rem)' }}>
+                  Charity Golf{' '}
+                  <em className="not-italic" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic', color: '#ff7518' }}>Tournament</em>
+                </h2>
+                <p className="text-[14px] leading-[1.7] mb-7 font-light" style={{ color: 'rgba(255,255,255,0.75)' }}>
+                  Play the course. Lead the change. Join us at Karen Country Club on World Smile Day — every entry funds cleft care at BelaRisu Medical Centre.
+                </p>
+                <div className="flex flex-wrap gap-x-8 gap-y-3 mb-8 text-[13px] font-semibold" style={{ color: 'rgba(255,255,255,0.88)' }}>
+                  <span>02 Oct 2026 · World Smile Day</span>
+                  <span>Karen Country Club</span>
+                  <span>KSH 4,000 single / KSH 12,000 4-ball</span>
+                </div>
+                <Link
+                  href="/golf-day"
+                  className="inline-flex items-center gap-2 font-black text-[13px] px-7 py-3.5 rounded-full transition-all shadow-xl hover:-translate-y-px"
+                  style={{ background: '#ff7518', color: '#fff' }}
+                >
+                  Register to play <ArrowUpRight />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
     </div>
   )
 }
