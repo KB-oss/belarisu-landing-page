@@ -31,7 +31,14 @@ const DONATE_IMG_MOBILE = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/v17
 const DONATE_IMG_DESKTOP_HOVER = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246029/0B2A0279_1_drz6kf.webp'
 const DONATE_IMG_MOBILE_HOVER = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1783886284/dchripd1r18oh9ugpjfe_mmtqdp.webp'
 
-const GOLF_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1783888993/Hero_image_4_i8ev3w.webp'
+/* Was Hero_image_4 — a studio portrait of a parent and child, i.e. a patient
+   photo standing in for a golf tournament. Same banner as /golf-day now, so the
+   teaser and the page it links to read as one thing. The ball sits far right and
+   is the only golf cue, and g_auto drops it from portrait crops, so the tall
+   desktop column anchors east. */
+const GOLF_BANNER = 'v1788900416/belarisu/golf-day/golf-day-banner.webp'
+const GOLF_IMG_WIDE = `https://res.cloudinary.com/dtqbzj2sg/image/upload/f_auto,q_auto,c_fill,g_auto,ar_16:9,w_1200/${GOLF_BANNER}`
+const GOLF_IMG_TALL = `https://res.cloudinary.com/dtqbzj2sg/image/upload/f_auto,q_auto,c_fill,g_east,ar_3:4,w_800/${GOLF_BANNER}`
 
 
 
@@ -711,44 +718,64 @@ export default function Home() {
         <section className="pb-8 sm:pb-10 lg:pb-14">
           <div className={WRAP}>
             <div
-              className="overflow-hidden rounded-[24px] sm:rounded-[28px] grid lg:grid-cols-[0.8fr_1.2fr]"
+              className="overflow-hidden rounded-[24px] sm:rounded-[28px] grid lg:grid-cols-[0.82fr_1.18fr]"
               style={{ background: '#f6f3ee' }}
             >
-              <img
-                src={GOLF_IMG}
-                alt=""
-                className="w-full h-[240px] sm:h-[300px] lg:h-full object-cover"
-              />
+              {/* The photo is portrait in this column, so it can't size itself —
+                  left to its intrinsic aspect it forced a ~670px card and left a
+                  dead beige field beside it. Pin it to the column instead. */}
+              <div className="relative lg:min-h-[440px]">
+                <picture>
+                  <source media="(min-width: 1024px)" srcSet={GOLF_IMG_TALL} />
+                  <img
+                    src={GOLF_IMG_WIDE}
+                    alt=""
+                    className="w-full h-[240px] sm:h-[300px] object-cover lg:absolute lg:inset-0 lg:h-full"
+                  />
+                </picture>
 
-              <div className="p-9 sm:p-12 lg:p-14">
+                {/* Date block — the one fact worth reading before the headline */}
+                <div className="absolute left-0 bottom-0 flex items-end gap-3 px-6 py-5 sm:px-8 sm:py-6" style={{ background: '#071e36' }}>
+                  <span className="font-black text-white leading-[0.8] tracking-tighter" style={{ fontSize: 'clamp(2.6rem, 4vw, 3.4rem)' }}>02</span>
+                  <span className="pb-1">
+                    <span className="block font-black text-white text-[14px] leading-tight">October 2026</span>
+                    <span className="block text-[11.5px] mt-0.5" style={{ color: 'rgba(255,255,255,0.6)' }}>World Smile Day</span>
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-9 sm:p-12 lg:p-14 lg:flex lg:flex-col lg:justify-center">
                 <p className="font-black uppercase tracking-[3px] mb-4" style={{ fontSize: '10px', color: '#ff7518' }}>
                   Upcoming event
                 </p>
-                <h2 className="font-black leading-[1.05] tracking-tight mb-4" style={{ fontSize: 'clamp(1.8rem, 3.4vw, 2.8rem)', color: '#071e36' }}>
+                <h2 className="font-black leading-[1.05] tracking-tight mb-4 max-w-[13ch] lg:max-w-none" style={{ fontSize: 'clamp(1.8rem, 3.4vw, 2.8rem)', color: '#071e36' }}>
                   Swing For Smiles{' '}
-                  <em className="not-italic" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic', color: '#ff7518' }}>Charity Golf</em>
+                  {/* nowrap so the line breaks before the phrase rather than through it */}
+                  <em className="not-italic whitespace-nowrap" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic', color: '#ff7518' }}>Charity Golf</em>
                 </h2>
                 <p className="text-[14.5px] leading-[1.7] mb-8 max-w-[46ch]" style={{ color: '#62748e' }}>
                   Play the course. Lead the change. Join us at Karen Country Club on World Smile Day —
                   every entry funds cleft care at BelaRisu Medical Centre.
                 </p>
 
-                <dl className="grid sm:grid-cols-3 gap-y-4 mb-9">
+                {/* Same label/value idiom as the /golf-day hero meta strip */}
+                <dl className="grid sm:grid-cols-3 gap-y-5 gap-x-6 mb-9">
                   {[
-                    { value: '02 Oct 2026', label: 'World Smile Day' },
-                    { value: 'Karen Country Club', label: 'Nairobi, Kenya' },
-                    { value: 'KSH 4,000 / 12,000', label: 'Single entry / 4-ball' },
-                  ].map(({ value, label }) => (
-                    <div key={value} className="pt-4 sm:pr-5" style={{ borderTop: '1px solid #e3ddd3' }}>
-                      <dd className="font-black text-[14px] leading-snug" style={{ color: '#071e36' }}>{value}</dd>
-                      <dt className="text-[12px] mt-1" style={{ color: '#62748e' }}>{label}</dt>
+                    { term: 'Venue', value: 'Karen Country Club', sub: 'Nairobi, Kenya' },
+                    { term: 'Single entry', value: 'KSH 4,000', sub: 'One player' },
+                    { term: '4-ball team', value: 'KSH 12,000', sub: 'Four players' },
+                  ].map(({ term, value, sub }) => (
+                    <div key={term} className="pt-4" style={{ borderTop: '1px solid #e3ddd3' }}>
+                      <dt className="font-bold uppercase tracking-[2px] mb-1.5" style={{ fontSize: '10px', color: '#8c9bab' }}>{term}</dt>
+                      <dd className="font-black text-[14.5px] leading-snug" style={{ color: '#071e36' }}>{value}</dd>
+                      <dd className="text-[12px] mt-0.5" style={{ color: '#62748e' }}>{sub}</dd>
                     </div>
                   ))}
                 </dl>
 
                 <Link
                   href="/golf-day"
-                  className="inline-flex items-center gap-2 bg-accent text-white font-black text-[13px] px-7 py-3.5 rounded-full transition-colors hover:bg-navy focus-visible:outline-2 focus-visible:outline-offset-2"
+                  className="inline-flex self-start items-center gap-2 bg-accent text-white font-black text-[13px] px-7 py-3.5 rounded-full transition-colors hover:bg-navy focus-visible:outline-2 focus-visible:outline-offset-2"
                   style={{ outlineColor: '#071e36' }}
                 >
                   Register to play <ArrowUpRight />
