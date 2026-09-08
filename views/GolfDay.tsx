@@ -13,6 +13,13 @@ const PLAYFAIR = "'Playfair Display', Georgia, 'Times New Roman', serif"
 const WRAP = 'w-full max-w-[1366px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20'
 const NAVY = '#071e36'
 const ORANGE = '#ff7518'
+const BEIGE = '#f6f3ee'
+
+const BAND_IMG =
+  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246029/0B2A0279_1_drz6kf.webp'
+
+const PAYBILL = '4066527'
+const ACCOUNT = 'SMILE'
 
 /* ─── Zod schema ─── */
 const formSchema = z.object({
@@ -28,7 +35,71 @@ type FormData = z.infer<typeof formSchema>
 
 const ENTRY_OPTIONS = ['Single Entry — KSH 4,000', '4-Ball Team — KSH 12,000'] as const
 
-/* ─── Field wrapper (matches Contact.tsx) ─── */
+/* ─── Icons ─── */
+function ArrowRight({ className = 'w-4 h-4' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 12h14M12 5l7 7-7 7" />
+    </svg>
+  )
+}
+
+function CopyIcon({ className = 'w-3.5 h-3.5' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="9" y="9" width="11" height="11" rx="2.5" />
+      <path d="M5 15V6a2.5 2.5 0 0 1 2.5-2.5H15" />
+    </svg>
+  )
+}
+
+function CheckIcon({ className = 'w-3.5 h-3.5' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 12.5 9.5 18 20 6.5" />
+    </svg>
+  )
+}
+
+/* ─── Copyable payment value ─── */
+function CopyField({ label, value }: { label: string; value: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(value)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 2000)
+    } catch {
+      /* clipboard unavailable — the number stays visible and selectable */
+    }
+  }
+
+  return (
+    <div className="flex items-center justify-between gap-4 py-4">
+      <div>
+        <p className="text-[12px] font-semibold mb-1" style={{ color: '#62748e' }}>{label}</p>
+        <p className="font-black text-[24px] sm:text-[28px] leading-none tracking-tight" style={{ color: NAVY }}>{value}</p>
+      </div>
+      <button
+        type="button"
+        onClick={copy}
+        aria-label={`Copy ${label} ${value}`}
+        className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[12px] font-bold border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+        style={{
+          borderColor: copied ? ORANGE : '#dcd6cc',
+          color: copied ? ORANGE : '#62748e',
+          outlineColor: ORANGE,
+        }}
+      >
+        {copied ? <CheckIcon /> : <CopyIcon />}
+        {copied ? 'Copied' : 'Copy'}
+      </button>
+    </div>
+  )
+}
+
+/* ─── Form field wrapper (matches Contact.tsx) ─── */
 interface FieldProps { label: string; required?: boolean; error?: string; children: React.ReactNode }
 function Field({ label, required, error, children }: FieldProps) {
   return (
@@ -43,7 +114,7 @@ function Field({ label, required, error, children }: FieldProps) {
   )
 }
 
-function useInputStyle(focused: string | null, fieldId: string, hasError?: boolean) {
+function getInputStyle(focused: string | null, fieldId: string, hasError?: boolean) {
   const isFocused = focused === fieldId
   return {
     borderColor: hasError ? '#ef4444' : (isFocused ? ORANGE : '#e2e8f0'),
@@ -106,108 +177,159 @@ export default function GolfDay() {
   }
 
   return (
-    <div className="bg-[#fdfcfb]">
+    <div style={{ background: '#fdfcfb' }}>
 
       {/* ══════════════════════════════════
-          HERO
+          HERO — headline left, entry card right
       ══════════════════════════════════ */}
       <section className="relative overflow-hidden" style={{ background: NAVY }}>
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 80% 55% at 50% 0%, rgba(255,117,24,0.10) 0%, transparent 65%)' }}
+          style={{ background: 'radial-gradient(ellipse 75% 60% at 78% 0%, rgba(255,117,24,0.13) 0%, transparent 62%)' }}
         />
-        <div className={`${WRAP} relative pt-[132px] pb-16 lg:pt-[160px] lg:pb-20`}>
+        <div className={`${WRAP} relative pt-[124px] pb-16 lg:pt-[150px] lg:pb-24`}>
           <Reveal direction="up">
-            <p className="text-accent text-sm font-bold tracking-[3px] uppercase mb-4" style={{ color: ORANGE }}>
-              Swing For Smiles
-            </p>
-            <h1 className="text-white font-black leading-[0.98] tracking-tight mb-5" style={{ fontSize: 'clamp(2.6rem, 6vw, 5rem)' }}>
-              Charity Golf<br />
-              <em className="not-italic" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic', color: ORANGE }}>Tournament.</em>
-            </h1>
-            <p className="text-white/78 text-lg max-w-xl mb-9 font-light leading-relaxed">
-              Play the course. Lead the change. All proceeds directly support cleft care at BelaRisu Medical Centre.
-            </p>
-            <div className="flex flex-wrap gap-x-10 gap-y-5 mb-9">
-              {[
-                { label: '02 Oct 2026', sub: 'World Smile Day' },
-                { label: 'Karen Country Club', sub: 'Nairobi, Kenya' },
-                { label: 'KSH 4,000 / KSH 12,000', sub: 'Single entry / 4-ball' },
-              ].map(({ label, sub }) => (
-                <div key={label}>
-                  <p className="text-white font-bold text-[15px]">{label}</p>
-                  <p className="text-white/50 text-[11px] uppercase tracking-[1.5px] font-black mt-1">{sub}</p>
+            <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-20 items-center">
+
+              {/* Headline */}
+              <div>
+                <p className="text-sm font-bold tracking-[3px] uppercase mb-5" style={{ color: ORANGE }}>
+                  Swing For Smiles
+                </p>
+                <h1 className="text-white font-black leading-[0.95] tracking-tight mb-6" style={{ fontSize: 'clamp(2.7rem, 5.6vw, 4.8rem)' }}>
+                  Charity Golf<br />
+                  <em className="not-italic" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic', color: ORANGE }}>Tournament.</em>
+                </h1>
+                <p className="text-lg max-w-[46ch] font-light leading-relaxed" style={{ color: 'rgba(255,255,255,0.78)' }}>
+                  Play the course. Lead the change. Every entry funds cleft surgery, therapy and follow-up
+                  care at BelaRisu Medical Centre.
+                </p>
+              </div>
+
+              {/* Entry card */}
+              <div
+                className="rounded-[22px] overflow-hidden backdrop-blur-sm"
+                style={{ background: 'rgba(255,255,255,0.055)', border: '1px solid rgba(255,255,255,0.13)' }}
+              >
+                {/* Date */}
+                <div className="flex items-center gap-5 px-6 sm:px-8 py-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.11)' }}>
+                  <p className="font-black text-white leading-none tracking-tighter" style={{ fontSize: 'clamp(3.2rem, 6vw, 4.2rem)' }}>02</p>
+                  <div className="pt-1">
+                    <p className="text-white font-black text-[17px] leading-tight">October 2026</p>
+                    <p className="text-[12px] mt-1" style={{ color: 'rgba(255,255,255,0.55)' }}>World Smile Day</p>
+                  </div>
                 </div>
-              ))}
+
+                {/* Vitals */}
+                <dl className="px-6 sm:px-8">
+                  <div className="flex items-start justify-between gap-6 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.09)' }}>
+                    <dt className="text-[13px] shrink-0" style={{ color: 'rgba(255,255,255,0.5)' }}>Venue</dt>
+                    <dd className="text-right">
+                      <span className="block text-white font-bold text-[14px]">Karen Country Club</span>
+                      <span className="block text-[12px] mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>Nairobi, Kenya</span>
+                    </dd>
+                  </div>
+                  <div className="flex items-center justify-between gap-6 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.09)' }}>
+                    <dt className="text-[13px]" style={{ color: 'rgba(255,255,255,0.5)' }}>Single entry</dt>
+                    <dd className="font-black text-[19px] tracking-tight" style={{ color: ORANGE }}>KSH 4,000</dd>
+                  </div>
+                  <div className="flex items-center justify-between gap-6 py-4">
+                    <dt className="text-[13px]" style={{ color: 'rgba(255,255,255,0.5)' }}>4-ball team</dt>
+                    <dd className="font-black text-[19px] tracking-tight" style={{ color: ORANGE }}>KSH 12,000</dd>
+                  </div>
+                </dl>
+
+                {/* CTA */}
+                <div className="px-6 sm:px-8 pb-7 pt-2">
+                  <a
+                    href="#register"
+                    className="flex items-center justify-center gap-2 w-full font-black py-4 rounded-full text-[14px] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+                    style={{ background: ORANGE, color: '#fff', outlineColor: '#fff' }}
+                  >
+                    Register to play
+                    <ArrowRight />
+                  </a>
+                  <p className="text-center text-[11.5px] mt-3.5" style={{ color: 'rgba(255,255,255,0.42)' }}>
+                    Pay by M-PESA once your entry is confirmed
+                  </p>
+                </div>
+              </div>
+
             </div>
-            <a
-              href="#register"
-              className="inline-flex items-center gap-2 font-black px-8 py-3.5 rounded-full transition-all shadow-xl text-sm"
-              style={{ background: ORANGE, color: '#fff' }}
-            >
-              Register to play
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-            </a>
           </Reveal>
         </div>
       </section>
 
       {/* ══════════════════════════════════
-          PRICING / PAYMENT
+          IMAGE BAND
       ══════════════════════════════════ */}
-      <section className="py-14 lg:py-16" style={{ background: '#f6f3ee' }}>
-        <div className={WRAP}>
+      <section className="relative overflow-hidden">
+        <img
+          src={BAND_IMG}
+          alt="A child treated at BelaRisu Medical Centre"
+          className="w-full h-[260px] sm:h-[320px] lg:h-[400px] object-cover"
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to right, rgba(7,30,54,0.05) 0%, rgba(7,30,54,0.55) 48%, rgba(7,30,54,0.88) 100%)' }}
+        />
+        <div className={`${WRAP} absolute inset-0 flex items-center justify-end`}>
+          <p
+            className="text-white font-black text-right leading-[1.25] tracking-tight max-w-[19ch]"
+            style={{ fontSize: 'clamp(1.25rem, 2.6vw, 2.1rem)' }}
+          >
+            A round of golf pays for a{' '}
+            <em className="not-italic" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic', color: ORANGE }}>lifetime</em>{' '}
+            of smiles.
+          </p>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════
+          REGISTRATION
+      ══════════════════════════════════ */}
+      <section id="register" className="py-20 lg:py-28 scroll-mt-24">
+        <div className={`${WRAP} grid lg:grid-cols-[0.62fr_1fr] gap-12 lg:gap-20 items-start`}>
+
           <Reveal direction="up">
-            <div className="grid sm:grid-cols-3 gap-8">
-              <div>
-                <p className="font-black tracking-[2.5px] uppercase mb-4" style={{ fontSize: '10px', color: ORANGE }}>Pricing</p>
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-baseline gap-2"><strong className="text-lg" style={{ color: ORANGE }}>KSH 4,000</strong><span className="text-[13px] text-muted">Single entry</span></div>
-                  <div className="flex items-baseline gap-2"><strong className="text-lg" style={{ color: ORANGE }}>KSH 12,000</strong><span className="text-[13px] text-muted">4-ball (team of 4)</span></div>
-                </div>
-              </div>
-              <div>
-                <p className="font-black tracking-[2.5px] uppercase mb-4" style={{ fontSize: '10px', color: ORANGE }}>M-PESA Payment</p>
-                <p className="font-bold text-navy" style={{ color: NAVY }}>Paybill 4066527</p>
-                <p className="text-muted text-[13px] mt-1">Account: SMILE</p>
-              </div>
-              <div>
-                <p className="font-black tracking-[2.5px] uppercase mb-4" style={{ fontSize: '10px', color: ORANGE }}>Questions</p>
-                <p className="text-[14px] font-semibold" style={{ color: NAVY }}>
-                  <a href="tel:+254722872872" className="hover:text-accent">0722 872 872</a>
-                  {' · '}
-                  <a href="mailto:info@belarisumedicalcentre.org" className="hover:text-accent">info@belarisumedicalcentre.org</a>
+            <div className="lg:sticky lg:top-28">
+              <p className="font-black tracking-[2.5px] uppercase mb-4" style={{ fontSize: '10px', color: ORANGE }}>Registration</p>
+              <h2 className="font-black leading-[1.02] tracking-tight mb-5" style={{ fontSize: 'clamp(2rem, 3.4vw, 3rem)', color: NAVY }}>
+                Save your spot.
+              </h2>
+              <p className="text-[15px] leading-relaxed max-w-[40ch] mb-8" style={{ color: '#62748e' }}>
+                Tell us who&rsquo;s playing. We&rsquo;ll confirm your entry by phone or email and send you
+                the M-PESA details to complete it.
+              </p>
+              <div className="pt-7 space-y-3" style={{ borderTop: '1px solid #e8e2d8' }}>
+                <p className="text-[13px]" style={{ color: '#62748e' }}>
+                  Prefer to talk it through?
+                </p>
+                <p className="text-[14px] font-bold" style={{ color: NAVY }}>
+                  <a href="tel:+254722872872" className="hover:text-accent transition-colors">0722 872 872</a>
+                </p>
+                <p className="text-[14px] font-bold break-all" style={{ color: NAVY }}>
+                  <a href="mailto:info@belarisumedicalcentre.org" className="hover:text-accent transition-colors">info@belarisumedicalcentre.org</a>
                 </p>
               </div>
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════
-          REGISTRATION FORM
-      ══════════════════════════════════ */}
-      <section id="register" className="section-pad">
-        <div className={`${WRAP} grid lg:grid-cols-[0.55fr_1fr] gap-12 lg:gap-20`}>
-          <Reveal direction="up">
-            <p className="font-black tracking-[2.5px] uppercase mb-4" style={{ fontSize: '10px', color: ORANGE }}>Registration</p>
-            <h2 className="font-black leading-[1.05] tracking-tight mb-4" style={{ fontSize: 'clamp(1.9rem, 3.4vw, 3rem)', color: NAVY }}>
-              Save your spot.
-            </h2>
-            <p className="text-muted text-[15px] leading-relaxed max-w-[38ch]">
-              Fill in your details below. Our team will confirm your entry and share M-PESA payment instructions to complete registration.
-            </p>
           </Reveal>
 
           <Reveal direction="up">
             {submitted ? (
-              <div className="rounded-3xl p-8" style={{ background: '#f6f3ee' }}>
-                <strong className="text-xl" style={{ color: NAVY }}>Registration received.</strong>
-                <p className="mt-2.5 text-muted text-[14px] leading-relaxed">
-                  Thank you for joining Swing For Smiles. Pay your entry fee via M-PESA Paybill <strong>4066527</strong>, Account <strong>SMILE</strong>, and our team will confirm your tee time. Questions? Call{' '}
-                  <a href="tel:+254722872872" className="hover:text-accent" style={{ color: NAVY }}>0722 872 872</a> or email{' '}
-                  <a href="mailto:info@belarisumedicalcentre.org" className="hover:text-accent" style={{ color: NAVY }}>info@belarisumedicalcentre.org</a>.
+              <div className="rounded-[22px] p-8 sm:p-10" style={{ background: BEIGE }}>
+                <div className="w-11 h-11 rounded-full flex items-center justify-center mb-5" style={{ background: ORANGE, color: '#fff' }}>
+                  <CheckIcon className="w-5 h-5" />
+                </div>
+                <p className="font-black text-[22px] tracking-tight mb-2.5" style={{ color: NAVY }}>Registration received.</p>
+                <p className="text-[14px] leading-relaxed mb-7" style={{ color: '#62748e' }}>
+                  Thank you for joining Swing For Smiles. Pay your entry fee by M-PESA to confirm your tee time —
+                  our team will be in touch either way.
                 </p>
+                <div className="rounded-[16px] bg-white px-6 divide-y" style={{ borderColor: '#ece6dc' }}>
+                  <CopyField label="M-PESA Paybill" value={PAYBILL} />
+                  <CopyField label="Account number" value={ACCOUNT} />
+                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} className="grid sm:grid-cols-2 gap-5">
@@ -215,7 +337,7 @@ export default function GolfDay() {
                   <input
                     {...register('fullName')}
                     className={BASE_INPUT}
-                    style={useInputStyle(focused, 'fullName', !!errors.fullName)}
+                    style={getInputStyle(focused, 'fullName', !!errors.fullName)}
                     onFocus={() => setFocused('fullName')}
                     onBlur={() => setFocused(null)}
                     placeholder="Jane Doe"
@@ -226,7 +348,7 @@ export default function GolfDay() {
                     {...register('email')}
                     type="email"
                     className={BASE_INPUT}
-                    style={useInputStyle(focused, 'email', !!errors.email)}
+                    style={getInputStyle(focused, 'email', !!errors.email)}
                     onFocus={() => setFocused('email')}
                     onBlur={() => setFocused(null)}
                     placeholder="jane@example.com"
@@ -237,7 +359,7 @@ export default function GolfDay() {
                     {...register('phone')}
                     type="tel"
                     className={BASE_INPUT}
-                    style={useInputStyle(focused, 'phone', !!errors.phone)}
+                    style={getInputStyle(focused, 'phone', !!errors.phone)}
                     onFocus={() => setFocused('phone')}
                     onBlur={() => setFocused(null)}
                     placeholder="0712 345 678"
@@ -247,7 +369,7 @@ export default function GolfDay() {
                   <select
                     {...register('entryType')}
                     className={BASE_INPUT}
-                    style={useInputStyle(focused, 'entryType', !!errors.entryType)}
+                    style={getInputStyle(focused, 'entryType', !!errors.entryType)}
                     onFocus={() => setFocused('entryType')}
                     onBlur={() => setFocused(null)}
                   >
@@ -256,46 +378,84 @@ export default function GolfDay() {
                 </Field>
                 {entryType === '4-Ball Team — KSH 12,000' && (
                   <div className="sm:col-span-2">
-                    <Field label="Teammates" error={errors.teammates?.message}>
+                    <Field label="Your three teammates" error={errors.teammates?.message}>
                       <textarea
                         {...register('teammates')}
                         className={BASE_INPUT}
-                        style={useInputStyle(focused, 'teammates', !!errors.teammates)}
+                        style={getInputStyle(focused, 'teammates', !!errors.teammates)}
                         onFocus={() => setFocused('teammates')}
                         onBlur={() => setFocused(null)}
                         rows={2}
-                        placeholder="List your 3 fellow players…"
+                        placeholder="Names of the other three players in your 4-ball"
                       />
                     </Field>
                   </div>
                 )}
                 <div className="sm:col-span-2">
-                  <Field label="Message" error={errors.message?.message}>
+                  <Field label="Anything else we should know" error={errors.message?.message}>
                     <textarea
                       {...register('message')}
                       className={BASE_INPUT}
-                      style={useInputStyle(focused, 'message', !!errors.message)}
+                      style={getInputStyle(focused, 'message', !!errors.message)}
                       onFocus={() => setFocused('message')}
                       onBlur={() => setFocused(null)}
                       rows={4}
-                      placeholder="Handicap, dietary needs, or anything else we should know…"
+                      placeholder="Handicap, dietary needs, accessibility requirements…"
                     />
                   </Field>
                 </div>
-                {submitError && <p className="sm:col-span-2 text-[12px]" style={{ color: '#ef4444' }}>{submitError}</p>}
-                <div className="sm:col-span-2">
+                {submitError && (
+                  <p className="sm:col-span-2 text-[12.5px] rounded-[10px] px-4 py-3" style={{ color: '#b91c1c', background: '#fef2f2' }}>
+                    {submitError}
+                  </p>
+                )}
+                <div className="sm:col-span-2 flex flex-wrap items-center gap-x-5 gap-y-3 pt-1">
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex items-center gap-2 font-black px-8 py-3.5 rounded-full transition-all shadow-xl text-sm disabled:opacity-60"
-                    style={{ background: NAVY, color: '#fff' }}
+                    className="inline-flex items-center gap-2 font-black px-8 py-4 rounded-full text-[14px] transition-colors disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2"
+                    style={{ background: NAVY, color: '#fff', outlineColor: ORANGE }}
                   >
-                    {isSubmitting ? 'Submitting…' : 'Submit registration'}
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                    {isSubmitting ? 'Sending…' : 'Send registration'}
+                    <ArrowRight />
                   </button>
+                  <p className="text-[12px]" style={{ color: '#62748e' }}>No payment needed yet.</p>
                 </div>
               </form>
             )}
+          </Reveal>
+
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════
+          HOW TO PAY
+      ══════════════════════════════════ */}
+      <section className="py-16 lg:py-20" style={{ background: BEIGE }}>
+        <div className={WRAP}>
+          <Reveal direction="up">
+            <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+              <div>
+                <p className="font-black tracking-[2.5px] uppercase mb-4" style={{ fontSize: '10px', color: ORANGE }}>Payment</p>
+                <h2 className="font-black leading-[1.05] tracking-tight mb-4" style={{ fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', color: NAVY }}>
+                  Pay your entry by <span className="whitespace-nowrap">M-PESA</span>.
+                </h2>
+                <p className="text-[15px] leading-relaxed max-w-[42ch]" style={{ color: '#62748e' }}>
+                  Send KSH 4,000 for a single entry, or KSH 12,000 for a 4-ball team, to the BelaRisu
+                  paybill below. Keep your confirmation message — it&rsquo;s your proof of entry on the day.
+                </p>
+              </div>
+
+              <div className="rounded-[22px] bg-white p-7 sm:p-8" style={{ border: '1px solid #ece6dc' }}>
+                <div className="flex items-center gap-3 mb-2 pb-5" style={{ borderBottom: '1px solid #f0ebe3' }}>
+                  <img src="/mpesaLogo.png" alt="M-PESA" className="h-7 w-auto object-contain" />
+                </div>
+                <div className="divide-y" style={{ borderColor: '#f0ebe3' }}>
+                  <CopyField label="Paybill number" value={PAYBILL} />
+                  <CopyField label="Account number" value={ACCOUNT} />
+                </div>
+              </div>
+            </div>
           </Reveal>
         </div>
       </section>
@@ -303,29 +463,30 @@ export default function GolfDay() {
       {/* ══════════════════════════════════
           CAN'T PLAY?
       ══════════════════════════════════ */}
-      <Reveal direction="up">
-        <section className="py-8 sm:py-10 lg:py-14">
-          <div className={WRAP}>
-            <div className="rounded-[24px] p-10 sm:p-12 lg:p-16 text-center" style={{ background: 'linear-gradient(145deg, #9a3208, #ff7518)' }}>
-              <p className="font-black uppercase tracking-[3px] mb-4 text-white/85" style={{ fontSize: '10px' }}>Can&rsquo;t play?</p>
-              <h2 className="font-black text-white leading-tight tracking-tight mb-4" style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}>
-                Support the tournament another way.
+      <section className="py-16 lg:py-24">
+        <div className={WRAP}>
+          <Reveal direction="up">
+            <div className="rounded-[24px] px-8 py-12 sm:px-14 sm:py-16 lg:px-20" style={{ background: NAVY }}>
+              <h2 className="font-black text-white leading-[1.1] tracking-tight mb-4" style={{ fontSize: 'clamp(1.6rem, 2.8vw, 2.3rem)' }}>
+                Not a golfer? You can still{' '}
+                <em className="not-italic" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic', color: ORANGE }}>change a life</em>.
               </h2>
-              <p className="text-white/85 text-[15px] max-w-xl mx-auto mb-8 leading-relaxed">
-                Sponsor a hole, donate a prize, or give directly — every contribution funds cleft surgery, therapy, and follow-up care.
+              <p className="text-[15px] leading-relaxed max-w-[46ch] mb-8" style={{ color: 'rgba(255,255,255,0.72)' }}>
+                Sponsor a hole, donate a prize, or give directly — every contribution funds cleft surgery,
+                therapy and follow-up care.
               </p>
               <Link
                 href="/donate"
-                className="inline-flex items-center gap-2 bg-white font-black text-[13px] px-8 py-3.5 rounded-full hover:bg-navy hover:text-white transition-all shadow-xl"
-                style={{ color: ORANGE }}
+                className="inline-flex items-center gap-2 bg-white font-black text-[14px] px-8 py-4 rounded-full transition-colors hover:bg-accent hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2"
+                style={{ color: ORANGE, outlineColor: ORANGE }}
               >
                 Donate instead
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                <ArrowRight />
               </Link>
             </div>
-          </div>
-        </section>
-      </Reveal>
+          </Reveal>
+        </div>
+      </section>
 
     </div>
   )

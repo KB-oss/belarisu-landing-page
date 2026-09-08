@@ -31,6 +31,8 @@ const DONATE_IMG_MOBILE = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/v17
 const DONATE_IMG_DESKTOP_HOVER = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246029/0B2A0279_1_drz6kf.webp'
 const DONATE_IMG_MOBILE_HOVER = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/v1783886284/dchripd1r18oh9ugpjfe_mmtqdp.webp'
 
+const GOLF_IMG = 'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1783888993/Hero_image_4_i8ev3w.webp'
+
 
 
 const PATIENT_GALLERY = [
@@ -708,28 +710,46 @@ export default function Home() {
       <Reveal direction="up">
         <section className="pb-8 sm:pb-10 lg:pb-14">
           <div className={WRAP}>
-            <div className="relative overflow-hidden rounded-[24px] sm:rounded-[28px] p-10 sm:p-12 lg:p-16" style={{ background: 'linear-gradient(150deg, #071e36, #04101f)' }}>
-              <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 60% at 85% 0%, rgba(255,117,24,0.12) 0%, transparent 65%)' }} />
-              <div className="relative max-w-[640px]">
-                <p className="font-black uppercase tracking-[3px] mb-4" style={{ fontSize: '10px', color: 'rgba(255,117,24,0.85)' }}>
-                  Upcoming Event · Swing For Smiles
+            <div
+              className="overflow-hidden rounded-[24px] sm:rounded-[28px] grid lg:grid-cols-[0.8fr_1.2fr]"
+              style={{ background: '#f6f3ee' }}
+            >
+              <img
+                src={GOLF_IMG}
+                alt="A child treated at BelaRisu Medical Centre"
+                className="w-full h-[240px] sm:h-[300px] lg:h-full object-cover"
+              />
+
+              <div className="p-9 sm:p-12 lg:p-14">
+                <p className="font-black uppercase tracking-[3px] mb-4" style={{ fontSize: '10px', color: '#ff7518' }}>
+                  Upcoming event
                 </p>
-                <h2 className="font-black text-white leading-[1.05] tracking-tight mb-4" style={{ fontSize: 'clamp(1.8rem, 3.6vw, 3rem)' }}>
-                  Charity Golf{' '}
-                  <em className="not-italic" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic', color: '#ff7518' }}>Tournament</em>
+                <h2 className="font-black leading-[1.05] tracking-tight mb-4" style={{ fontSize: 'clamp(1.8rem, 3.4vw, 2.8rem)', color: '#071e36' }}>
+                  Swing For Smiles{' '}
+                  <em className="not-italic" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic', color: '#ff7518' }}>Charity Golf</em>
                 </h2>
-                <p className="text-[14px] leading-[1.7] mb-7 font-light" style={{ color: 'rgba(255,255,255,0.75)' }}>
-                  Play the course. Lead the change. Join us at Karen Country Club on World Smile Day — every entry funds cleft care at BelaRisu Medical Centre.
+                <p className="text-[14.5px] leading-[1.7] mb-8 max-w-[46ch]" style={{ color: '#62748e' }}>
+                  Play the course. Lead the change. Join us at Karen Country Club on World Smile Day —
+                  every entry funds cleft care at BelaRisu Medical Centre.
                 </p>
-                <div className="flex flex-wrap gap-x-8 gap-y-3 mb-8 text-[13px] font-semibold" style={{ color: 'rgba(255,255,255,0.88)' }}>
-                  <span>02 Oct 2026 · World Smile Day</span>
-                  <span>Karen Country Club</span>
-                  <span>KSH 4,000 single / KSH 12,000 4-ball</span>
-                </div>
+
+                <dl className="grid sm:grid-cols-3 gap-y-4 mb-9">
+                  {[
+                    { value: '02 Oct 2026', label: 'World Smile Day' },
+                    { value: 'Karen Country Club', label: 'Nairobi, Kenya' },
+                    { value: 'KSH 4,000 / 12,000', label: 'Single entry / 4-ball' },
+                  ].map(({ value, label }) => (
+                    <div key={value} className="pt-4 sm:pr-5" style={{ borderTop: '1px solid #e3ddd3' }}>
+                      <dd className="font-black text-[14px] leading-snug" style={{ color: '#071e36' }}>{value}</dd>
+                      <dt className="text-[12px] mt-1" style={{ color: '#62748e' }}>{label}</dt>
+                    </div>
+                  ))}
+                </dl>
+
                 <Link
                   href="/golf-day"
-                  className="inline-flex items-center gap-2 font-black text-[13px] px-7 py-3.5 rounded-full transition-all shadow-xl hover:-translate-y-px"
-                  style={{ background: '#ff7518', color: '#fff' }}
+                  className="inline-flex items-center gap-2 font-black text-[13px] px-7 py-3.5 rounded-full transition-colors hover:bg-navy focus-visible:outline-2 focus-visible:outline-offset-2"
+                  style={{ background: '#ff7518', color: '#fff', outlineColor: '#071e36' }}
                 >
                   Register to play <ArrowUpRight />
                 </Link>

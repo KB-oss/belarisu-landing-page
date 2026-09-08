@@ -91,9 +91,10 @@ export default function Nav() {
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
-  /* colour logic — home hero is dark, all other pages start light */
-  const onDark = scrolled || pathname === '/'
-  const onDarkOtherPaths = menuOpen && pathname !== '/'
+  /* colour logic — these pages open on a dark hero, the rest start light */
+  const darkHero = pathname === '/' || pathname === '/donate' || pathname === '/golf-day'
+  const onDark = scrolled || darkHero
+  const onDarkOtherPaths = menuOpen && !darkHero
   const textMain = onDark ? '#ffffff' : '#071e36'
   const textMuted = onDark ? 'rgba(255,255,255,0.72)' : 'rgba(7,30,54,0.60)'
   const borderClr = onDark ? 'rgba(255,255,255,0.18)' : 'rgba(7,30,54,0.16)'
