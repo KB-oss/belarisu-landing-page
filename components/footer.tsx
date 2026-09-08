@@ -255,7 +255,12 @@ export default function Footer() {
 
           {/* ══ Bottom bar (shared) ══ */}
           <div className="border-t border-white/10 px-6 lg:px-10 xl:px-12 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <p className="text-white/45 text-[12px] text-center sm:text-left">© 2026 BelaRisu Medical Centre. All rights reserved.</p>
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-1">
+              <p className="text-white/45 text-[12px]">© 2026 BelaRisu Medical Centre. All rights reserved.</p>
+              <span className="hidden sm:inline text-white/20 text-[12px]">·</span>
+              <Link href="/privacy-policy" className="text-white/45 text-[12px] hover:text-white transition-colors">Privacy Policy</Link>
+              <Link href="/terms-of-service" className="text-white/45 text-[12px] hover:text-white transition-colors">Terms of Service</Link>
+            </div>
             <p className="text-white/45 text-[12px] text-center sm:text-right">
               A{' '}
               <a href="https://www.belarisufoundation.org" target="_blank" rel="noopener noreferrer" className="text-accent font-bold hover:text-accent-dark transition-colors">
