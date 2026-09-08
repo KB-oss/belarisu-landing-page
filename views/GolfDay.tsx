@@ -293,23 +293,51 @@ export default function GolfDay() {
         <img
           src={BAND_IMG}
           alt=""
-          className="w-full h-[260px] sm:h-[320px] lg:h-[400px] object-cover"
-          style={{ objectPosition: '50% 72%' }}
+          /* The source is 4:3. Any mobile height much over ~300px makes object-cover
+             crop sideways and lose the ball, which is the only golf cue in frame. */
+          className="w-full h-[300px] sm:h-[480px] lg:h-[560px] object-cover"
+          /* X only bites under ~400px wide, where the 4:3 source overflows by 25px;
+             anchoring right keeps the ball in frame. Wider viewports don't crop at all. */
+          style={{ objectPosition: '100% 68%' }}
         />
         {/* Darkens the left for the copy and leaves the ball on the right clear. */}
         <div
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(to right, rgba(7,30,54,0.90) 0%, rgba(7,30,54,0.74) 30%, rgba(7,30,54,0.34) 60%, rgba(7,30,54,0.05) 85%)' }}
+          style={{ background: 'linear-gradient(to right, rgba(7,30,54,0.92) 0%, rgba(7,30,54,0.78) 32%, rgba(7,30,54,0.38) 62%, rgba(7,30,54,0.05) 88%)' }}
         />
         <div className={`${WRAP} absolute inset-0 flex items-center`}>
-          <p
-            className="text-white font-black leading-[1.25] tracking-tight max-w-[19ch]"
-            /* The backdrop is a photo, so the gradient alone can't guarantee contrast
-               against local highlights — the scrim covers the bright specks. */
-            style={{ fontSize: 'clamp(1.25rem, 2.6vw, 2.1rem)', textShadow: '0 1px 14px rgba(7,30,54,0.9)' }}
-          >
-            A round of golf pays for a lifetime of smiles.
-          </p>
+          {/* The backdrop is a photo, so the gradient alone can't guarantee contrast
+              against local highlights — the scrim covers the bright specks. */}
+          <div className="max-w-[520px]" style={{ textShadow: '0 1px 16px rgba(7,30,54,0.92)' }}>
+            <p
+              className="text-white font-black leading-[1.06] tracking-tight max-w-[15ch]"
+              style={{ fontSize: 'clamp(1.6rem, 4.4vw, 3.6rem)' }}
+            >
+              A round of golf pays for a lifetime of smiles.
+            </p>
+
+            {/* Same ruled-row device as the hero entry card. Figures are the ones
+                the site already publishes on the home page. */}
+            {/* Hidden on phones: the headline, both figures and the ball can't share
+                375px without colliding, and the band's job here is the line. */}
+            <dl className="hidden sm:block mt-9">
+              {[
+                { value: '700+', label: 'Children treated since 2022' },
+                { value: '100%', label: 'Free of charge, always' },
+              ].map(({ value, label }) => (
+                <div
+                  key={value}
+                  className="flex items-baseline gap-5 py-3.5"
+                  style={{ borderTop: '1px solid rgba(255,255,255,0.22)' }}
+                >
+                  <dt className="font-black tracking-tight shrink-0 w-[3.6em]" style={{ fontSize: 'clamp(1.4rem, 2.4vw, 1.9rem)', color: ORANGE }}>
+                    {value}
+                  </dt>
+                  <dd className="text-white font-semibold text-[15px] leading-snug">{label}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
       </section>
 
