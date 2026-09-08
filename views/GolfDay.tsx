@@ -15,8 +15,7 @@ const NAVY = '#071e36'
 const ORANGE = '#ff7518'
 const BEIGE = '#f6f3ee'
 
-const BAND_IMG =
-  'https://res.cloudinary.com/dtqbzj2sg/image/upload/q_auto/f_auto/v1778246029/0B2A0279_1_drz6kf.webp'
+const BAND_IMG = '/golf-day-banner.webp'
 
 const PAYBILL = '4066527'
 const ACCOUNT = 'SMILE'
@@ -295,20 +294,21 @@ export default function GolfDay() {
           src={BAND_IMG}
           alt=""
           className="w-full h-[260px] sm:h-[320px] lg:h-[400px] object-cover"
-          style={{ objectPosition: '28% 50%' }}
+          style={{ objectPosition: '50% 72%' }}
         />
+        {/* Darkens the left for the copy and leaves the ball on the right clear. */}
         <div
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(to right, rgba(7,30,54,0.05) 0%, rgba(7,30,54,0.55) 48%, rgba(7,30,54,0.88) 100%)' }}
+          style={{ background: 'linear-gradient(to right, rgba(7,30,54,0.90) 0%, rgba(7,30,54,0.74) 30%, rgba(7,30,54,0.34) 60%, rgba(7,30,54,0.05) 85%)' }}
         />
-        <div className={`${WRAP} absolute inset-0 flex items-center justify-end`}>
+        <div className={`${WRAP} absolute inset-0 flex items-center`}>
           <p
-            className="text-white font-black text-right leading-[1.25] tracking-tight max-w-[19ch]"
-            style={{ fontSize: 'clamp(1.25rem, 2.6vw, 2.1rem)' }}
+            className="text-white font-black leading-[1.25] tracking-tight max-w-[19ch]"
+            /* The backdrop is a photo, so the gradient alone can't guarantee contrast
+               against local highlights — the scrim covers the bright specks. */
+            style={{ fontSize: 'clamp(1.25rem, 2.6vw, 2.1rem)', textShadow: '0 1px 14px rgba(7,30,54,0.9)' }}
           >
-            A round of golf pays for a{' '}
-            <em className="not-italic" style={{ fontFamily: PLAYFAIR, fontStyle: 'italic', color: ORANGE }}>lifetime</em>{' '}
-            of smiles.
+            A round of golf pays for a lifetime of smiles.
           </p>
         </div>
       </section>
