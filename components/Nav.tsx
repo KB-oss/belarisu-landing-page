@@ -92,7 +92,7 @@ export default function Nav() {
   }, [menuOpen])
 
   /* colour logic — these pages open on a dark hero, the rest start light */
-  const darkHero = pathname === '/' || pathname === '/donate' || pathname === '/golf-day'
+  const darkHero = pathname === '/' || pathname === '/golf-day'
   const onDark = scrolled || darkHero
   const onDarkOtherPaths = menuOpen && !darkHero
   const textMain = onDark ? '#ffffff' : '#071e36'

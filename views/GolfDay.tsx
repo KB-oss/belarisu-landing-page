@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -64,6 +64,19 @@ function CheckIcon({ className = 'w-3.5 h-3.5' }: { className?: string }) {
 /* ─── Copyable payment value ─── */
 function CopyField({ label, value }: { label: string; value: string }) {
   const [copied, setCopied] = useState(false)
+  const valueRef = useRef<HTMLParagraphElement>(null)
+
+  /* Select the number as a fallback — the Clipboard API needs a secure context
+     and permission, and when it's unavailable a silent no-op looks broken. */
+  const selectValue = () => {
+    const node = valueRef.current
+    if (!node) return
+    const range = document.createRange()
+    range.selectNodeContents(node)
+    const selection = window.getSelection()
+    selection?.removeAllRanges()
+    selection?.addRange(range)
+  }
 
   const copy = async () => {
     try {
@@ -71,7 +84,7 @@ function CopyField({ label, value }: { label: string; value: string }) {
       setCopied(true)
       window.setTimeout(() => setCopied(false), 2000)
     } catch {
-      /* clipboard unavailable — the number stays visible and selectable */
+      selectValue()
     }
   }
 
@@ -79,7 +92,7 @@ function CopyField({ label, value }: { label: string; value: string }) {
     <div className="flex items-center justify-between gap-4 py-4">
       <div>
         <p className="text-[12px] font-semibold mb-1" style={{ color: '#62748e' }}>{label}</p>
-        <p className="font-black text-[24px] sm:text-[28px] leading-none tracking-tight" style={{ color: NAVY }}>{value}</p>
+        <p ref={valueRef} className="font-black text-[24px] sm:text-[28px] leading-none tracking-tight" style={{ color: NAVY }}>{value}</p>
       </div>
       <button
         type="button"
@@ -125,6 +138,19 @@ function getInputStyle(focused: string | null, fieldId: string, hasError?: boole
 }
 
 const BASE_INPUT = 'border rounded-[10px] px-4 py-3 text-[14px] outline-none bg-white w-full'
+
+/* Lenis (components/SmoothScroll.tsx) intercepts wheel scrolling, which stops
+   native `href="#…"` jumps from landing. Drive it directly when it's running. */
+function scrollToRegister(e: React.MouseEvent<HTMLAnchorElement>) {
+  const target = document.getElementById('register')
+  if (!target) return
+  e.preventDefault()
+  if (window.__lenis) {
+    window.__lenis.scrollTo(target, { offset: -110 })
+  } else {
+    target.scrollIntoView({ behavior: 'smooth' })
+  }
+}
 
 /* ═══════════════════════════════════════ */
 export default function GolfDay() {
@@ -243,6 +269,7 @@ export default function GolfDay() {
                 <div className="px-6 sm:px-8 pb-7 pt-2">
                   <a
                     href="#register"
+                    onClick={scrollToRegister}
                     className="flex items-center justify-center gap-2 w-full font-black py-4 rounded-full text-[14px] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
                     style={{ background: ORANGE, color: '#fff', outlineColor: '#fff' }}
                   >
@@ -266,8 +293,9 @@ export default function GolfDay() {
       <section className="relative overflow-hidden">
         <img
           src={BAND_IMG}
-          alt="A child treated at BelaRisu Medical Centre"
+          alt=""
           className="w-full h-[260px] sm:h-[320px] lg:h-[400px] object-cover"
+          style={{ objectPosition: '28% 50%' }}
         />
         <div
           className="absolute inset-0"
@@ -326,7 +354,7 @@ export default function GolfDay() {
                   Thank you for joining Swing For Smiles. Pay your entry fee by M-PESA to confirm your tee time —
                   our team will be in touch either way.
                 </p>
-                <div className="rounded-[16px] bg-white px-6 divide-y" style={{ borderColor: '#ece6dc' }}>
+                <div className="rounded-[16px] bg-white px-6 divide-y divide-[#f0ebe3]">
                   <CopyField label="M-PESA Paybill" value={PAYBILL} />
                   <CopyField label="Account number" value={ACCOUNT} />
                 </div>
@@ -450,7 +478,7 @@ export default function GolfDay() {
                 <div className="flex items-center gap-3 mb-2 pb-5" style={{ borderBottom: '1px solid #f0ebe3' }}>
                   <img src="/mpesaLogo.png" alt="M-PESA" className="h-7 w-auto object-contain" />
                 </div>
-                <div className="divide-y" style={{ borderColor: '#f0ebe3' }}>
+                <div className="divide-y divide-[#f0ebe3]">
                   <CopyField label="Paybill number" value={PAYBILL} />
                   <CopyField label="Account number" value={ACCOUNT} />
                 </div>
@@ -477,8 +505,8 @@ export default function GolfDay() {
               </p>
               <Link
                 href="/donate"
-                className="inline-flex items-center gap-2 bg-white font-black text-[14px] px-8 py-4 rounded-full transition-colors hover:bg-accent hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2"
-                style={{ color: ORANGE, outlineColor: ORANGE }}
+                className="inline-flex items-center gap-2 bg-white text-accent font-black text-[14px] px-8 py-4 rounded-full transition-colors hover:bg-accent hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2"
+                style={{ outlineColor: ORANGE }}
               >
                 Donate instead
                 <ArrowRight />

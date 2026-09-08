@@ -716,7 +716,7 @@ export default function Home() {
             >
               <img
                 src={GOLF_IMG}
-                alt="A child treated at BelaRisu Medical Centre"
+                alt=""
                 className="w-full h-[240px] sm:h-[300px] lg:h-full object-cover"
               />
 
@@ -748,8 +748,8 @@ export default function Home() {
 
                 <Link
                   href="/golf-day"
-                  className="inline-flex items-center gap-2 font-black text-[13px] px-7 py-3.5 rounded-full transition-colors hover:bg-navy focus-visible:outline-2 focus-visible:outline-offset-2"
-                  style={{ background: '#ff7518', color: '#fff', outlineColor: '#071e36' }}
+                  className="inline-flex items-center gap-2 bg-accent text-white font-black text-[13px] px-7 py-3.5 rounded-full transition-colors hover:bg-navy focus-visible:outline-2 focus-visible:outline-offset-2"
+                  style={{ outlineColor: '#071e36' }}
                 >
                   Register to play <ArrowUpRight />
                 </Link>
