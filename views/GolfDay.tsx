@@ -229,7 +229,7 @@ export default function GolfDay() {
             each size: stacked under the headline on mobile, beside the ball on desktop. */}
         <div
           className="absolute inset-0 lg:hidden"
-          style={{ background: 'linear-gradient(to bottom, rgba(7,30,54,0.90) 0%, rgba(7,30,54,0.62) 42%, rgba(7,30,54,0.88) 100%)' }}
+          style={{ background: 'linear-gradient(to bottom, rgba(7,30,54,0.88) 0%, rgba(7,30,54,0.45) 46%, rgba(7,30,54,0.86) 100%)' }}
         />
         <div
           className="absolute inset-0 hidden lg:block"
