@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import Reveal from '../components/Reveal'
+import GolfDayStrip from '../components/GolfDayStrip'
 import { useDonation } from '../context/DonationContext'
 import {
   Stethoscope,
@@ -804,6 +805,8 @@ export default function About() {
           </div>
         </div>
       </div>
+
+      <GolfDayStrip />
 
       {/* ══════════════════════════════════
           TEAM MEMBER LIGHTBOX

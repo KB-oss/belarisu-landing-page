@@ -6,6 +6,8 @@ import SmoothScroll from './SmoothScroll'
 import Nav from './Nav'
 import PageLoader from './PageLoader'
 import DonationModal from './DonationModal'
+import CookieConsent, { useConsentState } from './CookieConsent'
+import GolfDayModal from './GolfDayModal'
 import React from 'react'
 import Footer from './footer'
 
@@ -15,6 +17,11 @@ interface ShellProps {
 
 function Shell({ children }: ShellProps) {
   const { open, openModal, closeModal } = useDonation()
+
+  /* The golf modal waits for the cookie choice so the two never stack. On a
+     return visit the stored choice is already there, so it unblocks at once. */
+  const consent = useConsentState()
+  const consentDecided = consent === 'all' || consent === 'essential'
 
   return (
     <>
@@ -42,6 +49,9 @@ function Shell({ children }: ShellProps) {
       <AnimatePresence>
         {open && <DonationModal onClose={closeModal} />}
       </AnimatePresence>
+
+      <CookieConsent />
+      <GolfDayModal enabled={consentDecided} />
     </>
   )
 }

@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Reveal from '../components/Reveal'
+import GolfDayStrip from '../components/GolfDayStrip'
 import { useDonation } from '../context/DonationContext'
 import { Heart } from 'lucide-react'
 import { useIsMobile } from '@/hooks/use-is-mobile'
@@ -441,6 +442,8 @@ export default function Gallery() {
           </section>
         </Reveal>
       </div>
+
+      <GolfDayStrip />
 
       {/* ══════════════════════════════════
           LIGHTBOX
