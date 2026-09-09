@@ -6,7 +6,6 @@ import SmoothScroll from './SmoothScroll'
 import Nav from './Nav'
 import PageLoader from './PageLoader'
 import DonationModal from './DonationModal'
-import CookieConsent, { useConsentState } from './CookieConsent'
 import GolfDayModal from './GolfDayModal'
 import React from 'react'
 import Footer from './footer'
@@ -17,11 +16,6 @@ interface ShellProps {
 
 function Shell({ children }: ShellProps) {
   const { open, openModal, closeModal } = useDonation()
-
-  /* The golf modal waits for the cookie choice so the two never stack. On a
-     return visit the stored choice is already there, so it unblocks at once. */
-  const consent = useConsentState()
-  const consentDecided = consent === 'all' || consent === 'essential'
 
   return (
     <>
@@ -40,7 +34,7 @@ function Shell({ children }: ShellProps) {
           style={{ boxShadow: '0 8px 28px rgba(255,117,24,0.40)' }}
         >
           <svg className="w-4 h-4 shrink-0 transition-transform group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/>
+            <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z" />
           </svg>
           Support Our Mission
         </button>
@@ -50,8 +44,7 @@ function Shell({ children }: ShellProps) {
         {open && <DonationModal onClose={closeModal} />}
       </AnimatePresence>
 
-      <CookieConsent />
-      <GolfDayModal enabled={consentDecided} />
+      <GolfDayModal />
     </>
   )
 }

@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { Input } from '../components/ui/input'
+import { Textarea } from '../components/ui/textarea'
 import Reveal from '../components/Reveal'
 import React from 'react'
 
@@ -40,7 +42,15 @@ const formSchema = z.object({
   phone: z.string().min(1, 'Phone number is required').max(20, 'Too long'),
   entryType: z.enum(['Single Entry — KSH 4,000', '4-Ball Team — KSH 12,000']),
   teammates: z.string().max(300, 'Too long').optional(),
-  message: z.string().max(500, 'Too long').optional(),
+  message: z.string().min(1, 'Message is required').max(500, 'Too long'),
+}).superRefine((data, ctx) => {
+  if (data.entryType === '4-Ball Team — KSH 12,000' && (!data.teammates || data.teammates.trim() === '')) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Teammates are required for a 4-ball team",
+      path: ["teammates"],
+    });
+  }
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -181,31 +191,33 @@ export default function GolfDay() {
 
   const entryType = watch('entryType')
 
+  const GOOGLE_SCRIPT_URL =
+    process.env.NEXT_PUBLIC_WEB_URL ||
+    process.env.NEXT_WEB_URL || "";
+
   const onSubmit = async (data: FormData) => {
     setSubmitError(null)
 
-    const formData = new FormData()
-    formData.append('access_key', process.env.NEXT_PUBLIC_WEB3FORMS_KEY || '')
-    formData.append('full_name', data.fullName)
-    formData.append('email', data.email)
-    formData.append('phone', data.phone)
-    formData.append('entry_type', data.entryType)
-    formData.append('teammates', data.teammates || '')
-    formData.append('message', data.message || '')
-    formData.append('subject', `Swing For Smiles registration from ${data.fullName}`)
+    const searchParams = new URLSearchParams()
+    searchParams.append('full_name', data.fullName)
+    searchParams.append('email', data.email)
+    searchParams.append('phone', data.phone)
+    searchParams.append('entry_type', data.entryType)
+    if (data.teammates) searchParams.append('teammates', data.teammates)
+    searchParams.append('message', data.message)
+    searchParams.append('subject', `Swing For Smiles registration from ${data.fullName}`)
 
     try {
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formData,
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        body: searchParams.toString(),
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
       })
-      const result = await response.json()
-      if (result.success) {
-        setSubmitted(true)
-        reset()
-      } else {
-        setSubmitError(result.message || 'Failed to send your registration. Please try again.')
-      }
+      setSubmitted(true)
+      reset()
     } catch (error) {
       console.error('Golf registration submission error:', error)
       setSubmitError('Network error. Please check your connection and try again.')
@@ -391,7 +403,7 @@ export default function GolfDay() {
                 </fieldset>
 
                 <Field label="Full name" required error={errors.fullName?.message}>
-                  <input
+                  <Input
                     {...register('fullName')}
                     className={BASE_INPUT}
                     style={getInputStyle(focused, 'fullName', !!errors.fullName)}
@@ -401,7 +413,7 @@ export default function GolfDay() {
                   />
                 </Field>
                 <Field label="Phone number" required error={errors.phone?.message}>
-                  <input
+                  <Input
                     {...register('phone')}
                     type="tel"
                     className={BASE_INPUT}
@@ -413,7 +425,7 @@ export default function GolfDay() {
                 </Field>
                 <div className="sm:col-span-2">
                   <Field label="Email address" required error={errors.email?.message}>
-                    <input
+                    <Input
                       {...register('email')}
                       type="email"
                       className={BASE_INPUT}
@@ -426,8 +438,8 @@ export default function GolfDay() {
                 </div>
                 {entryType === '4-Ball Team — KSH 12,000' && (
                   <div className="sm:col-span-2">
-                    <Field label="Your three teammates" error={errors.teammates?.message}>
-                      <textarea
+                    <Field label="Your three teammates" required error={errors.teammates?.message}>
+                      <Textarea
                         {...register('teammates')}
                         className={BASE_INPUT}
                         style={getInputStyle(focused, 'teammates', !!errors.teammates)}
@@ -440,8 +452,8 @@ export default function GolfDay() {
                   </div>
                 )}
                 <div className="sm:col-span-2">
-                  <Field label="Anything else we should know" error={errors.message?.message}>
-                    <textarea
+                  <Field label="Anything else we should know" required error={errors.message?.message}>
+                    <Textarea
                       {...register('message')}
                       className={BASE_INPUT}
                       style={getInputStyle(focused, 'message', !!errors.message)}

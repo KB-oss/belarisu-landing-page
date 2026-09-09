@@ -19,14 +19,14 @@ const PLAYFAIR = "'Playfair Display', Georgia, 'Times New Roman', serif"
 
 function seen(): boolean {
   try {
-    return localStorage.getItem(KEY) === '1'
+    return sessionStorage.getItem(KEY) === '1'
   } catch {
     /* Can't read storage — treat as seen so we never nag on every page view. */
     return true
   }
 }
 
-export default function GolfDayModal({ enabled }: { enabled: boolean }) {
+export default function GolfDayModal() {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
   const closeRef = useRef<HTMLButtonElement>(null)
@@ -38,14 +38,14 @@ export default function GolfDayModal({ enabled }: { enabled: boolean }) {
     pathname === '/golf-day' || pathname === '/privacy-policy' || pathname === '/terms-of-service'
 
   useEffect(() => {
-    if (!enabled || suppressed || seen()) return
-    const t = window.setTimeout(() => setOpen(true), 1400)
+    if (suppressed || seen()) return
+    const t = window.setTimeout(() => setOpen(true), 300)
     return () => window.clearTimeout(t)
-  }, [enabled, suppressed])
+  }, [suppressed])
 
   const dismiss = () => {
     try {
-      localStorage.setItem(KEY, '1')
+      sessionStorage.setItem(KEY, '1')
     } catch {
       /* Not persistable; it still closes for this page view. */
     }
